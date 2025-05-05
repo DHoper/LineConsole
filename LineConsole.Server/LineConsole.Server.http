@@ -1,0 +1,6 @@
+@LineConsole.Server_HostAddress = http://localhost:5294
+
+GET {{LineConsole.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,48 @@
+# ======== 通用忽略 =========
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# ======== Node.js 前端（lineconsole.client） ========
+lineconsole.client/node_modules/
+lineconsole.client/dist/
+lineconsole.client/.vite/
+lineconsole.client/.eslintcache
+lineconsole.client/.env.local
+lineconsole.client/.env.*
+!.env.example
+
+# VS Code 設定資料夾
+lineconsole.client/.vscode/
+
+# ======== .NET 後端（LineConsole.Server） ========
+# Build 與發佈資料夾
+**/bin/
+**/obj/
+**/out/
+**/GeneratedFiles/
+
+# 使用者設定檔
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS for Mac
+.vscode/
+.idea/
+*.sln.iml
+
+# Dotnet watch
+**/.dotnet-watch.json
+
+# Secret 檔案
+LineConsole.Server/appsettings.Development.json
+LineConsole.Server/appsettings.Local.json
+LineConsole.Server/appsettings.*.json
+
+# docker build 產物（若有）
+*.tar
+*.dockerfile.bak
