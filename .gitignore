@@ -9,6 +9,7 @@ lineconsole.client/node_modules/
 lineconsole.client/dist/
 lineconsole.client/.vite/
 lineconsole.client/.eslintcache
+lineconsole.client/.env
 lineconsole.client/.env.local
 lineconsole.client/.env.*
 !.env.example
@@ -18,6 +19,7 @@ lineconsole.client/.vscode/
 
 # ======== .NET 後端（LineConsole.Server） ========
 # Build 與發佈資料夾
+**/log/
 **/bin/
 **/obj/
 **/out/

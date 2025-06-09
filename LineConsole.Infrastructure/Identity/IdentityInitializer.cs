@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace LineConsole.Infrastructure.Identity;
 
 /// <summary>
-/// ªì©l¤Æ¨¤¦â»P¹w³]ºŞ²z­û±b¸¹
+/// åˆå§‹åŒ–è§’è‰²èˆ‡é è¨­ç®¡ç†å“¡å¸³è™Ÿ
 /// </summary>
 public static class IdentityInitializer
 {
@@ -13,7 +13,7 @@ public static class IdentityInitializer
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-        // «Ø¥ß Admin »P User ¨¤¦â
+        // å»ºç«‹ Admin èˆ‡ User è§’è‰²
         string[] roles = [RoleNames.Admin, RoleNames.User];
         foreach (var role in roles)
         {
@@ -23,9 +23,9 @@ public static class IdentityInitializer
             }
         }
 
-        // «Ø¥ß¹w³]ºŞ²z­û±b¸¹¡]§A¥i¥H¦Û¦æ½Õ¾ã Email »P±K½X¡^
+        // å»ºç«‹é è¨­ç®¡ç†å“¡å¸³è™Ÿ
         var adminEmail = "admin@example.com";
-        var adminPassword = "Admin123!"; // ±K½X¥i¦A±j¤Æ
+        var adminPassword = "Admin123!"; 
         var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
 
         if (existingAdmin == null)
@@ -45,8 +45,8 @@ public static class IdentityInitializer
             }
             else
             {
-                // ¥i°O¿ı log ©Î¥á¥X¨Ò¥~
-                throw new Exception("«Ø¥ß¹w³]ºŞ²z­û±b¸¹¥¢±Ñ: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+                // å¯è¨˜éŒ„ log æˆ–ä¸Ÿå‡ºä¾‹å¤–
+                throw new Exception("å»ºç«‹é è¨­ç®¡ç†å“¡å¸³è™Ÿå¤±æ•—: " + string.Join(", ", result.Errors.Select(e => e.Description)));
             }
         }
     }
