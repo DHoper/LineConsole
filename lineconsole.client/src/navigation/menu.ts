@@ -1,0 +1,140 @@
+import {
+    Bot,
+    FileText,
+    Globe,
+    Headphones,
+    Home,
+    Layout,
+    Mail,
+    Map,
+    MessageCircle,
+    Puzzle,
+    Settings,
+    Tags,
+    Users,
+} from "lucide-react";
+
+export const mainMenu = [
+    {
+        label: "概覽",
+        path: "/dashboard",
+        icon: Home,
+    },
+    {
+        label: "登入與工作區",
+        path: "/auth",
+        icon: Settings,
+        children: [
+            { label: "登入", path: "/auth/login" },
+            { label: "工作區設定", path: "/auth/workspace" },
+            { label: "語系與時區", path: "/auth/locale" },
+        ],
+    },
+    {
+        label: "會員管理",
+        path: "/members",
+        icon: Users,
+        children: [
+            { label: "會員列表", path: "/members/list" },
+            { label: "篩選與排序", path: "/members/filter" },
+            { label: "會員類別", path: "/members/types" },
+            { label: "黑名單", path: "/members/blacklist" },
+        ],
+    },
+    {
+        label: "標籤管理",
+        path: "/tags",
+        icon: Tags,
+    },
+    {
+        label: "客服中心",
+        path: "/support-center",
+        icon: Headphones,
+        children: [
+            { label: "客服設定", path: "/support-center/settings" },
+            { label: "組織說明", path: "/support-center/org" },
+            { label: "成員管理", path: "/support-center/members" },
+            { label: "聊天頁面", path: "/support-center/chat" },
+            { label: "系統訊息", path: "/support-center/system-messages" },
+            { label: "流程設定", path: "/support-center/flows" },
+            { label: "Onboarding", path: "/support-center/onboarding" },
+        ],
+    },
+    {
+        label: "對話管理",
+        path: "/conversations",
+        icon: MessageCircle,
+    },
+    {
+        label: "發布文章",
+        path: "/posts",
+        icon: FileText,
+        children: [
+            { label: "文章管理", path: "/posts/list" },
+            { label: "內容設定", path: "/posts/editor" },
+        ],
+    },
+    {
+        label: "聊天機器人",
+        path: "/chatbot",
+        icon: Bot,
+        children: [
+            { label: "機器人管理", path: "/chatbot/list" },
+            { label: "內容設定", path: "/chatbot/editor" },
+            { label: "訊息格式", path: "/chatbot/templates" },
+            { label: "常見問題", path: "/chatbot/faq" },
+        ],
+    },
+    {
+        label: "LINE 圖文選單",
+        path: "/rich-menu",
+        icon: Layout,
+        // children: [
+        //     // { label: "選單列表", path: "/rich-menu/list" },
+        //     // { label: "內容設定", path: "/rich-menu/editor" },
+        // ],
+    },
+    {
+        label: "會員旅程",
+        path: "/journeys",
+        icon: Map,
+    },
+    {
+        label: "訊息工具",
+        path: "/messages",
+        icon: Mail,
+        children: [
+            { label: "訊息範本", path: "/messages/templates" },
+            { label: "追蹤連結", path: "/messages/short-links" },
+        ],
+    },
+    {
+        label: "網頁型工具",
+        path: "/web-tools",
+        icon: Globe,
+        children: [
+            { label: "授權頁面", path: "/web-tools/auth-page" },
+            { label: "內容編輯器", path: "/web-tools/editor" },
+            { label: "頁面設定", path: "/web-tools/settings" },
+        ],
+    },
+    {
+        label: "進階模組",
+        path: "/advanced",
+        icon: Puzzle,
+        children: [
+            { label: "分眾圖文選單", path: "/advanced/segmented-menu" },
+            { label: "優惠碼發送", path: "/advanced/coupon-sender" },
+            { label: "自動轉客服", path: "/advanced/auto-transfer" },
+            { label: "即時投票", path: "/advanced/instant-poll" },
+            { label: "訂閱主題", path: "/advanced/topic-subscription" },
+            { label: "會員成就", path: "/advanced/member-achievements" },
+            { label: "優惠券", path: "/advanced/coupons" },
+            { label: "訊息抽獎", path: "/advanced/lottery-message" },
+            { label: "抽抽樂", path: "/advanced/lucky-draw" },
+            { label: "遊樂場", path: "/advanced/amusement-park" },
+            { label: "好運到", path: "/advanced/lucky-arrival" },
+            { label: "大螢幕抽獎", path: "/advanced/big-screen-draw" },
+        ],
+    },
+];

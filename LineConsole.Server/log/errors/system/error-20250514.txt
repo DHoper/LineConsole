@@ -1,0 +1,285 @@
+[2025-05-14 15:49:52 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:32 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.PostAsync[T](String url, Object data, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 60
+   at LineConsole.Infrastructure.Clients.LineClient.SendJsonAsync[T](String endpoint, HttpMethod method, String accessToken, Object data, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 39
+   at LineConsole.Application.Services.LineRichMenuService.CreateRichMenuAsync(String accessToken, LineRichMenuDto dto, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 23
+   at LineConsole.Server.Controllers.LineRichMenuController.CreateAsync(String accessToken, LineRichMenuDto dto, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 30
+   at lambda_method21(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:32 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:40 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:40 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.PostAsync[T](String url, Object data, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 60
+   at LineConsole.Infrastructure.Clients.LineClient.SendJsonAsync[T](String endpoint, HttpMethod method, String accessToken, Object data, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 39
+   at LineConsole.Application.Services.LineRichMenuService.CreateRichMenuAsync(String accessToken, LineRichMenuDto dto, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 23
+   at LineConsole.Server.Controllers.LineRichMenuController.CreateAsync(String accessToken, LineRichMenuDto dto, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 30
+   at lambda_method21(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:41 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:43 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:45 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:50:49 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:51:13 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.PostAsync[T](String url, Object data, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 60
+   at LineConsole.Infrastructure.Clients.LineClient.SendJsonAsync[T](String endpoint, HttpMethod method, String accessToken, Object data, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 39
+   at LineConsole.Application.Services.LineRichMenuService.CreateRichMenuAsync(String accessToken, LineRichMenuDto dto, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 23
+   at LineConsole.Server.Controllers.LineRichMenuController.CreateAsync(String accessToken, LineRichMenuDto dto, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 30
+   at lambda_method21(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:51:14 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:51:15 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:51:17 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:51:22 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
+[2025-05-14 15:51:34 Error] 未預期例外 System.Net.Http.HttpRequestException: Response status code does not indicate success: 404 (Not Found).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at LineConsole.Infrastructure.Http.ExternalHttpClient.GetAsync[T](String url, Dictionary`2 headers, CancellationToken cancellationToken) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Http\ExternalHttpClient.cs:line 29
+   at LineConsole.Infrastructure.Clients.LineClient.GetJsonAsync[T](String endpoint, String accessToken, Boolean useDataDomain, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Infrastructure\Clients\LineClient.cs:line 118
+   at LineConsole.Application.Services.LineRichMenuService.GetDefaultRichMenuAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Application\Services\Line\LineRichMenuService.cs:line 81
+   at LineConsole.Server.Controllers.LineRichMenuController.GetDefaultAsync(String accessToken, CancellationToken ct) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Controllers\LineRichMenuController.cs:line 119
+   at lambda_method8(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at ApiExceptionMiddleware.Invoke(HttpContext context) in C:\Users\DHoper7\source\repos\LineConsole\LineConsole.Server\Middleware\ApiExceptionMiddleware.cs:line 19
