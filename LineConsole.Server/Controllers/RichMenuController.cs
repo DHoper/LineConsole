@@ -23,7 +23,7 @@ public class LineRichMenuController : ControllerBase
     [Consumes("multipart/form-data")]
     public async Task<ActionResult<ApiResponse<RichMenuIdResult>>> CreateWithImageAsync(
         [FromRoute] Guid lineOfficialAccountId,
-        [FromForm] CreateRichMenuRequest request,
+        [FromForm] CreateRichMenuInput request,
         CancellationToken ct)
     {
         var richMenuDto = new RichMenuDTO

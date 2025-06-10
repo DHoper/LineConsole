@@ -18,9 +18,10 @@ using LineConsole.Application.Infrastructure.Interfaces;
 using LineConsole.Application.LineOfficialAccounts.Interfaces;
 using LineConsole.Application.RichMenus;
 using LineConsole.Application.RichMenus.Interfaces;
-using LineConsole.Application.Users;
-using LineConsole.Application.Users.Interfaces;
+using LineConsole.Application.UserProfiles;
+using LineConsole.Application.UserProfiles.Interfaces;
 using LineConsole.Server.Middlewares;
+using LineConsole.Application.LineOfficialAccounts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 #region Identity + JWT
 builder.Services.AddIdentityCore<ApplicationUser>(options =>
 {
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 6;
 })
@@ -102,7 +106,7 @@ builder.Services.AddScoped<IRichMenuRepository, RichMenuRepository>();
 builder.Services.AddScoped<ILineOfficialAccountRepository, LineOfficialAccountRepository>();
 
 // 使用者模組（非 Identity）
-builder.Services.AddScoped<IUserProfileService, UserService>();
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasherAdapter>();
 

@@ -1,4 +1,4 @@
-namespace LineConsole.Application.Users.Models;
+namespace LineConsole.Application.UserProfiles.Models;
 
 /// <summary>後台使用者擴充資料（供外部回傳）</summary>
 public record class UserProfileDTO

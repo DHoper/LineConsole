@@ -1,5 +1,5 @@
-﻿using LineConsole.Application.Users.Models;
-using LineConsole.Application.Users.Interfaces;
+﻿using LineConsole.Application.UserProfiles.Models;
+using LineConsole.Application.UserProfiles.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LineConsole.Server.Controllers;
@@ -22,7 +22,7 @@ public class UsersController : ControllerBase
     /// 註冊新使用者
     /// </summary>
     //[HttpPost]
-    //public async Task<ActionResult<CreateUserProfileResult>> Register([FromBody] CreateUserProfileRequest request)
+    //public async Task<ActionResult<CreateUserProfileResult>> Register([FromBody] CreateUserProfileInput request)
     //{
     //    var result = await _userService.RegisterAsync(request);
     //    return CreatedAtAction(nameof(GetByEmail), new { email = request.Email }, result);

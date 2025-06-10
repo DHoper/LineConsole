@@ -6,7 +6,7 @@ namespace LineConsole.Application.RichMenus.Models;
 /// <summary>
 /// 建立 Rich Menu 並上傳圖片的請求資料（multipart/form-data）
 /// </summary>
-public class CreateRichMenuRequest
+public class CreateRichMenuInput
 {
     /// <summary>是否為預設選單</summary>
     public bool Selected { get; init; }

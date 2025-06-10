@@ -3,45 +3,43 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LineConsole.Infrastructure.Data.EfEntities;
 
-/// <summary>
-/// 對應 LINE 官方帳號資料表（line_official_accounts）
-/// </summary>
+/// <summary>對應 LINE 官方帳號資料表（line_official_accounts）</summary>
 [Table("line_official_accounts")]
 public class LineOfficialAccountEntity
 {
-    /// <summary>官方帳號主鍵 ID</summary>
     [Key]
     [Column("id")]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } // 官方帳號主鍵 ID
 
-    /// <summary>綁定的使用者個人資料 ID（對應 user_profiles.id）</summary>
     [Required]
     [Column("user_profile_id")]
-    public Guid UserProfileId { get; set; }
+    public Guid UserProfileId { get; set; } // 綁定的使用者個人資料 ID（對應 user_profiles.id）
 
-    /// <summary>LINE 平台上的 userId（channel ID）</summary>
     [Required]
     [MaxLength(100)]
-    [Column("line_user_id")]
-    public string LineUserId { get; set; } = string.Empty;
+    [Column("channel_id")]
+    public string ChannelId { get; set; } = string.Empty; // LINE Channel ID（唯一識別）
 
-    /// <summary>LINE 官方帳號名稱（顯示用）</summary>
     [MaxLength(100)]
     [Column("channel_name")]
-    public string? ChannelName { get; set; }
+    public string? ChannelName { get; set; } // LINE 官方帳號名稱（顯示用）
 
-    /// <summary>LINE channel access token（建議加密儲存）</summary>
     [Required]
-    [Column("access_token", TypeName = "text")]
-    public string AccessToken { get; set; } = string.Empty;
+    [Column("channel_secret", TypeName = "text")]
+    public string ChannelSecret { get; set; } = string.Empty; // 用於 webhook 驗證的 Channel Secret
 
-    /// <summary>建立時間</summary>
+    [Required]
+    [Column("channel_access_token", TypeName = "text")]
+    public string ChannelAccessToken { get; set; } = string.Empty; // 呼叫 LINE API 的 Access Token
+
     [Required]
     [Column("created_at")]
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } // 建立時間
 
-    /// <summary>最後更新時間</summary>
     [Required]
     [Column("updated_at")]
-    public DateTime UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; } // 最後更新時間
+
+    [ForeignKey("UserProfileId")]
+    public virtual UserProfileEntity? UserProfile { get; set; } // 所屬後台使用者（optional）
 }

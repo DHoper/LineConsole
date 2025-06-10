@@ -1,6 +1,7 @@
 ﻿using LineConsole.Application.Common.Interfaces;
 using LineConsole.Application.Common.Models;
 using LineConsole.Server.Models.Api;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LineConsole.Server.Controllers;
@@ -10,6 +11,7 @@ namespace LineConsole.Server.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/auth")]
+[AllowAnonymous]
 public class AuthController : ControllerBase
 {
     private readonly IAccountManager _accountManager;
@@ -20,25 +22,46 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// 使用者註冊（建立 IdentityUser 與 UserProfile）
+    /// 使用者註冊（建立 IdentityUser、UserProfiles 與 LineOfficialAccount）
     /// </summary>
     [HttpPost("register")]
-    public async Task<ActionResult<ApiResponse<string>>> RegisterAsync([FromBody] RegisterRequest request)
+    public async Task<ActionResult<ApiResponse<string>>> RegisterAsync([FromBody] RegisterInput request)
     {
-        var userId = await _accountManager.RegisterAsync(request.Email, request.Password);
-        return ApiResponse<string>.Success(userId.ToString()); // ✅ 注意 Guid 轉字串
+        try
+        {
+            var userId = await _accountManager.RegisterAsync(request);
+            return ApiResponse<string>.Success(userId);
+        }
+        catch (AppException ex)
+        {
+            return BadRequest(ApiResponse<string>.Fail(ex.Code, ex.Message));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Register] 伺服器錯誤: {ex}");
+            return StatusCode(500, ApiResponse<string>.Fail("SERVER_ERROR", "伺服器發生錯誤"));
+        }
     }
 
     /// <summary>
     /// 使用者登入並取得 JWT Token
     /// </summary>
     [HttpPost("login")]
-    public async Task<ActionResult<ApiResponse<string>>> LoginAsync([FromBody] LoginRequest request)
+    public async Task<ActionResult<ApiResponse<string>>> LoginAsync([FromBody] LoginInput request)
     {
-        var token = await _accountManager.LoginAsync(request.Email, request.Password);
-        if (token is null)
-            return Unauthorized(ApiResponse<string>.Fail("LOGIN_FAILED", "帳號或密碼錯誤")); // ✅ 修正
-
-        return ApiResponse<string>.Success(token);
+        try
+        {
+            var token = await _accountManager.LoginAsync(request.Email, request.Password);
+            return ApiResponse<string>.Success(token);
+        }
+        catch (AppException ex)
+        {
+            return Unauthorized(ApiResponse<string>.Fail(ex.Code, ex.Message));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[Login] 伺服器錯誤: {ex}");
+            return StatusCode(500, ApiResponse<string>.Fail("SERVER_ERROR", "伺服器發生錯誤"));
+        }
     }
 }

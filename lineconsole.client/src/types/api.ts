@@ -1,7 +1,10 @@
 // types/api.ts
 
 export interface ApiResponse<T> {
-    code: string; // 例如 "SUCCESS", "LINE_API_FAIL"
-    message: string; // 顯示給使用者的訊息
+    success: boolean;
     data: T | null;
+    error?: {
+        code: string;
+        message: string;
+    } | null;
 }

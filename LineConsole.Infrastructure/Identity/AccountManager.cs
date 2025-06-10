@@ -1,7 +1,9 @@
 using LineConsole.Application.Common.Interfaces;
 using LineConsole.Application.Common.Models;
-using LineConsole.Application.Users.Interfaces;
-using LineConsole.Application.Users.Models;
+using LineConsole.Application.UserProfiles.Interfaces;
+using LineConsole.Application.UserProfiles.Models;
+using LineConsole.Domain.Entities;
+using LineConsole.Server.Models.Api;
 using Microsoft.AspNetCore.Identity;
 
 namespace LineConsole.Infrastructure.Identity;
@@ -29,31 +31,55 @@ public class AccountManager : IAccountManager
     }
 
     /// <summary>
-    /// 註冊新帳號（包含 IdentityUser 與 UserProfile 擴充資料）
+    /// 註冊新帳號（建立 IdentityUser + UserProfiles + LINE 官方帳號）
     /// </summary>
-    public async Task<string> RegisterAsync(string email, string password, string accountType = "User")
+    public async Task<string> RegisterAsync(RegisterInput request)
     {
         var user = new ApplicationUser
         {
-            UserName = email,
-            Email = email,
-            AccountType = accountType
+            UserName = request.Email,
+            Email = request.Email,
+            AccountType = RoleNames.User
         };
 
-        var result = await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
-            throw new InvalidOperationException(string.Join("; ", result.Errors.Select(e => e.Description)));
-
-        await _userManager.AddToRoleAsync(user, accountType);
-
-        // 建立擴充資料 UserProfile
-        await _userProfileService.RegisterAsync(new CreateUserProfileRequest
         {
-            IdentityUserId = user.Id
-        });
+            var message = string.Join("; ", result.Errors.Select(e => e.Description));
+            throw new AppException("REGISTER_FAILED", message);
+        }
+
+        var roleResult = await _userManager.AddToRoleAsync(user, RoleNames.User);
+        if (!roleResult.Succeeded)
+        {
+            await _userManager.DeleteAsync(user); // 回滾
+            var message = string.Join("; ", roleResult.Errors.Select(e => e.Description));
+            throw new AppException("ROLE_ASSIGN_FAILED", message);
+        }
+
+        try
+        {
+            await _userProfileService.RegisterAsync(new CreateUserProfileInput
+            {
+                IdentityUserId = user.Id,
+                DisplayName = request.DisplayName,
+                LineAccount = request.LineAccount
+            });
+        }
+        catch (AppException)
+        {
+            await _userManager.DeleteAsync(user); // 回滾
+            throw;
+        }
+        catch (Exception ex)
+        {
+            await _userManager.DeleteAsync(user); // 回滾
+            throw new AppException("USER_PROFILE_FAILED", $"註冊個人資料時發生錯誤：{ex.Message}");
+        }
 
         return user.Id;
     }
+
 
     /// <summary>
     /// 登入並回傳 JWT Token
@@ -62,14 +88,14 @@ public class AccountManager : IAccountManager
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
-            return null;
+            throw new AppException("LOGIN_FAILED", "帳號不存在");
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
         if (!result.Succeeded)
-            return null;
+            throw new AppException("LOGIN_FAILED", "密碼錯誤");
 
         var roles = await _userManager.GetRolesAsync(user);
-        var role = roles.FirstOrDefault() ?? "UserProfile";
+        var role = roles.FirstOrDefault() ?? RoleNames.User;
 
         var token = _tokenGenerator.GenerateToken(new JwtPayload
         {

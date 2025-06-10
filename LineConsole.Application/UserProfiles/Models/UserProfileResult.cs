@@ -1,4 +1,4 @@
-namespace LineConsole.Application.Users.Models
+namespace LineConsole.Application.UserProfiles.Models
 {
     /// <summary>建立使用者後的回傳結果</summary>
     public record class CreateUserProfileResult

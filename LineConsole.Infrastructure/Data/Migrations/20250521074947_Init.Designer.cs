@@ -25,7 +25,7 @@ namespace LineConsole.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LineConsole.Domain.Entities.UserProfile", b =>
+            modelBuilder.Entity("LineConsole.Domain.Entities.UserProfiles", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

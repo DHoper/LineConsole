@@ -1,4 +1,4 @@
-﻿using LineConsole.Application.Users.Interfaces;
+﻿using LineConsole.Application.UserProfiles.Interfaces;
 using LineConsole.Domain.Entities;
 using LineConsole.Infrastructure.Data;
 using LineConsole.Infrastructure.Data.EfEntities;
@@ -19,7 +19,7 @@ public class UserProfileRepository : IUserProfileRepository
     }
 
     /// <summary>
-    /// 新增一筆 UserProfile 資料
+    /// 新增一筆 UserProfiles 資料
     /// </summary>
     public async Task AddAsync(UserProfile user)
     {
@@ -39,7 +39,7 @@ public class UserProfileRepository : IUserProfileRepository
     }
 
     /// <summary>
-    /// 根據 IdentityUserId 查詢 UserProfile
+    /// 根據 IdentityUserId 查詢 UserProfiles
     /// </summary>
     public async Task<UserProfile?> FindByIdentityUserIdAsync(string identityUserId)
     {
@@ -62,7 +62,7 @@ public class UserProfileRepository : IUserProfileRepository
     }
 
     /// <summary>
-    /// 刪除指定 UserProfile（依 Guid）
+    /// 刪除指定 UserProfiles（依 Guid）
     /// </summary>
     public async Task DeleteAsync(Guid userProfileId)
     {
