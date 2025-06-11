@@ -3,6 +3,8 @@ using LineConsole.Application.UserProfiles.Models;
 using LineConsole.Application.LineOfficialAccounts.Interfaces;
 using LineConsole.Application.LineOfficialAccounts.Models;
 using LineConsole.Domain.Entities;
+using LineConsole.Application.Common.Models;
+using LineConsole.Server.Models.Api;
 
 namespace LineConsole.Application.UserProfiles;
 
@@ -27,7 +29,6 @@ public class UserProfileService : IUserProfileService
     /// </summary>
     public async Task<CreateUserProfileResult> RegisterAsync(CreateUserProfileInput input)
     {
-        // 建立 UserProfile
         var userProfile = UserProfile.Create(
             input.IdentityUserId,
             input.DisplayName,
@@ -36,7 +37,6 @@ public class UserProfileService : IUserProfileService
         );
         await _userRepository.AddAsync(userProfile);
 
-        // 綁定 LINE 官方帳號
         if (input.LineAccount is not null)
         {
             var lineAccount = LineOfficialAccount.Create(
@@ -53,6 +53,9 @@ public class UserProfileService : IUserProfileService
         return new CreateUserProfileResult { Id = userProfile.Id };
     }
 
+    /// <summary>
+    /// 根據 IdentityUserId 查詢使用者擴充資料（不包含 LINE 官方帳號）
+    /// </summary>
     public async Task<UserProfileDTO?> GetByIdentityUserIdAsync(string identityUserId)
     {
         var user = await _userRepository.FindByIdentityUserIdAsync(identityUserId);
@@ -70,8 +73,35 @@ public class UserProfileService : IUserProfileService
         };
     }
 
+    /// <summary>
+    /// 刪除指定的 UserProfile 資料
+    /// </summary>
     public async Task DeleteAsync(Guid userProfileId)
     {
         await _userRepository.DeleteAsync(userProfileId);
+    }
+
+    /// <summary>
+    /// 回傳完整使用者詳細資料（含 LINE 官方帳號清單），供應用層組裝使用
+    /// </summary>
+    public async Task<UserProfileDetails?> GetDetailsByIdentityUserIdAsync(string identityUserId)
+    {
+        var user = await _userRepository.FindByIdentityUserIdAsync(identityUserId);
+        if (user is null) return null;
+
+        var accounts = await _lineAccountRepository.FindByUserProfileIdAsync(user.Id);
+
+        return new UserProfileDetails
+        {
+            UserProfileId = user.Id,
+            IdentityUserId = user.IdentityUserId,
+            DisplayName = user.DisplayName,
+            LineAccounts = accounts.Select(x => new LineOfficialAccountViewModel
+            {
+                Id = x.Id,
+                ChannelId = x.ChannelId,
+                ChannelName = x.ChannelName
+            }).ToList()
+        };
     }
 }

@@ -7,6 +7,8 @@ namespace LineConsole.Application.Common.Interfaces;
 /// </summary>
 public interface ITokenGenerator
 {
-    /// <summary>根據給定的使用者資訊產出 JWT Token 字串</summary>
-    string GenerateToken(JwtPayload payload);
+    /// <summary>
+    /// 根據給定的使用者資訊產出 JWT Token 與過期時間（Unix 秒）
+    /// </summary>
+    (string Token, long ExpiresAt) GenerateToken(JwtPayload payload);
 }

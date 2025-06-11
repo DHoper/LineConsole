@@ -1,17 +1,36 @@
 namespace LineConsole.Server.Models.Api;
 
-/// <summary>標準 Web API 回傳格式，封裝業務代碼、訊息與資料內容</summary>
-public record ApiResponse<T>
+public class ApiResponse<T>
 {
-    public required string Code { get; init; } // 業務邏輯代碼，例如 SUCCESS、VALIDATION_ERROR、LINE_API_FAIL
-    public required string Message { get; init; } // 使用者提示訊息，可支援多語系
-    public T? Data { get; init; } // 實際回傳的資料（可能為 null 或空物件）
+    public bool Success { get; set; } // 是否成功
+    public T? Data { get; set; } // 回傳資料
+    public ApiError? Error { get; set; } // 錯誤資訊（若成功則為 null）
 
-    /// <summary>操作成功，回傳資料</summary>
-    public static ApiResponse<T> Success(T data, string message = "操作成功") =>
-        new() { Code = "SUCCESS", Message = message, Data = data };
+    public static ApiResponse<T> SuccessResponse(T data) => new()
+    {
+        Success = true,
+        Data = data,
+        Error = null
+    };
 
-    /// <summary>操作失敗，回傳錯誤訊息與錯誤代碼</summary>
-    public static ApiResponse<T> Fail(string code, string message) =>
-        new() { Code = code, Message = message, Data = default };
+    public static ApiResponse<T> FailResponse(string code, string message) => new()
+    {
+        Success = false,
+        Data = default,
+        Error = new ApiError(code, message)
+    };
+}
+
+public class ApiError
+{
+    public string Code { get; set; } = string.Empty; // 錯誤代碼
+    public string Message { get; set; } = string.Empty; // 錯誤訊息
+
+    public ApiError() { }
+
+    public ApiError(string code, string message)
+    {
+        Code = code;
+        Message = message;
+    }
 }

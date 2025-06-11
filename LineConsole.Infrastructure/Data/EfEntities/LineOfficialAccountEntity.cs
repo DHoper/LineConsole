@@ -22,7 +22,7 @@ public class LineOfficialAccountEntity
 
     [MaxLength(100)]
     [Column("channel_name")]
-    public string? ChannelName { get; set; } // LINE 官方帳號名稱（顯示用）
+    public string ChannelName { get; set; } = string.Empty; // LINE 官方帳號名稱（顯示用）
 
     [Required]
     [Column("channel_secret", TypeName = "text")]

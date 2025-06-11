@@ -11,7 +11,7 @@ interface Props {
     onAreaRemove: (index: number) => void;
     onAreaClick?: (area: MenuArea) => void;
     onOverlap?: () => void;
-    size: MenuSize; // ✅ 改為物件
+    size: MenuSize; 
 }
 
 export function ImageGridEditor({

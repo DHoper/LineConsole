@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ApiResponse } from "@/types/api";
+import { ApiResponse } from "@/features/common/types/api";
 import {
     RichMenuIdResult,
-    CreateRichMenuRequest,
+    CreateRichMenuInput,
 } from "../types";
 import { richMenuAPI } from "./richMenuAPI";
 
@@ -13,7 +13,7 @@ export const useCreateRichMenuWithImage = (lineOfficialAccountId: string) => {
     return useMutation<
         ApiResponse<RichMenuIdResult>,
         unknown,
-        CreateRichMenuRequest
+        CreateRichMenuInput
     >({
         mutationFn: (request) =>
             richMenuAPI.createWithImage(lineOfficialAccountId, request),

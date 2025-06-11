@@ -2,6 +2,7 @@ using LineConsole.Application.Exceptions;
 using LineConsole.Server.Models.Api;
 
 namespace LineConsole.Server.Middlewares;
+
 public class ApiExceptionMiddleware
 {
     private readonly RequestDelegate _next;
@@ -36,7 +37,7 @@ public class ApiExceptionMiddleware
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
 
-        var response = ApiResponse<ApiEmptyResult>.Fail(code, message);
+        var response = ApiResponse<ApiEmptyResult>.FailResponse(code, message);
         await context.Response.WriteAsJsonAsync(response);
     }
 }

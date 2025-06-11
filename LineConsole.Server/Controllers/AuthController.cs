@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LineConsole.Server.Controllers;
 
-/// <summary>
-/// 提供註冊與登入功能的 API 入口（使用 ASP.NET Core Identity）
-/// </summary>
 [ApiController]
 [Route("api/auth")]
 [AllowAnonymous]
@@ -21,47 +18,41 @@ public class AuthController : ControllerBase
         _accountManager = accountManager;
     }
 
-    /// <summary>
-    /// 使用者註冊（建立 IdentityUser、UserProfiles 與 LineOfficialAccount）
-    /// </summary>
     [HttpPost("register")]
     public async Task<ActionResult<ApiResponse<string>>> RegisterAsync([FromBody] RegisterInput request)
     {
         try
         {
             var userId = await _accountManager.RegisterAsync(request);
-            return ApiResponse<string>.Success(userId);
+            return ApiResponse<string>.SuccessResponse(userId);
         }
         catch (AppException ex)
         {
-            return BadRequest(ApiResponse<string>.Fail(ex.Code, ex.Message));
+            return BadRequest(ApiResponse<string>.FailResponse(ex.Code, ex.Message));
         }
         catch (Exception ex)
         {
             Console.WriteLine($"[Register] 伺服器錯誤: {ex}");
-            return StatusCode(500, ApiResponse<string>.Fail("SERVER_ERROR", "伺服器發生錯誤"));
+            return StatusCode(500, ApiResponse<string>.FailResponse("SERVER_ERROR", "伺服器發生錯誤"));
         }
     }
 
-    /// <summary>
-    /// 使用者登入並取得 JWT Token
-    /// </summary>
     [HttpPost("login")]
-    public async Task<ActionResult<ApiResponse<string>>> LoginAsync([FromBody] LoginInput request)
+    public async Task<ActionResult<ApiResponse<LoginResult>>> LoginAsync([FromBody] LoginInput request)
     {
         try
         {
-            var token = await _accountManager.LoginAsync(request.Email, request.Password);
-            return ApiResponse<string>.Success(token);
+            var result = await _accountManager.LoginAsync(request.Email, request.Password);
+            return ApiResponse<LoginResult>.SuccessResponse(result);
         }
         catch (AppException ex)
         {
-            return Unauthorized(ApiResponse<string>.Fail(ex.Code, ex.Message));
+            return Unauthorized(ApiResponse<LoginResult>.FailResponse(ex.Code, ex.Message));
         }
         catch (Exception ex)
         {
             Console.WriteLine($"[Login] 伺服器錯誤: {ex}");
-            return StatusCode(500, ApiResponse<string>.Fail("SERVER_ERROR", "伺服器發生錯誤"));
+            return StatusCode(500, ApiResponse<LoginResult>.FailResponse("SERVER_ERROR", "伺服器發生錯誤"));
         }
     }
 }

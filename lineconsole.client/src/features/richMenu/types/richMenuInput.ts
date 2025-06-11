@@ -1,7 +1,7 @@
-import type { MenuSize, MenuArea } from "./richMenuDto";
+import type { MenuSize, MenuArea } from "./richMenu";
 
 /** 建立 Rich Menu 並上傳圖片的請求資料 */
-export interface CreateRichMenuRequest {
+export interface CreateRichMenuInput {
   selected: boolean;       // 是否為預設選單
   name: string;            // 圖文選單名稱
   chatBarText: string;     // Chat bar 顯示文字
@@ -13,6 +13,6 @@ export interface CreateRichMenuRequest {
 }
 
 /** 刪除指定 Rich Menu 的請求資料 */
-export interface DeleteRichMenuRequest {
+export interface DeleteRichMenuInput {
   richMenuId: string;      // 欲刪除的 Rich Menu ID
 }

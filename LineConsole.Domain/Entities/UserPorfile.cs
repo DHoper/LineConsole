@@ -15,7 +15,7 @@ public class UserProfile
     public string IdentityUserId { get; init; } = string.Empty;
 
     /// <summary>顯示名稱（可選）</summary>
-    public string? DisplayName { get; set; }
+    public string DisplayName { get; set; } = string.Empty;
 
     /// <summary>大頭貼網址（可選）</summary>
     public string? AvatarUrl { get; set; }
@@ -35,7 +35,7 @@ public class UserProfile
     /// <summary>建立新的使用者擴充資料</summary>
     public static UserProfile Create(
     string identityUserId,
-    string? displayName = null,
+    string displayName,
     string? avatarUrl = null,
     string? organizationCode = null)
     {

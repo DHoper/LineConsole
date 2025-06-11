@@ -1,11 +1,11 @@
 import { axiosClient } from "@/libs/http/axiosClient";
-import { ApiResponse } from "@/types/api";
+import { ApiResponse } from "@/features/common/types/api";
 import {
     RichMenuIdResult,
     RichMenuListResult,
     RichMenuResult,
     RichMenuWithImageResult,
-    CreateRichMenuRequest
+    CreateRichMenuInput
 } from "../types";
 
 const getBaseUrl = (lineOfficialAccountId: string) =>
@@ -46,7 +46,7 @@ export const richMenuAPI = {
 
     createWithImage: async (
         lineOfficialAccountId: string,
-        request: CreateRichMenuRequest
+        request: CreateRichMenuInput
     ): Promise<ApiResponse<RichMenuIdResult>> => {
         const formData = new FormData();
 

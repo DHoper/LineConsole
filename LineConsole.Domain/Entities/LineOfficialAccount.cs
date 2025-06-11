@@ -20,7 +20,7 @@ public class LineOfficialAccount
     public string ChannelId { get; set; } = string.Empty;
 
     /// <summary>LINE Channel 名稱（顯示用）</summary>
-    public string? ChannelName { get; set; }
+    public string ChannelName { get; set; } = string.Empty;
 
     /// <summary>LINE Channel Access Token（建議加密儲存）</summary>
     public string ChannelAccessToken { get; set; } = string.Empty;
@@ -40,7 +40,7 @@ public class LineOfficialAccount
         string channelId,
         string channelSecret,
         string channelAccessToken,
-        string? channelName = null)
+        string channelName)
     {
         var now = DateTime.UtcNow;
         return new LineOfficialAccount
@@ -53,6 +53,29 @@ public class LineOfficialAccount
             ChannelName = channelName,
             CreatedAt = now,
             UpdatedAt = now
+        };
+    }
+
+    public static LineOfficialAccount Load(
+     Guid id,
+     Guid userProfileId,
+     string channelId,
+     string channelSecret,
+     string channelAccessToken,
+     string channelName,
+     DateTime createdAt,
+     DateTime updatedAt)
+    {
+        return new LineOfficialAccount
+        {
+            Id = id,
+            UserProfileId = userProfileId,
+            ChannelId = channelId,
+            ChannelSecret = channelSecret,
+            ChannelAccessToken = channelAccessToken,
+            ChannelName = channelName,
+            CreatedAt = createdAt,
+            UpdatedAt = updatedAt
         };
     }
 }

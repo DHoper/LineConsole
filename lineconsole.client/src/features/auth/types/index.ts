@@ -1,45 +1,41 @@
-/** 註冊請求格式 - 對應後端 RegisterInput */
+/** 註冊請求資料 */
 export interface RegisterInput {
-  email: string;                         // 登入用 Email
-  password: string;                      // 原始密碼
-  displayName?: string;                  // 顯示名稱（可選）
-  avatarUrl?: string;                    // 頭像 URL（可選）
-  organizationCode?: string;             // 所屬組織代碼（可選）
-  lineAccount: LineOfficialAccountCreateModel; // 綁定的 LINE 官方帳號資訊
+  email: string;                          // 使用者登入 Email
+  password: string;                       // 原始密碼
+  displayName?: string;                   // 顯示名稱（可選）
+  lineAccount?: LineOfficialAccountCreateModel; // 綁定的 LINE 官方帳號資訊（可選）
 }
 
-/** 登入請求格式 - 對應後端 LoginInput */
+/** 登入請求資料 */
 export interface LoginInput {
-  email: string;        // 登入用 Email
-  password: string;     // 原始密碼
+  email: string;      // 使用者登入 Email
+  password: string;   // 原始密碼
 }
 
-/** LINE 官方帳號建立所需資料 - 對應後端 LineOfficialAccountCreateModel */
+/** LINE 官方帳號建立所需資料 */
 export interface LineOfficialAccountCreateModel {
   channelName: string;             // LINE 官方帳號名稱
-  channelId: string;        // LINE Channel ID
-  channelSecret: string;    // LINE Channel Secret
-  channelAccessToken: string; // LINE Channel Access Token
+  channelId: string;               // LINE Channel ID
+  channelSecret: string;           // Channel Secret
+  channelAccessToken: string;      // Channel Access Token
 }
 
-/** 回傳的使用者資料格式（若未來登入後有用到） */
-export interface UserProfileDTO {
-  id: string;
-  name?: string;
-  createdAt: string;
-  updatedAt: string;
+/** 登入結果：包含 JWT Token 與使用者資訊 */
+export interface LoginResult {
+  token: string;        // JWT 權杖
+  expiresAt: number;    // 過期時間
+  user: UserLoginInfo;  // 登入使用者資料
 }
 
-/** 前端註冊表單處理用資料（UI 專用，與 API 無關） */
-export interface RegisterFormData {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  avatarUrl?: string;
-  organizationCode?: string;
-  channelName: string;
-  channelId: string;
-  channelSecret: string;
-  channelToken: string;
+/** 登入後取得的使用者資訊 */
+export interface UserLoginInfo {
+  userId: string;       // Identity 使用者 ID
+  email: string;        // 使用者 Email
+  displayName?: string; // 顯示名稱（可選）
+  role: string;         // 使用者角色
+  lineAccounts: {
+    id: string;             // LINE 官方帳號 ID
+    channelId: string;      // Channel ID
+    channelName: string;    // Channel 名稱
+  }[];
 }

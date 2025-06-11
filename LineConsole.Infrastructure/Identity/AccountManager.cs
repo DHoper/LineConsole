@@ -1,4 +1,4 @@
-using LineConsole.Application.Common.Interfaces;
+ï»¿using LineConsole.Application.Common.Interfaces;
 using LineConsole.Application.Common.Models;
 using LineConsole.Application.UserProfiles.Interfaces;
 using LineConsole.Application.UserProfiles.Models;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 namespace LineConsole.Infrastructure.Identity;
 
 /// <summary>
-/// ¨Ï¥Î ASP.NET Core Identity ¹ê§@±b¸¹µù¥U»Pµn¤J¥\¯à
+/// ä½¿ç”¨ ASP.NET Core Identity å¯¦ä½œå¸³è™Ÿè¨»å†Šèˆ‡ç™»å…¥åŠŸèƒ½
 /// </summary>
 public class AccountManager : IAccountManager
 {
@@ -31,7 +31,7 @@ public class AccountManager : IAccountManager
     }
 
     /// <summary>
-    /// µù¥U·s±b¸¹¡]«Ø¥ß IdentityUser + UserProfiles + LINE ©x¤è±b¸¹¡^
+    /// è¨»å†Šæ–°å¸³è™Ÿï¼ˆå»ºç«‹ IdentityUser + UserProfiles + LINE å®˜æ–¹å¸³è™Ÿï¼‰
     /// </summary>
     public async Task<string> RegisterAsync(RegisterInput request)
     {
@@ -52,7 +52,7 @@ public class AccountManager : IAccountManager
         var roleResult = await _userManager.AddToRoleAsync(user, RoleNames.User);
         if (!roleResult.Succeeded)
         {
-            await _userManager.DeleteAsync(user); // ¦^ºu
+            await _userManager.DeleteAsync(user); // å›æ»¾
             var message = string.Join("; ", roleResult.Errors.Select(e => e.Description));
             throw new AppException("ROLE_ASSIGN_FAILED", message);
         }
@@ -68,42 +68,60 @@ public class AccountManager : IAccountManager
         }
         catch (AppException)
         {
-            await _userManager.DeleteAsync(user); // ¦^ºu
+            await _userManager.DeleteAsync(user); // å›æ»¾
             throw;
         }
         catch (Exception ex)
         {
-            await _userManager.DeleteAsync(user); // ¦^ºu
-            throw new AppException("USER_PROFILE_FAILED", $"µù¥U­Ó¤H¸ê®Æ®Éµo¥Í¿ù»~¡G{ex.Message}");
+            await _userManager.DeleteAsync(user); // å›æ»¾
+            throw new AppException("USER_PROFILE_FAILED", $"è¨»å†Šå€‹äººè³‡æ–™æ™‚ç™¼ç”ŸéŒ¯èª¤ï¼š{ex.Message}");
         }
 
         return user.Id;
     }
 
-
     /// <summary>
-    /// µn¤J¨Ã¦^¶Ç JWT Token
+    /// ç™»å…¥ä¸¦å›å‚³ JWT Token èˆ‡ä½¿ç”¨è€…è³‡è¨Š
     /// </summary>
-    public async Task<string?> LoginAsync(string email, string password)
+    public async Task<LoginResult> LoginAsync(string email, string password)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user is null)
-            throw new AppException("LOGIN_FAILED", "±b¸¹¤£¦s¦b");
+            throw new AppException("LOGIN_FAILED", "å¸³è™Ÿä¸å­˜åœ¨");
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: false);
         if (!result.Succeeded)
-            throw new AppException("LOGIN_FAILED", "±K½X¿ù»~");
+            throw new AppException("LOGIN_FAILED", "å¯†ç¢¼éŒ¯èª¤");
 
         var roles = await _userManager.GetRolesAsync(user);
         var role = roles.FirstOrDefault() ?? RoleNames.User;
 
-        var token = _tokenGenerator.GenerateToken(new JwtPayload
+        var profile = await _userProfileService.GetDetailsByIdentityUserIdAsync(user.Id);
+        if (profile is null)
+            throw new AppException("LOGIN_FAILED", "æ‰¾ä¸åˆ°å°æ‡‰çš„ä½¿ç”¨è€…è³‡æ–™");
+
+        var payload = new JwtPayload
         {
             UserId = user.Id,
             Email = user.Email ?? string.Empty,
             Role = role
-        });
+        };
 
-        return token;
+        // âš  æ”¹é€™è£¡ï¼šåŒæ™‚å–å¾— token èˆ‡ expiresAt
+        var (token, expiresAt) = _tokenGenerator.GenerateToken(payload);
+
+        return new LoginResult
+        {
+            Token = token,
+            ExpiresAt = expiresAt,
+            User = new LoginUserInfo
+            {
+                UserId = user.Id,
+                Email = user.Email ?? string.Empty,
+                Role = role,
+                DisplayName = profile.DisplayName,
+                LineAccounts = profile.LineAccounts
+            }
+        };
     }
 }

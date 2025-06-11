@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { authAPI } from "@/features/auth/api/authAPI";
+import { useAuth } from "@/features/auth/stores/useAuth";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,8 @@ import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
     const navigate = useNavigate();
+    const { login } = useAuth(); 
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -24,15 +27,18 @@ export default function LoginPage() {
         try {
             const res = await authAPI.login({ email, password });
             if (res.success && res.data) {
-                // ✅ 儲存 JWT Token（視你的專案決策，可改為 localStorage / cookie / Zustand）
-                localStorage.setItem("token", res.data);
+                const { token, user, expiresAt } = res.data;
+                login(token, user, expiresAt);
+
                 toast.success("登入成功");
+                
                 navigate("/dashboard");
             } else {
                 toast.error(res.error?.message ?? "登入失敗");
             }
+
         } catch (err) {
-            console.error("❌ 登入錯誤：", err);
+            console.error("登入錯誤：", err);
             toast.error("系統錯誤，請稍後再試");
         } finally {
             setLoading(false);

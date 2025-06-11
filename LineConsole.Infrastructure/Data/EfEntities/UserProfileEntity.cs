@@ -18,7 +18,7 @@ public class UserProfileEntity
 
     [MaxLength(100)]
     [Column("display_name")]
-    public string? DisplayName { get; set; } // 顯示名稱（可選）
+    public string DisplayName { get; set; } = string.Empty; // 顯示名稱（可選）
 
     [MaxLength(512)]
     [Column("avatar_url")]

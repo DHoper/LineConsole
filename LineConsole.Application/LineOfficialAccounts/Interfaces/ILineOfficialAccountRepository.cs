@@ -16,4 +16,10 @@ public interface ILineOfficialAccountRepository
     /// 新增一筆 LINE 官方帳號綁定資料
     /// </summary>
     Task AddAsync(LineOfficialAccount account, CancellationToken ct = default);
+
+    /// <summary>
+    /// 透過 UserProfile 取得 LineOfficialAccount 清單
+    /// </summary>
+    Task<List<LineOfficialAccount>> FindByUserProfileIdAsync(Guid userProfileId, CancellationToken ct = default);
+
 }

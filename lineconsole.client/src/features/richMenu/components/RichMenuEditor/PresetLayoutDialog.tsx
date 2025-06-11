@@ -10,8 +10,7 @@ import {
 
 import type {
     MenuArea,
-    MenuSize,
-    MenuSize,
+    MenuSize
 } from "../../types";
 
 // 前端額外附加 id 用於編輯

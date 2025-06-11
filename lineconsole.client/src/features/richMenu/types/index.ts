@@ -1,3 +1,3 @@
-export * from "./richMenuDto";
-export * from "./richMenuRequest";
+export * from "./richMenu";
+export * from "./richMenuInput";
 export * from "./richMenuResult";

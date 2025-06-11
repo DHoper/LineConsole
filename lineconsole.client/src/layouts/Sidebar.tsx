@@ -2,7 +2,7 @@ import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { cn } from "@/libs/ui/utils";
-import { mainMenu } from "@/navigation/menu";
+import { mainMenu } from "@/settings/menu";
 
 export default function Sidebar() {
     const location = useLocation();

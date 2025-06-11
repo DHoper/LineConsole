@@ -19,16 +19,16 @@ import { Empty } from "@/components/ui/empty";
 import { type RichMenuWithImageResult } from "../types";
 
 type Props = {
-  menu: RichMenuWithImageResult;
-  isDefault: boolean;
-  hasImageError: boolean;
-  onEdit: () => void;
-  onDelete: () => void;
-  onToggleDefault: () => void;
-  onImageError: () => void;
+    menu: RichMenuWithImageResult;
+    isDefault: boolean;
+    hasImageError: boolean;
+    onEdit: () => void;
+    onDelete: () => void;
+    onToggleDefault: () => void;
+    onImageError: () => void;
 
-  /** 🟡 父層計算好的動作摘要（例如："2×postback、1×message"） */
-  actionTypesSummary?: string;
+    /** 🟡 父層計算好的動作摘要（例如："2×postback、1×message"） */
+    actionTypesSummary?: string;
 };
 
 export default function RichMenuCard({
@@ -78,7 +78,6 @@ export default function RichMenuCard({
                         variant="default"
                         className="absolute top-2 left-2 text-xs font-medium px-2 py-0.5 shadow"
                     >
-            ✅ 目前預設
                     </Badge>
                 )}
 
@@ -96,13 +95,13 @@ export default function RichMenuCard({
                     <DropdownMenuContent align="end" sideOffset={4}>
                         <DropdownMenuItem onClick={onEdit}>
                             <Edit3 className="w-4 h-4 mr-2" />
-              編輯
+                            編輯
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={onToggleDefault}>
                             {isDefault ? (
                                 <>
                                     <Check className="w-4 h-4 mr-2" />
-                  目前預設
+                                    目前預設
                                 </>
                             ) : (
                                 <>設為預設</>
@@ -110,7 +109,7 @@ export default function RichMenuCard({
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={onDelete} className="text-destructive">
                             <Trash2 className="w-4 h-4 mr-2" />
-              刪除
+                            刪除
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -119,7 +118,7 @@ export default function RichMenuCard({
             <div className="p-4 space-y-2">
                 <h2 className="text-base font-semibold text-foreground">{menu.name}</h2>
                 <p className="text-sm text-muted-foreground">
-          類型：{actionTypesSummary || "未提供"}
+                    類型：{actionTypesSummary || "未提供"}
                 </p>
                 <div className="text-sm text-muted-foreground flex items-center gap-1">
                     <Clock className="w-4 h-4" />

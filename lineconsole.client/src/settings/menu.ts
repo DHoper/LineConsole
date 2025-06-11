@@ -1,15 +1,11 @@
 import {
     Bot,
     FileText,
-    Globe,
-    Headphones,
     Home,
     Layout,
     Mail,
-    Map,
     MessageCircle,
     Puzzle,
-    Settings,
     Tags,
     Users,
 } from "lucide-react";
@@ -21,17 +17,6 @@ export const mainMenu = [
         icon: Home,
         disabled: false,
     },
-    // {
-    //     label: "登入與工作區",
-    //     path: "/auth",
-    //     icon: Settings,
-    //     disabled: true,
-    //     children: [
-    //         { label: "登入", path: "/auth/login", disabled: true },
-    //         { label: "工作區設定", path: "/auth/workspace", disabled: true },
-    //         { label: "語系與時區", path: "/auth/locale", disabled: true },
-    //     ],
-    // },
     {
         label: "好友管理",
         path: "/members",
@@ -97,7 +82,6 @@ export const mainMenu = [
         label: "圖文選單",
         path: "/rich-menu",
         icon: Layout,
-        // ✅ 唯一啟用的選單，沒有 disabled
     },
     // {
     //     label: "會員旅程",

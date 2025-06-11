@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ApiResponse } from "@/types/api";
+import { ApiResponse } from "@/features/common/types/api";
 import {
     RichMenuIdResult,
     RichMenuResult,

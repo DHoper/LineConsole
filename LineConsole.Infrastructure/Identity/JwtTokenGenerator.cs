@@ -20,7 +20,10 @@ public class JwtTokenGenerator : ITokenGenerator
         _configuration = configuration;
     }
 
-    public string GenerateToken(AppJwtPayload payload)
+    /// <summary>
+    /// 產生 JWT 並回傳 Token 與過期時間（Unix 秒）
+    /// </summary>
+    public (string Token, long ExpiresAt) GenerateToken(AppJwtPayload payload)
     {
         var claims = new List<Claim>
         {
@@ -34,13 +37,17 @@ public class JwtTokenGenerator : ITokenGenerator
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+        var expires = DateTime.UtcNow.AddHours(2); // 自訂過期時間
         var token = new JwtSecurityToken(
             issuer: _configuration["Jwt:Issuer"],
             audience: _configuration["Jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(2),
+            expires: expires,
             signingCredentials: creds);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+        var expiresAt = new DateTimeOffset(expires).ToUnixTimeSeconds(); // ? 轉為 Unix 秒
+
+        return (tokenString, expiresAt);
     }
 }

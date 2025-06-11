@@ -9,7 +9,7 @@ public class CreateUserProfileInput
 {
     public string IdentityUserId { get; set; } = string.Empty;
 
-    public string? DisplayName { get; set; }
+    public string DisplayName { get; set; } = string.Empty;
     public string? AvatarUrl { get; set; }
     public string? OrganizationCode { get; set; }
 

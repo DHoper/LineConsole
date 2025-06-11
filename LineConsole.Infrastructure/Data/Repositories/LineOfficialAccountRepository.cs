@@ -47,4 +47,27 @@ public class LineOfficialAccountRepository : ILineOfficialAccountRepository
         _db.LineOfficialAccounts.Add(entity);
         await _db.SaveChangesAsync(ct);
     }
+
+
+    /// <summary>
+    /// 透過 UserProfile 取得 LineOfficialAccount 清單
+    /// </summary>
+    public async Task<List<LineOfficialAccount>> FindByUserProfileIdAsync(Guid userProfileId, CancellationToken ct = default)
+    {
+        var entities = await _db.LineOfficialAccounts
+            .Where(x => x.UserProfileId == userProfileId)
+            .ToListAsync(ct);
+
+        return entities.Select(e => LineOfficialAccount.Load(
+            id: e.Id,
+            userProfileId: e.UserProfileId,
+            channelId: e.ChannelId,
+            channelSecret: e.ChannelSecret,
+            channelAccessToken: e.ChannelAccessToken,
+            channelName: e.ChannelName,
+            createdAt: e.CreatedAt,
+            updatedAt: e.UpdatedAt
+        )).ToList();
+    }
+
 }
