@@ -1,39 +1,39 @@
-using System.Net.Http.Headers;
+ï»¿using System.Net.Http.Headers;
 
 namespace LineConsole.Infrastructure.Http;
 
 /// <summary>
-/// «Ê¸Ë¹ï¥~³¡ API ªº HTTP ©I¥s¥\¯à¡A¤ä´© GET¡BPOST¡BPUT¡BDELETE µ¥³q¥Î¾Ş§@
+/// å°è£å°å¤–éƒ¨ API çš„ HTTP å‘¼å«åŠŸèƒ½ï¼Œæ”¯æ´ GETã€POSTã€PUTã€DELETE ç­‰é€šç”¨æ“ä½œ
 /// </summary>
 public interface IExternalHttpClient
 {
     /// <summary>
-    /// µo°e GET ½Ğ¨D¡A¦^¶Ç«ü©w«¬§Oµ²ªG
+    /// ç™¼é€ GET è«‹æ±‚ï¼Œå›å‚³æŒ‡å®šå‹åˆ¥çµæœ
     /// </summary>
     Task<T?> GetAsync<T>(string url, Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// µo°e POST ½Ğ¨D¡Aªş±a JSON ¸ê®Æ
+    /// ç™¼é€ POST è«‹æ±‚ï¼Œé™„å¸¶ JSON è³‡æ–™
     /// </summary>
     Task<T?> PostAsync<T>(string url, object data, Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// µo°e POST ½Ğ¨D¡Aªş±a byte stream¡]¤G¶i¦ì¤W¶Ç¥Î³~¡^
+    /// ç™¼é€ POST è«‹æ±‚ï¼Œé™„å¸¶ byte streamï¼ˆäºŒé€²ä½ä¸Šå‚³ç”¨é€”ï¼‰
     /// </summary>
     Task PostStreamAsync(string url, Stream stream, string contentType, Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// µo°e GET ½Ğ¨D¡A¨ú±o­ì©l¤G¶i¦ì¦ê¬y¡]¨Ò¦p¤U¸ü¹Ï¤ù¡^
+    /// ç™¼é€ GET è«‹æ±‚ï¼Œå–å¾—åŸå§‹äºŒé€²ä½ä¸²æµï¼ˆä¾‹å¦‚ä¸‹è¼‰åœ–ç‰‡ï¼‰
     /// </summary>
     Task<Stream> GetStreamAsync(string url, Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// µo°e DELETE ½Ğ¨D
+    /// ç™¼é€ DELETE è«‹æ±‚
     /// </summary>
     Task DeleteAsync(string url, Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// µo°e POST ½Ğ¨D¦ı¤£¹w´Á¥ô¦ó¦^¶Ç¸ê®Æ¡]¨Ò¦p³]©w¦¨¥\¡^
+    /// ç™¼é€ POST è«‹æ±‚ä½†ä¸é æœŸä»»ä½•å›å‚³è³‡æ–™ï¼ˆä¾‹å¦‚è¨­å®šæˆåŠŸï¼‰
     /// </summary>
     Task PostAsync(string url, object data, Dictionary<string, string>? headers = null, CancellationToken cancellationToken = default);
 }

@@ -1,9 +1,9 @@
-using LineConsole.Application.RichMenus.Models;
+ï»¿using LineConsole.Application.RichMenus.Models;
 
 namespace LineConsole.Application.RichMenus.Interfaces;
 
 /// <summary>
-/// ©w¸q LINE Rich Menu ¼Ò²Õªº©Ò¦³·~°È¾Ş§@¤¶­±¡A¤ä´©¦h±b¸¹»P§¹¾ã¥\¯à½Õ¥Î
+/// å®šç¾© LINE Rich Menu æ¨¡çµ„çš„æ‰€æœ‰æ¥­å‹™æ“ä½œä»‹é¢ï¼Œæ”¯æ´å¤šå¸³è™Ÿèˆ‡å®Œæ•´åŠŸèƒ½èª¿ç”¨
 /// </summary>
 public interface IRichMenuService
 {

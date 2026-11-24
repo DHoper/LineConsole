@@ -1,43 +1,43 @@
-using LineConsole.Domain.Entities;
+ï»¿using LineConsole.Domain.Entities;
 
 namespace LineConsole.Application.RichMenus.Interfaces;
 
 /// <summary>
-/// ´£¨Ñ¥»¦a Rich Menu »P±Æµ{¸ê®Æªº¦s¨ú¾Ş§@¡]¶È­­¸ê®Æ®w¡A¤£§t LINE API¡^
+/// æä¾›æœ¬åœ° Rich Menu èˆ‡æ’ç¨‹è³‡æ–™çš„å­˜å–æ“ä½œï¼ˆåƒ…é™è³‡æ–™åº«ï¼Œä¸å« LINE APIï¼‰
 /// </summary>
 public interface IRichMenuRepository
 {
-    // === Rich Menu ¥DÅé ===
+    // === Rich Menu ä¸»é«” ===
 
     /// <summary>
-    /// ·s¼W¤@µ§ Rich Menu ¥DÅé¸ê®Æ¡]¥]§tÂIÀ»°Ï°ì¡^
+    /// æ–°å¢ä¸€ç­† Rich Menu ä¸»é«”è³‡æ–™ï¼ˆåŒ…å«é»æ“Šå€åŸŸï¼‰
     /// </summary>
     Task AddAsync(RichMenu menu, CancellationToken ct = default);
 
     /// <summary>
-    /// ¬d¸ß«ü©w LINE ©x¤è±b¸¹©³¤U©Ò¦³ Rich Menu ¸ê®Æ¡]¥]§tÂIÀ»°Ï°ì¡^
+    /// æŸ¥è©¢æŒ‡å®š LINE å®˜æ–¹å¸³è™Ÿåº•ä¸‹æ‰€æœ‰ Rich Menu è³‡æ–™ï¼ˆåŒ…å«é»æ“Šå€åŸŸï¼‰
     /// </summary>
     Task<List<RichMenu>> GetAllByAccountAsync(Guid lineOfficialAccountId, CancellationToken ct = default);
 
     /// <summary>
-    /// ®Ú¾Ú RichMenuId ¬d¸ß³æµ§¸ê®Æ¡]¥]§tÂIÀ»°Ï°ì¡^
+    /// æ ¹æ“š RichMenuId æŸ¥è©¢å–®ç­†è³‡æ–™ï¼ˆåŒ…å«é»æ“Šå€åŸŸï¼‰
     /// </summary>
     Task<RichMenu?> GetByIdAsync(Guid richMenuId, CancellationToken ct = default);
 
     /// <summary>
-    /// §R°£«ü©w Rich Menu ¸ê®Æ¡]¦P®É§R°£¬ÛÃö°Ï°ì¸ê®Æ¡^
+    /// åˆªé™¤æŒ‡å®š Rich Menu è³‡æ–™ï¼ˆåŒæ™‚åˆªé™¤ç›¸é—œå€åŸŸè³‡æ–™ï¼‰
     /// </summary>
     Task DeleteAsync(Guid richMenuId, CancellationToken ct = default);
 
-    // === ±Æµ{¡]Schedule¡^ ===
+    // === æ’ç¨‹ï¼ˆScheduleï¼‰ ===
 
     /// <summary>
-    /// ·s¼W¤@µ§±Æµ{¸ê®Æ¡A«ü©w¬Y®É¶¡¬q¤º±N¬Y Rich Menu ³]¬°¹w³]¿ï³æ
+    /// æ–°å¢ä¸€ç­†æ’ç¨‹è³‡æ–™ï¼ŒæŒ‡å®šæŸæ™‚é–“æ®µå…§å°‡æŸ Rich Menu è¨­ç‚ºé è¨­é¸å–®
     /// </summary>
     Task AddScheduleAsync(Guid lineOfficialAccountId, Guid richMenuId, DateTime startTime, DateTime endTime, CancellationToken ct = default);
 
     /// <summary>
-    /// ¬d¸ß¬Y±b¸¹¥Ø«e©|¥¼°õ¦æ¥B¦b«ü©w®É¶¡¤ºªº±Æµ{¡]¥Î©ó­I´º±Æµ{³B²z¡^
+    /// æŸ¥è©¢æŸå¸³è™Ÿç›®å‰å°šæœªåŸ·è¡Œä¸”åœ¨æŒ‡å®šæ™‚é–“å…§çš„æ’ç¨‹ï¼ˆç”¨æ–¼èƒŒæ™¯æ’ç¨‹è™•ç†ï¼‰
     /// </summary>
     Task<List<RichMenuSchedule>> GetActiveSchedulesAsync(Guid lineOfficialAccountId, DateTime now, CancellationToken ct = default);
 }

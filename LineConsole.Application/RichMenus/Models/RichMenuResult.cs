@@ -1,47 +1,47 @@
-namespace LineConsole.Application.RichMenus.Models;
+ï»¿namespace LineConsole.Application.RichMenus.Models;
 
-/// <summary>¦^¶Ç³æ¤@ Rich Menu ¸Ô²Ó¸ê®Æ</summary>
+/// <summary>å›å‚³å–®ä¸€ Rich Menu è©³ç´°è³‡æ–™</summary>
 public record RichMenuResult
 {
-    public string RichMenuId { get; init; } = string.Empty; // RichMenuDTO ¹ïÀ³ ID
+    public string RichMenuId { get; init; } = string.Empty; // RichMenuDTO å°æ‡‰ ID
 
-    public string Name { get; init; } = string.Empty; // ¿ï³æ¦WºÙ
+    public string Name { get; init; } = string.Empty; // é¸å–®åç¨±
 
-    public string ChatBarText { get; init; } = string.Empty; // ¶}±Ò´£¥Ü¤å¦r
+    public string ChatBarText { get; init; } = string.Empty; // é–‹å•Ÿæç¤ºæ–‡å­—
 
-    public bool Selected { get; init; } // ¬O§_¬°¹w³]
+    public bool Selected { get; init; } // æ˜¯å¦ç‚ºé è¨­
 
-    public MenuSize Size { get; init; } = default!; // ¤Ø¤o¡]¼e°ª¡^
+    public MenuSize Size { get; init; } = default!; // å°ºå¯¸ï¼ˆå¯¬é«˜ï¼‰
 
-    public List<MenuArea> Areas { get; init; } = new(); // ÂIÀ»°Ï¶ô²M³æ
+    public List<MenuArea> Areas { get; init; } = new(); // é»æ“Šå€å¡Šæ¸…å–®
 }
 
-/// <summary>¦^¶Ç Rich Menu ID ªºµ²ªG</summary>
+/// <summary>å›å‚³ Rich Menu ID çš„çµæœ</summary>
 public record RichMenuIdResult
 {
-    public string RichMenuId { get; init; } = string.Empty; // RichMenuDTO ¹ïÀ³ ID
+    public string RichMenuId { get; init; } = string.Empty; // RichMenuDTO å°æ‡‰ ID
 }
 
-/// <summary>¦^¶Ç Rich Menu ²M³æµ²ªG</summary>
+/// <summary>å›å‚³ Rich Menu æ¸…å–®çµæœ</summary>
 public record RichMenuListResult
 {
-    public List<RichMenuResult> RichMenus { get; init; } = new(); // ©Ò¦³ RichMenuDTO µ²ªG
+    public List<RichMenuResult> RichMenus { get; init; } = new(); // æ‰€æœ‰ RichMenuDTO çµæœ
 }
 
-/// <summary>¦^¶Ç Rich Menu¡]§t¹Ï¤ù base64 ¹wÄı¡^</summary>
+/// <summary>å›å‚³ Rich Menuï¼ˆå«åœ–ç‰‡ base64 é è¦½ï¼‰</summary>
 public record RichMenuWithImageResult
 {
-    public required string RichMenuId { get; init; } // RichMenuDTO ¹ïÀ³ ID
+    public required string RichMenuId { get; init; } // RichMenuDTO å°æ‡‰ ID
 
-    public required string Name { get; init; } // ¦WºÙ
+    public required string Name { get; init; } // åç¨±
 
-    public required int Width { get; init; } // ¼e
+    public required int Width { get; init; } // å¯¬
 
-    public required int Height { get; init; } // °ª
+    public required int Height { get; init; } // é«˜
 
-    public required bool Selected { get; init; } // ¬O§_¬°¹w³]
+    public required bool Selected { get; init; } // æ˜¯å¦ç‚ºé è¨­
 
-    public required string ChatBarText { get; init; } // Åã¥Ü¤å¦r
+    public required string ChatBarText { get; init; } // é¡¯ç¤ºæ–‡å­—
 
-    public required string ImageBase64 { get; init; } // ¹wÄı¹Ï base64 ¦r¦ê
+    public required string ImageBase64 { get; init; } // é è¦½åœ– base64 å­—ä¸²
 }

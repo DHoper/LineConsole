@@ -1,26 +1,26 @@
-namespace LineConsole.Application.UserProfiles.Models;
+ï»¿namespace LineConsole.Application.UserProfiles.Models;
 
-/// <summary>«á¥x¨Ï¥ÎªÌÂX¥R¸ê®Æ¡]¨Ñ¥~³¡¦^¶Ç¡^</summary>
+/// <summary>å¾Œå°ä½¿ç”¨è€…æ“´å……è³‡æ–™ï¼ˆä¾›å¤–éƒ¨å›å‚³ï¼‰</summary>
 public record class UserProfileDTO
 {
-    /// <summary>ÂX¥R¸ê®Æ¥DÁä ID</summary>
+    /// <summary>æ“´å……è³‡æ–™ä¸»éµ ID</summary>
     public Guid Id { get; init; }
 
-    /// <summary>Identity ±b¸¹ ID</summary>
+    /// <summary>Identity å¸³è™Ÿ ID</summary>
     public string IdentityUserId { get; init; } = string.Empty;
 
-    /// <summary>¨Ï¥ÎªÌÅã¥Ü¦WºÙ¡]¥i¿ï¡^</summary>
+    /// <summary>ä½¿ç”¨è€…é¡¯ç¤ºåç¨±ï¼ˆå¯é¸ï¼‰</summary>
     public string? DisplayName { get; init; }
 
-    /// <summary>¨Ï¥ÎªÌ¤jÀY¶Kºô§}¡]¥i¿ï¡^</summary>
+    /// <summary>ä½¿ç”¨è€…å¤§é ­è²¼ç¶²å€ï¼ˆå¯é¸ï¼‰</summary>
     public string? AvatarUrl { get; init; }
 
-    /// <summary>²ÕÂ´¥N½X¡]¥i¿ï¡^</summary>
+    /// <summary>çµ„ç¹”ä»£ç¢¼ï¼ˆå¯é¸ï¼‰</summary>
     public string? OrganizationCode { get; init; }
 
-    /// <summary>«Ø¥ß®É¶¡¡]UTC¡^</summary>
+    /// <summary>å»ºç«‹æ™‚é–“ï¼ˆUTCï¼‰</summary>
     public DateTime CreatedAt { get; init; }
 
-    /// <summary>³Ì«á§ó·s®É¶¡¡]UTC¡^</summary>
+    /// <summary>æœ€å¾Œæ›´æ–°æ™‚é–“ï¼ˆUTCï¼‰</summary>
     public DateTime UpdatedAt { get; init; }
 }

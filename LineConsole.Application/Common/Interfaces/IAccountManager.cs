@@ -1,25 +1,25 @@
-using LineConsole.Application.Common.Models;
+ï»¿using LineConsole.Application.Common.Models;
 using LineConsole.Application.UserProfiles.Models;
 
 namespace LineConsole.Application.Common.Interfaces;
 
 /// <summary>
-/// ©w¸q±b¸¹¬ÛÃöªºÀ³¥Î¼h¾Ş§@¡]µù¥U»Pµn¤J¡^
+/// å®šç¾©å¸³è™Ÿç›¸é—œçš„æ‡‰ç”¨å±¤æ“ä½œï¼ˆè¨»å†Šèˆ‡ç™»å…¥ï¼‰
 /// </summary>
 public interface IAccountManager
 {
     /// <summary>
-    /// µù¥U·s±b¸¹¡]¥]§t¸j©w LINE ©x¤è±b¸¹¡^
+    /// è¨»å†Šæ–°å¸³è™Ÿï¼ˆåŒ…å«ç¶å®š LINE å®˜æ–¹å¸³è™Ÿï¼‰
     /// </summary>
-    /// <param name="request">µù¥U¸ê°T¡]Email¡B±K½X¡BLINE channel ¸ê°Tµ¥¡^</param>
-    /// <returns>«Ø¥ß¦¨¥\ªº¨Ï¥ÎªÌ ID</returns>
+    /// <param name="request">è¨»å†Šè³‡è¨Šï¼ˆEmailã€å¯†ç¢¼ã€LINE channel è³‡è¨Šç­‰ï¼‰</param>
+    /// <returns>å»ºç«‹æˆåŠŸçš„ä½¿ç”¨è€… ID</returns>
     Task<string> RegisterAsync(RegisterInput request);
 
     /// <summary>
-    /// ±b¸¹µn¤J¡A¦¨¥\«h¦^¶Ç JWT Token »P¨Ï¥ÎªÌ¸ê°T
+    /// å¸³è™Ÿç™»å…¥ï¼ŒæˆåŠŸå‰‡å›å‚³ JWT Token èˆ‡ä½¿ç”¨è€…è³‡è¨Š
     /// </summary>
-    /// <param name="email">±b¸¹ Email</param>
-    /// <param name="password">±b¸¹±K½X</param>
-    /// <returns>µn¤Jµ²ªG¡]¥]§t JWT Token »P¨Ï¥ÎªÌ¸ê°T¡^</returns>
+    /// <param name="email">å¸³è™Ÿ Email</param>
+    /// <param name="password">å¸³è™Ÿå¯†ç¢¼</param>
+    /// <returns>ç™»å…¥çµæœï¼ˆåŒ…å« JWT Token èˆ‡ä½¿ç”¨è€…è³‡è¨Šï¼‰</returns>
     Task<LoginResult> LoginAsync(string email, string password);
 }

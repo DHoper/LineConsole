@@ -51,7 +51,7 @@ export function DateRangePicker({ startAt, endAt, onChange }: Props) {
                             }
                         }}
                         numberOfMonths={2}
-                        initialFocus
+                        autoFocus
                     />
                 </PopoverContent>
             </Popover>

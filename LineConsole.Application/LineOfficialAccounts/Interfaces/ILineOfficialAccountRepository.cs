@@ -1,24 +1,30 @@
-using LineConsole.Domain.Entities;
+ï»¿using LineConsole.Domain.Entities;
 
 namespace LineConsole.Application.LineOfficialAccounts.Interfaces;
 
 /// <summary>
-/// ´£¨Ñ LINE ©x¤è±b¸¹ªº¦s¨ú¥\¯à¡A¨Ò¦p·s¼W»P¬d¸ß Access Token
+/// æä¾› LINE å®˜æ–¹å¸³è™Ÿçš„å­˜å–åŠŸèƒ½ï¼Œä¾‹å¦‚æ–°å¢èˆ‡æŸ¥è©¢ Access Token
 /// </summary>
 public interface ILineOfficialAccountRepository
 {
     /// <summary>
-    /// ®Ú¾Ú LINE ©x¤è±b¸¹ ID ¨ú±o¹ïÀ³ªº Channel Access Token
+    /// æ ¹æ“š LINE å®˜æ–¹å¸³è™Ÿ ID å–å¾—å°æ‡‰çš„ Channel Access Tokenã€‚
+    /// ä¸æª¢æŸ¥æ“æœ‰è€…ï¼Œåªçµ¦èƒŒæ™¯å·¥ä½œï¼ˆæ’ç¨‹ï¼‰ç”¨ï¼›ä½¿ç”¨è€…çš„è«‹æ±‚è«‹èµ° <see cref="IOfficialAccountAccess"/>ã€‚
     /// </summary>
     Task<string> GetAccessTokenAsync(Guid lineOfficialAccountId, CancellationToken ct = default);
 
     /// <summary>
-    /// ·s¼W¤@µ§ LINE ©x¤è±b¸¹¸j©w¸ê®Æ
+    /// å–å¾—å±¬æ–¼æŒ‡å®š Identity ä½¿ç”¨è€…çš„å®˜æ–¹å¸³è™Ÿçš„ Access Tokenï¼›ä¸å­˜åœ¨æˆ–ä¸å±¬æ–¼ä»–æ™‚å›å‚³ null
+    /// </summary>
+    Task<string?> FindAccessTokenForOwnerAsync(Guid lineOfficialAccountId, string identityUserId, CancellationToken ct = default);
+
+    /// <summary>
+    /// æ–°å¢ä¸€ç­† LINE å®˜æ–¹å¸³è™Ÿç¶å®šè³‡æ–™
     /// </summary>
     Task AddAsync(LineOfficialAccount account, CancellationToken ct = default);
 
     /// <summary>
-    /// ³z¹L UserProfile ¨ú±o LineOfficialAccount ²M³æ
+    /// é€é UserProfile å–å¾— LineOfficialAccount æ¸…å–®
     /// </summary>
     Task<List<LineOfficialAccount>> FindByUserProfileIdAsync(Guid userProfileId, CancellationToken ct = default);
 

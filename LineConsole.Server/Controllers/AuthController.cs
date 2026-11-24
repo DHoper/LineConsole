@@ -30,11 +30,6 @@ public class AuthController : ControllerBase
         {
             return BadRequest(ApiResponse<string>.FailResponse(ex.Code, ex.Message));
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[Register] 伺服器錯誤: {ex}");
-            return StatusCode(500, ApiResponse<string>.FailResponse("SERVER_ERROR", "伺服器發生錯誤"));
-        }
     }
 
     [HttpPost("login")]
@@ -48,11 +43,6 @@ public class AuthController : ControllerBase
         catch (AppException ex)
         {
             return Unauthorized(ApiResponse<LoginResult>.FailResponse(ex.Code, ex.Message));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"[Login] 伺服器錯誤: {ex}");
-            return StatusCode(500, ApiResponse<LoginResult>.FailResponse("SERVER_ERROR", "伺服器發生錯誤"));
         }
     }
 }

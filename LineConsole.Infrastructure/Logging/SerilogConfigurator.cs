@@ -10,7 +10,10 @@ public static class SerilogConfigurator
         var formatter = new TimeZoneAwareTextFormatter("yyyy-MM-dd HH:mm:ss", "Asia/Taipei");
 
         configuration
-            .MinimumLevel.Debug()
+            .MinimumLevel.Information()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
+            .MinimumLevel.Override("System", LogEventLevel.Warning)
             .Enrich.FromLogContext()
             .WriteTo.Console()
             .WriteTo.File(
@@ -22,7 +25,7 @@ public static class SerilogConfigurator
             .WriteTo.Logger(lc => lc
                 .Filter.ByIncludingOnly(logEvent =>
                     logEvent.Properties.TryGetValue("SourceContext", out var source) &&
-                    source.ToString().Contains("LineConsole.Infrastructure.Clients.LineClient")
+                    source.ToString().Contains("LineConsole.Infrastructure.ExternalClients.LineClient")
                 )
                 .WriteTo.File(
                     formatter: formatter,
@@ -35,7 +38,7 @@ public static class SerilogConfigurator
                 .Filter.ByIncludingOnly(logEvent =>
                     logEvent.Level == LogEventLevel.Error &&
                     (!logEvent.Properties.TryGetValue("SourceContext", out var _) ||
-                     !logEvent.Properties["SourceContext"].ToString()!.Contains("LineConsole.Infrastructure.Clients.LineClient"))
+                     !logEvent.Properties["SourceContext"].ToString()!.Contains("LineConsole.Infrastructure.ExternalClients.LineClient"))
                 )
                 .WriteTo.File(
                     formatter: formatter,

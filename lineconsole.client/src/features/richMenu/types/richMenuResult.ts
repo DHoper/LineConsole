@@ -1,4 +1,4 @@
-import type { MenuSize, MenuArea } from "./richMenu";
+import type { MenuArea,MenuSize } from "./richMenu";
 
 /** 回傳單一 Rich Menu 詳細資料 */
 export interface RichMenuResult {

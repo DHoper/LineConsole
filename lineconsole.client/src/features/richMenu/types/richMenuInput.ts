@@ -1,4 +1,4 @@
-import type { MenuSize, MenuArea } from "./richMenu";
+import type { MenuArea,MenuSize } from "./richMenu";
 
 /** 建立 Rich Menu 並上傳圖片的請求資料 */
 export interface CreateRichMenuInput {

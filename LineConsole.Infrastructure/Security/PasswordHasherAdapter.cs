@@ -1,10 +1,10 @@
-using LineConsole.Application.Infrastructure.Interfaces;
+ï»¿using LineConsole.Application.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace LineConsole.Infrastructure.Security;
 
 /// <summary>
-/// «Ê¸Ë ASP.NET Core Identity ªº±K½XÂø´ê¾¹
+/// å°è£ ASP.NET Core Identity çš„å¯†ç¢¼é›œæ¹Šå™¨
 /// </summary>
 public class PasswordHasherAdapter : IPasswordHasher
 {

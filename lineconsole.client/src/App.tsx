@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'sonner';
 
 import { ThemeProvider } from "@/components/ui/theme-provider";
+
 import AppRouter from './routes/AppRouter';
 
 const queryClient = new QueryClient();

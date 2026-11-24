@@ -1,10 +1,11 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LineConsole.Infrastructure.Identity;
 
 /// <summary>
-/// 初始化角色與預設管理員帳號
+/// 初始化角色；有設定 Seed:AdminEmail、Seed:AdminPassword 時才建立管理員帳號（帳密不寫在程式裡）
 /// </summary>
 public static class IdentityInitializer
 {
@@ -12,42 +13,34 @@ public static class IdentityInitializer
     {
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var configuration = services.GetRequiredService<IConfiguration>();
 
-        // 建立 Admin 與 User 角色
-        string[] roles = [RoleNames.Admin, RoleNames.User];
-        foreach (var role in roles)
+        foreach (var role in new[] { RoleNames.Admin, RoleNames.User })
         {
             if (!await roleManager.RoleExistsAsync(role))
-            {
                 await roleManager.CreateAsync(new IdentityRole(role));
-            }
         }
 
-        // 建立預設管理員帳號
-        var adminEmail = "admin@example.com";
-        var adminPassword = "Admin123!"; 
-        var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+        var adminEmail = configuration["Seed:AdminEmail"];
+        var adminPassword = configuration["Seed:AdminPassword"];
+        if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword))
+            return;
 
-        if (existingAdmin == null)
+        if (await userManager.FindByEmailAsync(adminEmail) is not null)
+            return;
+
+        var adminUser = new ApplicationUser
         {
-            var adminUser = new ApplicationUser
-            {
-                UserName = adminEmail,
-                Email = adminEmail,
-                EmailConfirmed = true,
-                AccountType = RoleNames.Admin
-            };
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true,
+            AccountType = RoleNames.Admin
+        };
 
-            var result = await userManager.CreateAsync(adminUser, adminPassword);
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(adminUser, RoleNames.Admin);
-            }
-            else
-            {
-                // 可記錄 log 或丟出例外
-                throw new Exception("建立預設管理員帳號失敗: " + string.Join(", ", result.Errors.Select(e => e.Description)));
-            }
-        }
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+        if (!result.Succeeded)
+            throw new InvalidOperationException("建立管理員帳號失敗：" + string.Join(", ", result.Errors.Select(e => e.Description)));
+
+        await userManager.AddToRoleAsync(adminUser, RoleNames.Admin);
     }
 }

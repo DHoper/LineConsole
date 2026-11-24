@@ -1,21 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
-  </ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- 應用層：只依賴領域層，不依賴 ASP.NET（上傳檔案這類 HTTP 細節留在 Server） -->
   <ItemGroup>
     <ProjectReference Include="..\LineConsole.Domain\LineConsole.Domain.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UserProfiles\Exceptions\" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
 </Project>

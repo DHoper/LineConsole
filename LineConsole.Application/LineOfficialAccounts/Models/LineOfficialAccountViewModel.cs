@@ -1,7 +1,7 @@
-namespace LineConsole.Application.LineOfficialAccounts.Models;
+ï»¿namespace LineConsole.Application.LineOfficialAccounts.Models;
 
 /// <summary>
-/// «eºİ¨Ï¥Îªº LINE ©x¤è±b¸¹Â²­n¸ê°T
+/// å‰ç«¯ä½¿ç”¨çš„ LINE å®˜æ–¹å¸³è™Ÿç°¡è¦è³‡è¨Š
 /// </summary>
 public record class LineOfficialAccountViewModel
 {

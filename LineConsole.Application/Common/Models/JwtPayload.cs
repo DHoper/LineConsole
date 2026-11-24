@@ -1,16 +1,16 @@
-namespace LineConsole.Application.Common.Models;
+﻿namespace LineConsole.Application.Common.Models;
 
 /// <summary>
-/// �w�q���X JWT Token �ɩһݪ��ϥΪ̸�Ƥ��e
+/// 定義產出 JWT Token 時所需的使用者資料內容
 /// </summary>
 public record JwtPayload
 {
-    /// <summary>�ϥΪ��ѧO�X</summary>
+    /// <summary>使用者識別碼</summary>
     public string UserId { get; init; } = string.Empty;
 
-    /// <summary>�ϥΪ� Email</summary>
+    /// <summary>使用者 Email</summary>
     public string Email { get; init; } = string.Empty;
      
-    /// <summary>�ϥΪ̩��ݨ���</summary>
+    /// <summary>使用者所屬角色</summary>
     public string Role { get; init; } = string.Empty;
 }

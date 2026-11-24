@@ -1,7 +1,7 @@
-namespace LineConsole.Infrastructure.Identity;
+ï»¿namespace LineConsole.Infrastructure.Identity;
 
 /// <summary>
-/// ¨t²Î¨¤¦â
+/// ç³»çµ±è§’è‰²
 /// </summary>
 public static class RoleNames
 {

@@ -1,10 +1,10 @@
-namespace LineConsole.Server.Models.Api;
+ï»¿namespace LineConsole.Server.Models.Api;
 
 public class ApiResponse<T>
 {
-    public bool Success { get; set; } // ¬O§_¦¨¥\
-    public T? Data { get; set; } // ¦^¶Ç¸ê®Æ
-    public ApiError? Error { get; set; } // ¿ù»~¸ê°T¡]­Y¦¨¥\«h¬° null¡^
+    public bool Success { get; set; } // æ˜¯å¦æˆåŠŸ
+    public T? Data { get; set; } // å›å‚³è³‡æ–™
+    public ApiError? Error { get; set; } // éŒ¯èª¤è³‡è¨Šï¼ˆè‹¥æˆåŠŸå‰‡ç‚º nullï¼‰
 
     public static ApiResponse<T> SuccessResponse(T data) => new()
     {
@@ -23,8 +23,8 @@ public class ApiResponse<T>
 
 public class ApiError
 {
-    public string Code { get; set; } = string.Empty; // ¿ù»~¥N½X
-    public string Message { get; set; } = string.Empty; // ¿ù»~°T®§
+    public string Code { get; set; } = string.Empty; // éŒ¯èª¤ä»£ç¢¼
+    public string Message { get; set; } = string.Empty; // éŒ¯èª¤è¨Šæ¯
 
     public ApiError() { }
 

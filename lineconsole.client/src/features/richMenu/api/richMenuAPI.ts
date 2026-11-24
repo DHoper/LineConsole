@@ -1,15 +1,15 @@
-import { axiosClient } from "@/libs/http/axiosClient";
 import { ApiResponse } from "@/features/common/types/api";
+import { axiosClient } from "@/libs/http/axiosClient";
+
 import {
+    CreateRichMenuInput,
     RichMenuIdResult,
     RichMenuListResult,
     RichMenuResult,
-    RichMenuWithImageResult,
-    CreateRichMenuInput
-} from "../types";
+    RichMenuWithImageResult} from "../types";
 
 const getBaseUrl = (lineOfficialAccountId: string) =>
-    `/api/accounts/${lineOfficialAccountId}/richmenu`;
+    `/accounts/${lineOfficialAccountId}/richmenu`;
 
 export const richMenuAPI = {
     list: async (

@@ -1,6 +1,6 @@
-namespace LineConsole.Server.Models.Api;
+ï»¿namespace LineConsole.Server.Models.Api;
 
 /// <summary>
-/// ªí¥Ü API ¦¨¥\¦ı¤£¦^¶Ç¸ê®Æ¤º®eªºªÅª«¥ó
+/// è¡¨ç¤º API æˆåŠŸä½†ä¸å›å‚³è³‡æ–™å…§å®¹çš„ç©ºç‰©ä»¶
 /// </summary>
 public record ApiEmptyResult;

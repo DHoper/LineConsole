@@ -1,24 +1,24 @@
-using LineConsole.Domain.Entities;
+ï»¿using LineConsole.Domain.Entities;
 
 namespace LineConsole.Application.UserProfiles.Interfaces;
 
 /// <summary>
-/// ¨Ï¥ÎªÌÂX¥R¸ê®Æªº¦s¨ú¤¶­±
+/// ä½¿ç”¨è€…æ“´å……è³‡æ–™çš„å­˜å–ä»‹é¢
 /// </summary>
 public interface IUserProfileRepository
 {
     /// <summary>
-    /// ·s¼W UserProfiles ¹êÅé
+    /// æ–°å¢ UserProfiles å¯¦é«”
     /// </summary>
     Task AddAsync(UserProfile user);
 
     /// <summary>
-    /// ®Ú¾Ú IdentityUser ªº¥DÁä ID ¬d¸ß UserProfiles
+    /// æ ¹æ“š IdentityUser çš„ä¸»éµ ID æŸ¥è©¢ UserProfiles
     /// </summary>
     Task<UserProfile?> FindByIdentityUserIdAsync(string identityUserId);
 
     /// <summary>
-    /// ®Ú¾Ú UserProfiles ªº ID §R°£¸ê®Æ
+    /// æ ¹æ“š UserProfiles çš„ ID åˆªé™¤è³‡æ–™
     /// </summary>
     Task DeleteAsync(Guid userProfileId);
 }

@@ -1,5 +1,6 @@
 ﻿using LineConsole.Application.RichMenus.Models;
 using LineConsole.Server.Models.Api;
+using LineConsole.Server.Models.Requests;
 using LineConsole.Application.RichMenus.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ public class RichMenuController : ControllerBase
     [Consumes("multipart/form-data")]
     public async Task<ActionResult<ApiResponse<RichMenuIdResult>>> CreateWithImageAsync(
         [FromRoute] Guid lineOfficialAccountId,
-        [FromForm] CreateRichMenuInput request,
+        [FromForm] CreateRichMenuRequest request,
         CancellationToken ct)
     {
         var richMenuDto = new RichMenuDTO

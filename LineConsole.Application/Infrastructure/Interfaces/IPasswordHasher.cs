@@ -1,13 +1,13 @@
-namespace LineConsole.Application.Infrastructure.Interfaces;
+ï»¿namespace LineConsole.Application.Infrastructure.Interfaces;
 
 /// <summary>
-/// ´£¨Ñ±K½XÂø´ê»PÅçÃÒªº¤¶­±
+/// æä¾›å¯†ç¢¼é›œæ¹Šèˆ‡é©—è­‰çš„ä»‹é¢
 /// </summary>
 public interface IPasswordHasher
 {
-    /// <summary>±N©ú¤å±K½XÂà´«¬°Âø´ê­È</summary>
+    /// <summary>å°‡æ˜æ–‡å¯†ç¢¼è½‰æ›ç‚ºé›œæ¹Šå€¼</summary>
     string Hash(string password);
 
-    /// <summary>ÅçÃÒ¨Ï¥ÎªÌ¿é¤Jªº±K½X¬O§_²Å¦XÂø´ê­È</summary>
+    /// <summary>é©—è­‰ä½¿ç”¨è€…è¼¸å…¥çš„å¯†ç¢¼æ˜¯å¦ç¬¦åˆé›œæ¹Šå€¼</summary>
     bool Verify(string hashedPassword, string providedPassword);
 }

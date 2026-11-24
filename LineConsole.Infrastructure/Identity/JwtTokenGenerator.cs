@@ -1,27 +1,26 @@
-using System.IdentityModel.Tokens.Jwt;
+ï»¿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using LineConsole.Application.Common.Interfaces;
+using LineConsole.Infrastructure.Identity;
 using AppJwtPayload = LineConsole.Application.Common.Models.JwtPayload;
 
 namespace LineConsole.Infrastructure.Security;
 
 /// <summary>
-/// ¨Ï¥Î JWT ¼Ğ·Ç²£¥Í Token¡A´O¤J¨¤¦â»P¥Î¤á¸ê°T
+/// ä½¿ç”¨ JWT æ¨™æº–ç”¢ç”Ÿ Tokenï¼ŒåµŒå…¥è§’è‰²èˆ‡ç”¨æˆ¶è³‡è¨Š
 /// </summary>
 public class JwtTokenGenerator : ITokenGenerator
 {
-    private readonly IConfiguration _configuration;
+    private readonly JwtSettings _settings;
 
-    public JwtTokenGenerator(IConfiguration configuration)
+    public JwtTokenGenerator(JwtSettings settings)
     {
-        _configuration = configuration;
+        _settings = settings;
     }
 
     /// <summary>
-    /// ²£¥Í JWT ¨Ã¦^¶Ç Token »P¹L´Á®É¶¡¡]Unix ¬í¡^
+    /// ç”¢ç”Ÿ JWT ä¸¦å›å‚³ Token èˆ‡éæœŸæ™‚é–“ï¼ˆUnix ç§’ï¼‰
     /// </summary>
     public (string Token, long ExpiresAt) GenerateToken(AppJwtPayload payload)
     {
@@ -32,21 +31,17 @@ public class JwtTokenGenerator : ITokenGenerator
             new(ClaimTypes.Role, payload.Role)
         };
 
-        var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
-
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var expires = DateTime.UtcNow.AddHours(2); // ¦Û­q¹L´Á®É¶¡
+        var credentials = new SigningCredentials(new SymmetricSecurityKey(_settings.Key), SecurityAlgorithms.HmacSha256);
+        var expires = DateTime.UtcNow.Add(_settings.Lifetime);
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+            issuer: _settings.Issuer,
+            audience: _settings.Audience,
             claims: claims,
             expires: expires,
-            signingCredentials: creds);
+            signingCredentials: credentials);
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-        var expiresAt = new DateTimeOffset(expires).ToUnixTimeSeconds(); // ? Âà¬° Unix ¬í
+        var expiresAt = new DateTimeOffset(expires).ToUnixTimeSeconds();
 
         return (tokenString, expiresAt);
     }

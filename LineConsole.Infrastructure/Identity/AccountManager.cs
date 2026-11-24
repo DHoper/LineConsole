@@ -3,7 +3,6 @@ using LineConsole.Application.Common.Models;
 using LineConsole.Application.UserProfiles.Interfaces;
 using LineConsole.Application.UserProfiles.Models;
 using LineConsole.Domain.Entities;
-using LineConsole.Server.Models.Api;
 using Microsoft.AspNetCore.Identity;
 
 namespace LineConsole.Infrastructure.Identity;

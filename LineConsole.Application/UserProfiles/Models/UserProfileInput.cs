@@ -1,9 +1,9 @@
-using LineConsole.Application.LineOfficialAccounts.Models;
+ï»¿using LineConsole.Application.LineOfficialAccounts.Models;
 
 namespace LineConsole.Application.UserProfiles.Models;
 
 /// <summary>
-/// «Ø¥ß¨Ï¥ÎªÌÂX¥R¸ê®Æªº½Ğ¨D
+/// å»ºç«‹ä½¿ç”¨è€…æ“´å……è³‡æ–™çš„è«‹æ±‚
 /// </summary>
 public class CreateUserProfileInput
 {
@@ -13,6 +13,6 @@ public class CreateUserProfileInput
     public string? AvatarUrl { get; set; }
     public string? OrganizationCode { get; set; }
 
-    /// <summary>­Y»İ­n¥ß§Y¸j©w¤@­Ó LINE ©x¤è±b¸¹¡A«h¶ñ¤J¦¹¸ê®Æ</summary>
+    /// <summary>è‹¥éœ€è¦ç«‹å³ç¶å®šä¸€å€‹ LINE å®˜æ–¹å¸³è™Ÿï¼Œå‰‡å¡«å…¥æ­¤è³‡æ–™</summary>
     public LineOfficialAccountCreateModel? LineAccount { get; set; }
 }

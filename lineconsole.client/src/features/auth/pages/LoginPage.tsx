@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { authAPI } from "@/features/auth/api/authAPI";
-import { useAuth } from "@/features/auth/stores/useAuth";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { authAPI } from "@/features/auth/api/authAPI";
+import { useAuth } from "@/features/auth/stores/useAuth";
 
 export default function LoginPage() {
     const navigate = useNavigate();

@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Identity;
+ï»¿using Microsoft.AspNetCore.Identity;
 
 namespace LineConsole.Infrastructure.Identity;
 
 /// <summary>
-/// ÂX¥R ASP.NET Identity ªº¨Ï¥ÎªÌ¼Ò«¬¡A¤ä´©«e«á¥x¦@¥Î±b¸¹¬[ºc
+/// æ“´å…… ASP.NET Identity çš„ä½¿ç”¨è€…æ¨¡å‹ï¼Œæ”¯æ´å‰å¾Œå°å…±ç”¨å¸³è™Ÿæ¶æ§‹
 /// </summary>
 public class ApplicationUser : IdentityUser
 {
-    /// <summary>±b¸¹Ãş«¬¡GUser = ¤@¯ë¨Ï¥ÎªÌ¡AAdmin = ºŞ²z­û</summary>
+    /// <summary>å¸³è™Ÿé¡å‹ï¼šUser = ä¸€èˆ¬ä½¿ç”¨è€…ï¼ŒAdmin = ç®¡ç†å“¡</summary>
     public string AccountType { get; set; } = "User";
 }

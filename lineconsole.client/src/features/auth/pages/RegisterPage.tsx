@@ -1,25 +1,24 @@
 // src/features/auth/pages/RegisterPage.tsx
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import * as yup from "yup";
 
-import { authAPI } from "@/features/auth/api/authAPI";
-import { RegisterInput } from "@/features/auth/types";
-
+import { Button } from "@/components/ui/button";
 import {
     Card,
+    CardContent,
     CardHeader,
     CardTitle,
-    CardContent,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { authAPI } from "@/features/auth/api/authAPI";
+import { RegisterInput } from "@/features/auth/types";
 
 // 表單欄位（UI 專用）
 interface RegisterFormData {

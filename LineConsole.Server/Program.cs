@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +20,7 @@ using LineConsole.Application.RichMenus.Interfaces;
 using LineConsole.Application.UserProfiles;
 using LineConsole.Application.UserProfiles.Interfaces;
 using LineConsole.Server.Middlewares;
+using LineConsole.Server.Security;
 using LineConsole.Application.LineOfficialAccounts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,20 +57,23 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 .AddSignInManager()
 .AddDefaultTokenProviders();
 
+// 簽發和驗證共用同一份設定；金鑰從環境變數 Jwt__Key 或 user-secrets 讀（不放 appsettings.json）
+var jwtSettings = JwtSettings.FromConfiguration(builder.Configuration, builder.Environment);
+builder.Services.AddSingleton(jwtSettings);
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        var jwt = builder.Configuration.GetSection("Jwt");
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = jwt["Issuer"],
+            ValidIssuer = jwtSettings.Issuer,
             ValidateAudience = true,
-            ValidAudience = jwt["Audience"],
+            ValidAudience = jwtSettings.Audience,
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!))
+            IssuerSigningKey = new SymmetricSecurityKey(jwtSettings.Key)
         };
         options.SaveToken = true;
     });
@@ -83,17 +86,12 @@ builder.Services.AddAuthorization(options =>
 });
 #endregion
 
-#region CORS（如需前後端分離）
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-    });
-});
-#endregion
-
 #region DI 注入
+
+// 目前的使用者（從 JWT 取）；官方帳號的存取控制
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, HttpCurrentUser>();
+builder.Services.AddScoped<IOfficialAccountAccess, OfficialAccountAccess>();
 
 // HTTP
 builder.Services.AddScoped<IExternalHttpClient, ExternalHttpClient>();
@@ -132,7 +130,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
 app.UseMiddleware<ApiExceptionMiddleware>();
 
 app.UseAuthentication(); 
@@ -143,7 +140,10 @@ app.MapFallbackToFile("/index.html");
 
 #endregion
 
-#region 初始化角色與預設管理員帳號 ✅
+if (jwtSettings.IsEphemeral)
+    app.Logger.LogWarning("沒有設定 Jwt:Key，開發環境先用暫時金鑰：重開程式後要重新登入。");
+
+#region 初始化角色（有設定 Seed:AdminEmail／AdminPassword 才建立管理員）
 
 using (var scope = app.Services.CreateScope())
 {

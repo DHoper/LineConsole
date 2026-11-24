@@ -10,10 +10,10 @@ import { richMenuAPI } from "../../api/richMenuAPI";
 import { useCreateRichMenuWithImage } from "../../api/useRichMenuMutation";
 import { useRichMenuById } from "../../api/useRichMenuQuery";
 import {
-    RichMenu,
     MenuAction,
     MenuArea,
     MenuSize,
+    RichMenu,
 } from "../../types";
 import { AreaConfigList } from "./AreaConfigList";
 import { ImageGridEditor } from "./ImageGridEditor";
@@ -59,7 +59,7 @@ export default function RichMenuEditor({
         if (!richMenuId) return;
         richMenuAPI
             .getImage(accessToken, richMenuId)
-            .then(setImageUrl)
+            .then((blob) => setImageUrl(URL.createObjectURL(blob)))
             .catch(() => toast.error("載入選單圖片失敗"));
     }, [accessToken, richMenuId]);
 
@@ -85,7 +85,12 @@ export default function RichMenuEditor({
         }
 
         createMutation.mutate(
-            { richMenu: menu, imageFile },
+            {
+                ...menu,
+                image: imageFile,
+                scheduleStart: menu.startTime,
+                scheduleEnd: menu.endTime,
+            },
             {
                 onSuccess: () => {
                     toast.success("選單已成功儲存");
@@ -164,7 +169,7 @@ export default function RichMenuEditor({
                         size={menu.size}
                         areas={menu.areas}
                         onAreaAdd={handleAddArea}
-                        onAreaRemove={(_, index) => handleRemoveArea(index)}
+                        onAreaRemove={handleRemoveArea}
                         onAreaClick={(area) => console.log("點擊區塊", area)}
                         onOverlap={() => toast.error("區塊與其他分區重疊，請重新劃分")}
                     />

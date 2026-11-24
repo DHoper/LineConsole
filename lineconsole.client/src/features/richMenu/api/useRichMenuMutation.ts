@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { ApiResponse } from "@/features/common/types/api";
+
 import {
-    RichMenuIdResult,
     CreateRichMenuInput,
+    RichMenuIdResult,
 } from "../types";
 import { richMenuAPI } from "./richMenuAPI";
 

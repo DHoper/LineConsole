@@ -4,6 +4,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
   { ignores: ["dist"] },
@@ -18,6 +19,11 @@ export default tseslint.config(
       "react-hooks": reactHooks,
       "react-refresh": reactRefresh,
       "simple-import-sort": simpleImportSort,
+      import: importPlugin,
+    },
+    settings: {
+      // 讓 import 規則看得懂 tsconfig 的 @/ 路徑別名
+      "import/resolver": { typescript: { project: "./tsconfig.app.json" } },
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
@@ -29,7 +35,7 @@ export default tseslint.config(
       "simple-import-sort/exports": "error",
       semi: ["error", "always"],
       indent: ["error", 4],
-      // 路徑限制規則
+      // 架構邊界：共用的 components、libs 等不可以反過來 import features（features 依賴共用層，不是反過來）
       "import/no-restricted-paths": [
         "error",
         {

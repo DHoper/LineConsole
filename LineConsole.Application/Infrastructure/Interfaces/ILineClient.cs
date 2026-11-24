@@ -1,4 +1,4 @@
-using System.IO;
+ï»¿using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 namespace LineConsole.Application.Infrastructure.Interfaces
 {
     /// <summary>
-    /// «Ê¸Ë»P LINE Messaging API ·¾³qªº³Ì§C¼h¯Å³q¥Î HTTP ½Ğ¨D¡]¤ä´©¦h±b¸¹ token¡^
+    /// å°è£èˆ‡ LINE Messaging API æºé€šçš„æœ€ä½å±¤ç´šé€šç”¨ HTTP è«‹æ±‚ï¼ˆæ”¯æ´å¤šå¸³è™Ÿ tokenï¼‰
     /// </summary>
     public interface ILineClient
     {
         /// <summary>
-        /// ¶Ç°e JSON ½Ğ¨D¨Ã¸ÑªR¬°«ü©w«¬§Oµ²ªG
+        /// å‚³é€ JSON è«‹æ±‚ä¸¦è§£æç‚ºæŒ‡å®šå‹åˆ¥çµæœ
         /// </summary>
-        /// <typeparam name="T">¹w´Áªº¦^¶Ç¸ê®Æ«¬§O</typeparam>
-        /// <param name="endpoint">LINE API ªº¬Û¹ï¸ô®|</param>
-        /// <param name="method">HTTP ¤èªk¡]POST ©Î GET¡^</param>
-        /// <param name="accessToken">·í«e¥Î¤áªº LINE Channel Access Token</param>
-        /// <param name="data">¶Ç°eªº¸ê®Æª«¥ó</param>
-        /// <param name="useDataDomain">¬O§_¤Á´«¦Ü api-data.line.me¡]¤W¶Ç¹Ï¤ù»İ³]©w¬° true¡^</param>
-        /// <param name="ct">¨ú®ø±±¨îÅv§ú</param>
+        /// <typeparam name="T">é æœŸçš„å›å‚³è³‡æ–™å‹åˆ¥</typeparam>
+        /// <param name="endpoint">LINE API çš„ç›¸å°è·¯å¾‘</param>
+        /// <param name="method">HTTP æ–¹æ³•ï¼ˆPOST æˆ– GETï¼‰</param>
+        /// <param name="accessToken">ç•¶å‰ç”¨æˆ¶çš„ LINE Channel Access Token</param>
+        /// <param name="data">å‚³é€çš„è³‡æ–™ç‰©ä»¶</param>
+        /// <param name="useDataDomain">æ˜¯å¦åˆ‡æ›è‡³ api-data.line.meï¼ˆä¸Šå‚³åœ–ç‰‡éœ€è¨­å®šç‚º trueï¼‰</param>
+        /// <param name="ct">å–æ¶ˆæ§åˆ¶æ¬Šæ–</param>
         Task<T?> SendJsonAsync<T>(
             string endpoint,
             HttpMethod method,
@@ -30,7 +30,7 @@ namespace LineConsole.Application.Infrastructure.Interfaces
         );
 
         /// <summary>
-        /// ¶Ç°e JSON ½Ğ¨D¡A¤£´Á«İ¦^¶Ç¸ê®Æ¡]¨Ò¦p validate¡Bset default µ¥¡^
+        /// å‚³é€ JSON è«‹æ±‚ï¼Œä¸æœŸå¾…å›å‚³è³‡æ–™ï¼ˆä¾‹å¦‚ validateã€set default ç­‰ï¼‰
         /// </summary>
         Task SendJsonAsync(
             string endpoint,
@@ -42,7 +42,7 @@ namespace LineConsole.Application.Infrastructure.Interfaces
         );
 
         /// <summary>
-        /// ¶Ç°e¦ê¬y¤º®e¡]¤W¶Ç¹Ï¤ù¦Ü Rich Menu ¥Î¡^
+        /// å‚³é€ä¸²æµå…§å®¹ï¼ˆä¸Šå‚³åœ–ç‰‡è‡³ Rich Menu ç”¨ï¼‰
         /// </summary>
         Task SendStreamAsync(
             string endpoint,
@@ -53,7 +53,7 @@ namespace LineConsole.Application.Infrastructure.Interfaces
         );
 
         /// <summary>
-        /// ¤U¸ü¹Ï¤ù¦ê¬y¡]¨ú±o Rich Menu ¹Ï¤ù¥Î¡^
+        /// ä¸‹è¼‰åœ–ç‰‡ä¸²æµï¼ˆå–å¾— Rich Menu åœ–ç‰‡ç”¨ï¼‰
         /// </summary>
         Task<Stream> GetStreamAsync(
             string endpoint,
@@ -62,9 +62,9 @@ namespace LineConsole.Application.Infrastructure.Interfaces
         );
 
         /// <summary>
-        /// µo¥X GET ½Ğ¨D¨Ã¸ÑªR JSON µ²ªG¬°«ü©w«¬§O
+        /// ç™¼å‡º GET è«‹æ±‚ä¸¦è§£æ JSON çµæœç‚ºæŒ‡å®šå‹åˆ¥
         /// </summary>
-        /// <typeparam name="T">¹w´Áªº¦^¶Ç¸ê®Æ«¬§O</typeparam>
+        /// <typeparam name="T">é æœŸçš„å›å‚³è³‡æ–™å‹åˆ¥</typeparam>
         Task<T?> GetJsonAsync<T>(
             string endpoint,
             string accessToken,
@@ -73,7 +73,7 @@ namespace LineConsole.Application.Infrastructure.Interfaces
         );
 
         /// <summary>
-        /// µo¥X DELETE ½Ğ¨D¡A¤£´Á«İ¦^¶Ç¤º®e
+        /// ç™¼å‡º DELETE è«‹æ±‚ï¼Œä¸æœŸå¾…å›å‚³å…§å®¹
         /// </summary>
         Task DeleteAsync(
             string endpoint,

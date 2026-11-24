@@ -1,15 +1,15 @@
-namespace LineConsole.Application.LineOfficialAccounts.Models;
+ï»¿namespace LineConsole.Application.LineOfficialAccounts.Models;
 
 /// <summary>
-/// «Ø¥ß LINE ©x¤è±b¸¹ªº¸ê®Æ¼Ò«¬
+/// å»ºç«‹ LINE å®˜æ–¹å¸³è™Ÿçš„è³‡æ–™æ¨¡å‹
 /// </summary>
 public class LineOfficialAccountCreateModel
 {
-    public string ChannelId { get; init; } = string.Empty;              // LINE Channel ID¡]°ß¤@ÃÑ§O¡^
+    public string ChannelId { get; init; } = string.Empty;              // LINE Channel IDï¼ˆå”¯ä¸€è­˜åˆ¥ï¼‰
 
-    public string ChannelSecret { get; init; } = string.Empty;          // ¥Î©ó webhook ÅçÃÒªº channel secret
+    public string ChannelSecret { get; init; } = string.Empty;          // ç”¨æ–¼ webhook é©—è­‰çš„ channel secret
 
     public string ChannelAccessToken { get; init; } = string.Empty;     // channel access token
 
-    public string ChannelName { get; init; } = string.Empty;            // LINE ©x¤è±b¸¹¦WºÙ
+    public string ChannelName { get; init; } = string.Empty;            // LINE å®˜æ–¹å¸³è™Ÿåç¨±
 }

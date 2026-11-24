@@ -17,7 +17,7 @@ namespace LineConsole.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("ProductVersion", "10.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -41,6 +41,7 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnName("channel_id");
 
                     b.Property<string>("ChannelName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("channel_name");
@@ -239,6 +240,7 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnName("created_at");
 
                     b.Property<string>("DisplayName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
                         .HasColumnName("display_name");

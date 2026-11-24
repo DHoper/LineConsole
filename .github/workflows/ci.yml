@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main, revamp]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest   # Linux 分大小寫：專案參考路徑寫錯在這裡會直接失敗
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: lineconsole.client/package-lock.json
+
+      - name: 前端：安裝
+        working-directory: lineconsole.client
+        run: npm ci
+
+      - name: 前端：lint
+        working-directory: lineconsole.client
+        run: npm run lint
+
+      - name: 前端：建置（含型別檢查）
+        working-directory: lineconsole.client
+        run: npm run build
+
+      - name: 後端：還原工具（dotnet-ef）
+        run: dotnet tool restore
+
+      - name: 後端：建置
+        run: dotnet build LineConsole.sln -c Release
+
+      - name: 後端：測試
+        run: dotnet test --solution LineConsole.sln -c Release --no-build
+
+      - name: 資料庫：migration 跟模型一致
+        run: dotnet ef migrations has-pending-model-changes -p LineConsole.Infrastructure -s LineConsole.Server --configuration Release --no-build   # 注意：dotnet ef 的 -c 是 DbContext，不是組態

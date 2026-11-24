@@ -1,4 +1,4 @@
-using LineConsole.Application.Exceptions;
+ï»¿using LineConsole.Application.Exceptions;
 using LineConsole.Application.Infrastructure.Interfaces;
 using LineConsole.Infrastructure.Http;
 using Microsoft.Extensions.Logging;
@@ -8,7 +8,7 @@ using System.Text.Json;
 namespace LineConsole.Infrastructure.ExternalClients;
 
 /// <summary>
-/// «Ê¸Ë»P LINE API ªº©Ò¦³ HTTP ½Ğ¨D¡A¤ä´©¦h±b¸¹¡BJSON¡B¦ê¬y¡B¦Û°Ê¤Á´«ºô°ì
+/// å°è£èˆ‡ LINE API çš„æ‰€æœ‰ HTTP è«‹æ±‚ï¼Œæ”¯æ´å¤šå¸³è™Ÿã€JSONã€ä¸²æµã€è‡ªå‹•åˆ‡æ›ç¶²åŸŸ
 /// </summary>
 public class LineClient : ILineClient
 {
@@ -45,8 +45,8 @@ public class LineClient : ILineClient
         }
         catch (HttpRequestException ex) when (ex.StatusCode is not null)
         {
-            _logger.LogError(ex, "LINE API ½Ğ¨D¥¢±Ñ¡G{Method} {Url}¡A¸ê®Æ¡G{Data}", method, url, JsonSerializer.Serialize(data, _jsonOptions));
-            throw new LineApiException("LINE API ¦^¶Ç¿ù»~", ex.StatusCode!.Value, ex.Message, ex);
+            _logger.LogError(ex, "LINE API è«‹æ±‚å¤±æ•—ï¼š{Method} {Url}ï¼Œè³‡æ–™ï¼š{Data}", method, url, JsonSerializer.Serialize(data, _jsonOptions));
+            throw new LineApiException("LINE API å›å‚³éŒ¯èª¤", ex.StatusCode!.Value, ex.Message, ex);
         }
     }
 
@@ -72,8 +72,8 @@ public class LineClient : ILineClient
         }
         catch (HttpRequestException ex) when (ex.StatusCode is not null)
         {
-            _logger.LogError(ex, "LINE API ½Ğ¨D¥¢±Ñ¡G{Method} {Url}¡A¸ê®Æ¡G{Data}", method, url, JsonSerializer.Serialize(data, _jsonOptions));
-            throw new LineApiException("LINE API ¦^¶Ç¿ù»~", ex.StatusCode!.Value, ex.Message, ex);
+            _logger.LogError(ex, "LINE API è«‹æ±‚å¤±æ•—ï¼š{Method} {Url}ï¼Œè³‡æ–™ï¼š{Data}", method, url, JsonSerializer.Serialize(data, _jsonOptions));
+            throw new LineApiException("LINE API å›å‚³éŒ¯èª¤", ex.StatusCode!.Value, ex.Message, ex);
         }
     }
 
@@ -88,8 +88,8 @@ public class LineClient : ILineClient
         }
         catch (HttpRequestException ex) when (ex.StatusCode is not null)
         {
-            _logger.LogError(ex, "LINE API ¤W¶Ç¦ê¬y¥¢±Ñ¡G{Url}", url);
-            throw new LineApiException("LINE API ¤W¶Ç¿ù»~", ex.StatusCode!.Value, ex.Message, ex);
+            _logger.LogError(ex, "LINE API ä¸Šå‚³ä¸²æµå¤±æ•—ï¼š{Url}", url);
+            throw new LineApiException("LINE API ä¸Šå‚³éŒ¯èª¤", ex.StatusCode!.Value, ex.Message, ex);
         }
     }
 
@@ -104,8 +104,8 @@ public class LineClient : ILineClient
         }
         catch (HttpRequestException ex) when (ex.StatusCode is not null)
         {
-            _logger.LogError(ex, "LINE API ¤U¸ü¦ê¬y¥¢±Ñ¡G{Url}", url);
-            throw new LineApiException("LINE API ¤U¸ü¿ù»~", ex.StatusCode!.Value, ex.Message, ex);
+            _logger.LogError(ex, "LINE API ä¸‹è¼‰ä¸²æµå¤±æ•—ï¼š{Url}", url);
+            throw new LineApiException("LINE API ä¸‹è¼‰éŒ¯èª¤", ex.StatusCode!.Value, ex.Message, ex);
         }
     }
 
@@ -120,8 +120,8 @@ public class LineClient : ILineClient
         }
         catch (HttpRequestException ex) when (ex.StatusCode is not null)
         {
-            _logger.LogError(ex, "LINE API GET ½Ğ¨D¥¢±Ñ¡G{Url}", url);
-            throw new LineApiException("LINE API Åª¨ú¿ù»~", ex.StatusCode!.Value, ex.Message, ex);
+            _logger.LogError(ex, "LINE API GET è«‹æ±‚å¤±æ•—ï¼š{Url}", url);
+            throw new LineApiException("LINE API è®€å–éŒ¯èª¤", ex.StatusCode!.Value, ex.Message, ex);
         }
     }
 
@@ -136,8 +136,8 @@ public class LineClient : ILineClient
         }
         catch (HttpRequestException ex) when (ex.StatusCode is not null)
         {
-            _logger.LogError(ex, "LINE API §R°£¥¢±Ñ¡G{Url}", url);
-            throw new LineApiException("LINE API §R°£¿ù»~", ex.StatusCode!.Value, ex.Message, ex);
+            _logger.LogError(ex, "LINE API åˆªé™¤å¤±æ•—ï¼š{Url}", url);
+            throw new LineApiException("LINE API åˆªé™¤éŒ¯èª¤", ex.StatusCode!.Value, ex.Message, ex);
         }
     }
 

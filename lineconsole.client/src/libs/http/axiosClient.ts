@@ -4,25 +4,41 @@ import axios, {
     AxiosInstance,
     InternalAxiosRequestConfig
 } from 'axios';
-import { useAuthStore } from '@/features/auth/stores/authStore';
+
 import { handleError } from '@/libs/utils/handleError';
 
+/**
+ * 登入狀態的掛勾，由 auth 功能在啟動時註冊（見 features/auth/setupAuth.ts）。
+ * 共用層（libs）不 import features：依賴方向是 features → libs，不是反過來。
+ */
+export interface AuthHooks {
+    getToken: () => string | null;
+    onUnauthorized: () => void;
+}
+
+let authHooks: AuthHooks = {
+    getToken: () => null,
+    onUnauthorized: () => {},
+};
+
+export function registerAuthHooks(hooks: AuthHooks) {
+    authHooks = hooks;
+}
+
 const axiosClient: AxiosInstance = axios.create({
-    baseURL: "/api", 
+    baseURL: '/api',
     timeout: 10000,
 });
 
 axiosClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        const token = useAuthStore.getState().token;
+        const token = authHooks.getToken();
 
         if (token) {
-            if (config.headers instanceof AxiosHeaders) {
-                config.headers.set('Authorization', `Bearer ${token}`);
-            } else {
+            if (!(config.headers instanceof AxiosHeaders)) {
                 config.headers = new AxiosHeaders();
-                config.headers.set('Authorization', `Bearer ${token}`);
             }
+            config.headers.set('Authorization', `Bearer ${token}`);
         }
 
         return config;
@@ -32,15 +48,12 @@ axiosClient.interceptors.request.use(
     }
 );
 
-// 統一處理 401/403 或其他錯誤
+// 401＝沒登入或 token 過期：登出回登入頁。403（權限不足）不登出，只顯示錯誤。
 axiosClient.interceptors.response.use(
     async (response) => response,
     async (error: AxiosError) => {
-        const status = error.response?.status;
-
-        if (status === 401 || status === 403) {
-            useAuthStore.getState().logout();
-            window.location.href = '/auth/login';
+        if (error.response?.status === 401) {
+            authHooks.onUnauthorized();
         }
 
         handleError(error);

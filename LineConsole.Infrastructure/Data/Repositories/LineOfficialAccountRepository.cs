@@ -30,6 +30,14 @@ public class LineOfficialAccountRepository : ILineOfficialAccountRepository
         return token;
     }
 
+    public async Task<string?> FindAccessTokenForOwnerAsync(Guid lineOfficialAccountId, string identityUserId, CancellationToken ct = default)
+    {
+        return await _db.LineOfficialAccounts
+            .Where(x => x.Id == lineOfficialAccountId && x.UserProfile!.IdentityUserId == identityUserId)
+            .Select(x => x.ChannelAccessToken)
+            .FirstOrDefaultAsync(ct);
+    }
+
     public async Task AddAsync(LineOfficialAccount account, CancellationToken ct = default)
     {
         var entity = new LineOfficialAccountEntity

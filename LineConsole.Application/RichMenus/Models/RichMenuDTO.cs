@@ -1,73 +1,73 @@
-namespace LineConsole.Application.RichMenus.Models;
+ï»¿namespace LineConsole.Application.RichMenus.Models;
 
 /// <summary>
-/// «Ø¥ß©ÎÅçÃÒ Rich Menu µ²ºc¥Îªº¸ê®Æ¼Ò«¬¡]¶Çµ¹ LINE API¡^
+/// å»ºç«‹æˆ–é©—è­‰ Rich Menu çµæ§‹ç”¨çš„è³‡æ–™æ¨¡å‹ï¼ˆå‚³çµ¦ LINE APIï¼‰
 /// </summary>
 public record RichMenuDTO
 {
-    public MenuSize Size { get; init; } = default!; // ¿ï³æ¤Ø¤o¡]¼e x °ª¡^
+    public MenuSize Size { get; init; } = default!; // é¸å–®å°ºå¯¸ï¼ˆå¯¬ x é«˜ï¼‰
 
-    public bool Selected { get; init; } // ¬O§_¬°¹w³]¿ï³æ
+    public bool Selected { get; init; } // æ˜¯å¦ç‚ºé è¨­é¸å–®
 
-    public string Name { get; init; } = string.Empty; // ¿ï³æ¦WºÙ
+    public string Name { get; init; } = string.Empty; // é¸å–®åç¨±
 
-    public string ChatBarText { get; init; } = string.Empty; // Chat bar ´£¥Ü¤å¦r
+    public string ChatBarText { get; init; } = string.Empty; // Chat bar æç¤ºæ–‡å­—
 
-    public List<MenuArea> Areas { get; init; } = new(); // ÂIÀ»°Ï°ì²M³æ
+    public List<MenuArea> Areas { get; init; } = new(); // é»æ“Šå€åŸŸæ¸…å–®
 
-    public DateTime? StartTime { get; init; } // ±Æµ{°_©l®É¶¡
-    public DateTime? EndTime { get; init; }   // ±Æµ{µ²§ô®É¶¡
+    public DateTime? StartTime { get; init; } // æ’ç¨‹èµ·å§‹æ™‚é–“
+    public DateTime? EndTime { get; init; }   // æ’ç¨‹çµæŸæ™‚é–“
 
 }
 
 /// <summary>
-/// Rich Menu ¤Ø¤o¸ê°T
+/// Rich Menu å°ºå¯¸è³‡è¨Š
 /// </summary>
 public record MenuSize
 {
-    public int Width { get; init; } // ¼e«×
+    public int Width { get; init; } // å¯¬åº¦
 
-    public int Height { get; init; } // °ª«×
+    public int Height { get; init; } // é«˜åº¦
 }
 
 /// <summary>
-/// ÂIÀ»°Ï°ì°Ï¶ô©w¸q
+/// é»æ“Šå€åŸŸå€å¡Šå®šç¾©
 /// </summary>
 public record MenuArea
 {
-    public MenuBounds Bounds { get; init; } = default!; // ÂIÀ»®y¼Ğ½d³ò
+    public MenuBounds Bounds { get; init; } = default!; // é»æ“Šåº§æ¨™ç¯„åœ
 
-    public MenuAction Action { get; init; } = default!; // ÂIÀ»«á°õ¦æªº¦æ¬°
+    public MenuAction Action { get; init; } = default!; // é»æ“Šå¾ŒåŸ·è¡Œçš„è¡Œç‚º
 }
 
 /// <summary>
-/// ÂIÀ»°Ï¶ô®y¼Ğ½d³ò
+/// é»æ“Šå€å¡Šåº§æ¨™ç¯„åœ
 /// </summary>
 public record MenuBounds
 {
-    public int X { get; init; } // ¥ª¤W¨¤ X ®y¼Ğ
+    public int X { get; init; } // å·¦ä¸Šè§’ X åº§æ¨™
 
-    public int Y { get; init; } // ¥ª¤W¨¤ Y ®y¼Ğ
+    public int Y { get; init; } // å·¦ä¸Šè§’ Y åº§æ¨™
 
-    public int Width { get; init; } // ¼e«×
+    public int Width { get; init; } // å¯¬åº¦
 
-    public int Height { get; init; } // °ª«×
+    public int Height { get; init; } // é«˜åº¦
 }
 
 /// <summary>
-/// ÂIÀ»¦æ¬°©w¸q¡]¨Ì LINE API ³W®æ¡^
+/// é»æ“Šè¡Œç‚ºå®šç¾©ï¼ˆä¾ LINE API è¦æ ¼ï¼‰
 /// </summary>
 public record MenuAction
 {
-    public string Type { get; init; } = string.Empty; // ¦æ¬°Ãş«¬¡]¦p postback¡Buri¡Bmessage µ¥¡^
+    public string Type { get; init; } = string.Empty; // è¡Œç‚ºé¡å‹ï¼ˆå¦‚ postbackã€uriã€message ç­‰ï¼‰
 
-    public string? Text { get; init; } // ­Y¬° message¡A©Ò­nÅã¥Üªº¤å¦r
+    public string? Text { get; init; } // è‹¥ç‚º messageï¼Œæ‰€è¦é¡¯ç¤ºçš„æ–‡å­—
 
-    public string? Data { get; init; } // ­Y¬° postback¡A©Ò­n°e¥Xªº data
+    public string? Data { get; init; } // è‹¥ç‚º postbackï¼Œæ‰€è¦é€å‡ºçš„ data
 
-    public string? Uri { get; init; } // ­Y¬° uri¡A¶}±Òªººô§}
+    public string? Uri { get; init; } // è‹¥ç‚º uriï¼Œé–‹å•Ÿçš„ç¶²å€
 
-    public string? RichMenuAliasId { get; init; } // ­Y¬° richmenuswitch¡A¤Á´«ªº§O¦W ID
+    public string? RichMenuAliasId { get; init; } // è‹¥ç‚º richmenuswitchï¼Œåˆ‡æ›çš„åˆ¥å ID
 
-    public string? Datetime { get; init; } // ­Y¬° datetimepicker¡AISO ®æ¦¡®É¶¡¦r¦ê
+    public string? Datetime { get; init; } // è‹¥ç‚º datetimepickerï¼ŒISO æ ¼å¼æ™‚é–“å­—ä¸²
 }

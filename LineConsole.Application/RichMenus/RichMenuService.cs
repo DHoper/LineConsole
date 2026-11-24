@@ -13,16 +13,16 @@ namespace LineConsole.Application.RichMenus;
 public class RichMenuService : IRichMenuService
 {
     private readonly ILineClient _lineClient;
-    private readonly ILineOfficialAccountRepository _accountRepo;
+    private readonly IOfficialAccountAccess _accountAccess;
     private readonly IRichMenuRepository _richMenuRepo;
 
     public RichMenuService(
         ILineClient lineClient,
-        ILineOfficialAccountRepository accountRepo,
+        IOfficialAccountAccess accountAccess,
         IRichMenuRepository richMenuRepo)
     {
         _lineClient = lineClient;
-        _accountRepo = accountRepo;
+        _accountAccess = accountAccess;
         _richMenuRepo = richMenuRepo;
     }
 
@@ -33,7 +33,7 @@ public class RichMenuService : IRichMenuService
         string contentType,
         CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
 
         var result = await _lineClient.SendJsonAsync<RichMenuIdResult>(
             "/v2/bot/richmenu", HttpMethod.Post, token, richMenu, ct: ct);
@@ -101,19 +101,19 @@ public class RichMenuService : IRichMenuService
 
     public async Task ValidateRichMenuAsync(Guid lineOfficialAccountId, RichMenuDTO richMenu, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         await _lineClient.SendJsonAsync("/v2/bot/richmenu/validate", HttpMethod.Post, token, richMenu, ct: ct);
     }
 
     public async Task<Stream> DownloadRichMenuImageAsync(Guid lineOfficialAccountId, string richMenuId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         return await _lineClient.GetStreamAsync($"/v2/bot/richmenu/{richMenuId}/content", token, ct);
     }
 
     public async Task<RichMenuListResult> GetRichMenuListAsync(Guid lineOfficialAccountId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         var result = await _lineClient.GetJsonAsync<RichMenuListResult>("/v2/bot/richmenu/list", token, ct: ct);
 
         if (result is null)
@@ -124,7 +124,7 @@ public class RichMenuService : IRichMenuService
 
     public async Task<List<RichMenuWithImageResult>> GetRichMenuListWithPreviewImageAsync(Guid lineOfficialAccountId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         var rawList = await GetRichMenuListAsync(lineOfficialAccountId, ct);
         var result = new List<RichMenuWithImageResult>();
 
@@ -162,7 +162,7 @@ public class RichMenuService : IRichMenuService
 
     public async Task<RichMenuResult> GetRichMenuByIdAsync(Guid lineOfficialAccountId, string richMenuId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         var result = await _lineClient.GetJsonAsync<RichMenuResult>(
             $"/v2/bot/richmenu/{richMenuId}", token, ct: ct);
 
@@ -174,7 +174,7 @@ public class RichMenuService : IRichMenuService
 
     public async Task DeleteRichMenuAsync(Guid lineOfficialAccountId, string richMenuId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         await _lineClient.DeleteAsync($"/v2/bot/richmenu/{richMenuId}", token, ct);
 
         if (Guid.TryParse(richMenuId, out var id))
@@ -183,14 +183,14 @@ public class RichMenuService : IRichMenuService
 
     public async Task SetDefaultRichMenuAsync(Guid lineOfficialAccountId, string richMenuId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         await _lineClient.SendJsonAsync(
             $"/v2/bot/user/all/richmenu/{richMenuId}", HttpMethod.Post, token, data: null, ct: ct);
     }
 
     public async Task<RichMenuIdResult> GetDefaultRichMenuAsync(Guid lineOfficialAccountId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         var result = await _lineClient.GetJsonAsync<RichMenuIdResult>(
             "/v2/bot/user/all/richmenu", token, ct: ct);
 
@@ -202,7 +202,7 @@ public class RichMenuService : IRichMenuService
 
     public async Task ClearDefaultRichMenuAsync(Guid lineOfficialAccountId, CancellationToken ct = default)
     {
-        var token = await _accountRepo.GetAccessTokenAsync(lineOfficialAccountId, ct);
+        var token = await _accountAccess.GetAccessTokenAsync(lineOfficialAccountId, ct);
         await _lineClient.DeleteAsync("/v2/bot/user/all/richmenu", token, ct);
     }
 }

@@ -1,17 +1,17 @@
-using System.Net;
+ï»¿using System.Net;
 using System.Text.Json;
 
 namespace LineConsole.Application.Exceptions;
 
 /// <summary>
-/// ªí¥Ü»P LINE API ·¾³q®Éµo¥Íªº¿ù»~¡AÄâ±a HTTP ª¬ºA½X»P¦^¶Ç¤º®e
+/// è¡¨ç¤ºèˆ‡ LINE API æºé€šæ™‚ç™¼ç”Ÿçš„éŒ¯èª¤ï¼Œæ”œå¸¶ HTTP ç‹€æ…‹ç¢¼èˆ‡å›å‚³å…§å®¹
 /// </summary>
 public class LineApiException : Exception
 {
     public HttpStatusCode StatusCode { get; }
     public string ResponseContent { get; }
 
-    /// <summary>±q LINE ¦^¶Ç¤º®e¸ÑªR¥Xªº¿ù»~°T®§¡]­Y®æ¦¡¦Xªk¡^</summary>
+    /// <summary>å¾ LINE å›å‚³å…§å®¹è§£æå‡ºçš„éŒ¯èª¤è¨Šæ¯ï¼ˆè‹¥æ ¼å¼åˆæ³•ï¼‰</summary>
     public string? ParsedMessage { get; }
 
     public LineApiException(string message, HttpStatusCode statusCode, string responseContent)
@@ -39,7 +39,7 @@ public class LineApiException : Exception
         }
         catch
         {
-            return null; // «D JSON ®æ¦¡©ÎµL message Äæ¦ì
+            return null; // é JSON æ ¼å¼æˆ–ç„¡ message æ¬„ä½
         }
     }
 }

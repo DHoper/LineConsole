@@ -1,6 +1,5 @@
 import { X } from "lucide-react";
 import { MouseEvent, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import type { MenuArea, MenuBounds, MenuSize } from "../../types";
 
@@ -83,7 +82,6 @@ export function ImageGridEditor({
                 onOverlap?.();
             } else {
                 onAreaAdd({
-                    id: uuidv4(),
                     bounds: newBounds,
                     action: { type: "none" },
                 });
@@ -137,21 +135,21 @@ export function ImageGridEditor({
             })()}
 
             {/* 既有區塊渲染 */}
-            {areas.map((area) => (
+            {areas.map((area, index) => (
                 <div
                     key={`${area.bounds.x}-${area.bounds.y}-${area.bounds.width}-${area.bounds.height}`}
                     className="absolute border-2 border-red-500 bg-red-500/20 z-20 cursor-pointer"
                     style={getAreaStyle(area)}
                     onClick={(e) => {
                         e.stopPropagation();
-                        if ("id" in area) onAreaClick?.(area as MenuArea & { id: string });
+                        onAreaClick?.(area);
                     }}
                 >
                     <button
                         className="absolute top-0 right-0 bg-white text-red-600 rounded-bl px-1 py-0.5"
                         onClick={(e) => {
                             e.stopPropagation();
-                            if ("id" in area) onAreaRemove((area as { id: string }).id);
+                            onAreaRemove(index);
                         }}
                     >
                         <X className="w-3 h-3" />

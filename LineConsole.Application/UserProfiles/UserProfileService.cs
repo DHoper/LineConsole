@@ -1,15 +1,14 @@
-using LineConsole.Application.UserProfiles.Interfaces;
+ï»¿using LineConsole.Application.UserProfiles.Interfaces;
 using LineConsole.Application.UserProfiles.Models;
 using LineConsole.Application.LineOfficialAccounts.Interfaces;
 using LineConsole.Application.LineOfficialAccounts.Models;
 using LineConsole.Domain.Entities;
 using LineConsole.Application.Common.Models;
-using LineConsole.Server.Models.Api;
 
 namespace LineConsole.Application.UserProfiles;
 
 /// <summary>
-/// ´£¨Ñ¨Ï¥ÎªÌÂX¥R¸ê®Æªºµù¥U¡B¬d¸ß¡B§R°£µ¥À³¥Î¼hÅŞ¿è¡]«D±b¸¹µn¤J¡^
+/// æä¾›ä½¿ç”¨è€…æ“´å……è³‡æ–™çš„è¨»å†Šã€æŸ¥è©¢ã€åˆªé™¤ç­‰æ‡‰ç”¨å±¤é‚è¼¯ï¼ˆéå¸³è™Ÿç™»å…¥ï¼‰
 /// </summary>
 public class UserProfileService : IUserProfileService
 {
@@ -25,7 +24,7 @@ public class UserProfileService : IUserProfileService
     }
 
     /// <summary>
-    /// µù¥U·sªº UserProfile ¨Ã¸j©w LINE ©x¤è±b¸¹¡]IdentityUser ­è«Ø¥ß§¹¦¨«á©I¥s¡^
+    /// è¨»å†Šæ–°çš„ UserProfile ä¸¦ç¶å®š LINE å®˜æ–¹å¸³è™Ÿï¼ˆIdentityUser å‰›å»ºç«‹å®Œæˆå¾Œå‘¼å«ï¼‰
     /// </summary>
     public async Task<CreateUserProfileResult> RegisterAsync(CreateUserProfileInput input)
     {
@@ -54,7 +53,7 @@ public class UserProfileService : IUserProfileService
     }
 
     /// <summary>
-    /// ®Ú¾Ú IdentityUserId ¬d¸ß¨Ï¥ÎªÌÂX¥R¸ê®Æ¡]¤£¥]§t LINE ©x¤è±b¸¹¡^
+    /// æ ¹æ“š IdentityUserId æŸ¥è©¢ä½¿ç”¨è€…æ“´å……è³‡æ–™ï¼ˆä¸åŒ…å« LINE å®˜æ–¹å¸³è™Ÿï¼‰
     /// </summary>
     public async Task<UserProfileDTO?> GetByIdentityUserIdAsync(string identityUserId)
     {
@@ -74,7 +73,7 @@ public class UserProfileService : IUserProfileService
     }
 
     /// <summary>
-    /// §R°£«ü©wªº UserProfile ¸ê®Æ
+    /// åˆªé™¤æŒ‡å®šçš„ UserProfile è³‡æ–™
     /// </summary>
     public async Task DeleteAsync(Guid userProfileId)
     {
@@ -82,7 +81,7 @@ public class UserProfileService : IUserProfileService
     }
 
     /// <summary>
-    /// ¦^¶Ç§¹¾ã¨Ï¥ÎªÌ¸Ô²Ó¸ê®Æ¡]§t LINE ©x¤è±b¸¹²M³æ¡^¡A¨ÑÀ³¥Î¼h²Õ¸Ë¨Ï¥Î
+    /// å›å‚³å®Œæ•´ä½¿ç”¨è€…è©³ç´°è³‡æ–™ï¼ˆå« LINE å®˜æ–¹å¸³è™Ÿæ¸…å–®ï¼‰ï¼Œä¾›æ‡‰ç”¨å±¤çµ„è£ä½¿ç”¨
     /// </summary>
     public async Task<UserProfileDetails?> GetDetailsByIdentityUserIdAsync(string identityUserId)
     {

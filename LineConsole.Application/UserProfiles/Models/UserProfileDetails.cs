@@ -1,21 +1,21 @@
-using LineConsole.Application.LineOfficialAccounts.Models;
+ï»¿using LineConsole.Application.LineOfficialAccounts.Models;
 
 namespace LineConsole.Application.UserProfiles.Models;
 
 /// <summary>
-/// ¨Ï¥ÎªÌ¸Ô²Ó¸ê®Æ¡]§t¸j©wªº LINE ©x¤è±b¸¹²M³æ¡^
+/// ä½¿ç”¨è€…è©³ç´°è³‡æ–™ï¼ˆå«ç¶å®šçš„ LINE å®˜æ–¹å¸³è™Ÿæ¸…å–®ï¼‰
 /// </summary>
 public record class UserProfileDetails
 {
-    /// <summary>UserProfile ¥DÁä</summary>
+    /// <summary>UserProfile ä¸»éµ</summary>
     public Guid UserProfileId { get; init; }
 
-    /// <summary>IdentityUser ªº Id</summary>
+    /// <summary>IdentityUser çš„ Id</summary>
     public string IdentityUserId { get; init; } = string.Empty;
 
-    /// <summary>Åã¥Ü¦WºÙ</summary>
+    /// <summary>é¡¯ç¤ºåç¨±</summary>
     public string DisplayName { get; init; } = string.Empty;
 
-    /// <summary>¸j©wªº LINE ©x¤è±b¸¹²M³æ</summary>
+    /// <summary>ç¶å®šçš„ LINE å®˜æ–¹å¸³è™Ÿæ¸…å–®</summary>
     public List<LineOfficialAccountViewModel> LineAccounts { get; init; } = new();
 }

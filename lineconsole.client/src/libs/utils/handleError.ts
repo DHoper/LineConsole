@@ -1,9 +1,10 @@
 import type { AxiosError } from "axios";
 import { toast } from "sonner";
 
+/** 後端 ApiResponse 失敗時的格式：{ success: false, error: { code, message } } */
 interface ErrorResponse {
+    error?: { code?: string; message?: string }
     message?: string
-    details?: unknown
 }
 
 /**
@@ -26,8 +27,9 @@ export function handleError(error: unknown) {
     if ((error as AxiosError).isAxiosError) {
         const axiosErr = error as AxiosError<ErrorResponse>;
         const data = axiosErr.response?.data;
-        if (data?.message) {
-            message = data.message;
+        const serverMessage = data?.error?.message ?? data?.message;
+        if (serverMessage) {
+            message = serverMessage;
         }
     }
 

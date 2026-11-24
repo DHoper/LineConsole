@@ -1,11 +1,11 @@
-using System.Net.Http.Headers;
+ï»¿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
 namespace LineConsole.Infrastructure.Http;
 
 /// <summary>
-/// ¥~³¡ API ©I¥s¹ê§@¡A²Î¤@«Ê¸Ë HttpClient ¥Î©ó»P²Ä¤T¤è¨t²Î·¾³q
+/// å¤–éƒ¨ API å‘¼å«å¯¦ä½œï¼Œçµ±ä¸€å°è£ HttpClient ç”¨æ–¼èˆ‡ç¬¬ä¸‰æ–¹ç³»çµ±æºé€š
 /// </summary>
 public class ExternalHttpClient : IExternalHttpClient
 {
@@ -106,7 +106,7 @@ public class ExternalHttpClient : IExternalHttpClient
 
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
         throw new HttpRequestException(
-            $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}¡A¤º®e¡G{content}",
+            $"HTTP {(int)response.StatusCode} {response.ReasonPhrase}ï¼Œå…§å®¹ï¼š{content}",
             null,
             response.StatusCode);
     }

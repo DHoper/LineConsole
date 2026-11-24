@@ -1,6 +1,7 @@
-import { axiosClient } from "@/libs/http/axiosClient";
 import { ApiResponse } from "@/features/common/types/api";
-import { RegisterInput, LoginInput, LoginResult } from "../types";
+import { axiosClient } from "@/libs/http/axiosClient";
+
+import { LoginInput, LoginResult,RegisterInput } from "../types";
 
 /** 提供註冊與登入的 API 呼叫函式 */
 export const authAPI = {

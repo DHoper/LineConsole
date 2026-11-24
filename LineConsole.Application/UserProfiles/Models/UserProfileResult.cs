@@ -1,9 +1,9 @@
-namespace LineConsole.Application.UserProfiles.Models
+﻿namespace LineConsole.Application.UserProfiles.Models
 {
-    /// <summary>�إߨϥΪ̫᪺�^�ǵ��G</summary>
+    /// <summary>建立使用者後的回傳結果</summary>
     public record class CreateUserProfileResult
     {
-        /// <summary>�s�إߪ��ϥΪ� ID</summary>
+        /// <summary>新建立的使用者 ID</summary>
         public Guid Id { get; init; }
     }
 }

@@ -1,0 +1,20 @@
+# 統一編碼：曾經有一批檔案是 Big5，用 UTF-8 打開註解會變亂碼（11-24 已全部轉成 UTF-8）
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.cs]
+charset = utf-8-bom
+indent_style = space
+indent_size = 4
+
+[*.{ts,tsx,js}]
+indent_style = space
+indent_size = 4
+
+[*.{json,yml,yaml,csproj,props}]
+indent_style = space
+indent_size = 2

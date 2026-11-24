@@ -1,29 +1,29 @@
-using LineConsole.Application.UserProfiles.Models;
+ï»¿using LineConsole.Application.UserProfiles.Models;
 
 namespace LineConsole.Application.UserProfiles.Interfaces;
 
 /// <summary>
-/// ¨Ï¥ÎªÌªA°È¤¶­±¡A©w¸q¨Ï¥ÎªÌ¬ÛÃöªº·~°È¾Ş§@¡]«D±b¸¹µn¤J¡^
+/// ä½¿ç”¨è€…æœå‹™ä»‹é¢ï¼Œå®šç¾©ä½¿ç”¨è€…ç›¸é—œçš„æ¥­å‹™æ“ä½œï¼ˆéå¸³è™Ÿç™»å…¥ï¼‰
 /// </summary>
 public interface IUserProfileService
 {
     /// <summary>
-    /// µù¥U·s¨Ï¥ÎªÌÂX¥R¸ê®Æ¡A­Y¿é¤J¤¤¥]§t LINE ©x¤è±b¸¹¸ê®Æ¡A«h¤@¨Ö«Ø¥ß
+    /// è¨»å†Šæ–°ä½¿ç”¨è€…æ“´å……è³‡æ–™ï¼Œè‹¥è¼¸å…¥ä¸­åŒ…å« LINE å®˜æ–¹å¸³è™Ÿè³‡æ–™ï¼Œå‰‡ä¸€ä½µå»ºç«‹
     /// </summary>
     Task<CreateUserProfileResult> RegisterAsync(CreateUserProfileInput input);
 
     /// <summary>
-    /// ®Ú¾Ú Identity ¨Ï¥ÎªÌ ID ¬d¸ßÂX¥R¸ê®Æ¡]¤£§tÃöÁp¸ê®Æ¡^
+    /// æ ¹æ“š Identity ä½¿ç”¨è€… ID æŸ¥è©¢æ“´å……è³‡æ–™ï¼ˆä¸å«é—œè¯è³‡æ–™ï¼‰
     /// </summary>
     Task<UserProfileDTO?> GetByIdentityUserIdAsync(string identityUserId);
 
     /// <summary>
-    /// ¦^¶Ç§¹¾ãªº¨Ï¥ÎªÌ¸Ô²Ó¸ê®Æ¡]§t LINE ©x¤è±b¸¹µ¥ÃöÁp¸ê®Æ¡^
+    /// å›å‚³å®Œæ•´çš„ä½¿ç”¨è€…è©³ç´°è³‡æ–™ï¼ˆå« LINE å®˜æ–¹å¸³è™Ÿç­‰é—œè¯è³‡æ–™ï¼‰
     /// </summary>
     Task<UserProfileDetails?> GetDetailsByIdentityUserIdAsync(string identityUserId);
 
     /// <summary>
-    /// §R°£«ü©w¨Ï¥ÎªÌÂX¥R¸ê®Æ
+    /// åˆªé™¤æŒ‡å®šä½¿ç”¨è€…æ“´å……è³‡æ–™
     /// </summary>
     Task DeleteAsync(Guid userProfileId);
 }

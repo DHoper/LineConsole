@@ -1,14 +1,14 @@
-using LineConsole.Application.Common.Models;
+ï»¿using LineConsole.Application.Common.Models;
 
 namespace LineConsole.Application.Common.Interfaces;
 
 /// <summary>
-/// ©w¸q²£¥X JWT Token ªº¥\¯à¤¶­±
+/// å®šç¾©ç”¢å‡º JWT Token çš„åŠŸèƒ½ä»‹é¢
 /// </summary>
 public interface ITokenGenerator
 {
     /// <summary>
-    /// ®Ú¾Úµ¹©wªº¨Ï¥ÎªÌ¸ê°T²£¥X JWT Token »P¹L´Á®É¶¡¡]Unix ¬í¡^
+    /// æ ¹æ“šçµ¦å®šçš„ä½¿ç”¨è€…è³‡è¨Šç”¢å‡º JWT Token èˆ‡éæœŸæ™‚é–“ï¼ˆUnix ç§’ï¼‰
     /// </summary>
     (string Token, long ExpiresAt) GenerateToken(JwtPayload payload);
 }

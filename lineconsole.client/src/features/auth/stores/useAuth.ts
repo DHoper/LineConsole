@@ -1,4 +1,5 @@
 import { useStore } from "zustand";
+
 import { useAuthStore } from "@/features/auth/stores/authStore";
 
 export const useAuth = () => {

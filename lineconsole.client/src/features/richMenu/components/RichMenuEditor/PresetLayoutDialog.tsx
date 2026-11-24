@@ -23,11 +23,15 @@ interface Preset {
   size: MenuSize;
 }
 
+// LINE 圖文選單常用的兩種尺寸
+const FULL: MenuSize = { width: 2500, height: 1686 };
+const HALF: MenuSize = { width: 2500, height: 843 };
+
 const presets: Preset[] = [
-    { label: "6欄 1列", columns: 6, rows: 1, size: "2500x843" },
-    { label: "3欄 2列", columns: 3, rows: 2, size: "2500x1686" },
-    { label: "2欄 2列", columns: 2, rows: 2, size: "2500x1686" },
-    { label: "1欄 6列", columns: 1, rows: 6, size: "2500x1686" },
+    { label: "6欄 1列", columns: 6, rows: 1, size: HALF },
+    { label: "3欄 2列", columns: 3, rows: 2, size: FULL },
+    { label: "2欄 2列", columns: 2, rows: 2, size: FULL },
+    { label: "1欄 6列", columns: 1, rows: 6, size: FULL },
 ];
 
 interface Props {
@@ -43,7 +47,7 @@ export function PresetLayoutDialog({ trigger, onApply }: Props) {
         rows: number,
         size: MenuSize
     ): RichMenuAreaWithId[] => {
-        const [width, height] = size.split("x").map(Number);
+        const { width, height } = size;
         const cellWidth = Math.round(width / cols);
         const cellHeight = Math.round(height / rows);
 
@@ -74,8 +78,8 @@ export function PresetLayoutDialog({ trigger, onApply }: Props) {
     };
 
     const handleFreeDraw = () => {
-    // 自由劃分畫布為 2500x1686
-        onApply([], "2500x1686");
+        // 自由劃分：畫布 2500x1686
+        onApply([], FULL);
         setOpen(false);
     };
 
@@ -93,7 +97,7 @@ export function PresetLayoutDialog({ trigger, onApply }: Props) {
                             className="justify-start"
                             onClick={() => handleSelectPreset(preset)}
                         >
-                            {preset.label}（{preset.columns}x{preset.rows}） - {preset.size}
+                            {preset.label}（{preset.columns}x{preset.rows}） - {preset.size.width}x{preset.size.height}
                         </Button>
                     ))}
                 </div>

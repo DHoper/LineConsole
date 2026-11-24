@@ -1,13 +1,14 @@
 import { Bell, Check, ChevronDown, LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuTrigger,
     DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/stores/useAuth";
 import { cn } from "@/libs/ui/utils";
 

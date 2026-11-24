@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 
 import ComingSoon from '@/components/ComingSoon';
 import MainLayout from '@/layouts/MainLayout';
+
 import RequireAuth from './RequireAuth'; 
 
 const RichMenuList = lazy(() => import('@/features/richMenu/pages/RichMenuListPage'));
