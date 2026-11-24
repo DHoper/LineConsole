@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authAPI } from "@/features/auth/api/authAPI";
 import { useAuth } from "@/features/auth/stores/useAuth";
+import { useSystemInfo } from "@/features/system/api/systemAPI";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -16,6 +17,8 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const { data: system } = useSystemInfo();
+    const demo = system?.demoAccount;
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -32,7 +35,7 @@ export default function LoginPage() {
 
                 toast.success("登入成功");
                 
-                navigate("/dashboard");
+                navigate("/rich-menu");
             } else {
                 toast.error(res.error?.message ?? "登入失敗");
             }
@@ -56,6 +59,24 @@ export default function LoginPage() {
                 </CardHeader>
 
                 <CardContent className="pt-4 space-y-6">
+                    {demo && (
+                        <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 space-y-2">
+                            <p className="font-medium">展示模式：不需要 LINE 帳號，用展示帳號登入即可</p>
+                            <p className="font-mono text-xs">{demo.email} ／ {demo.password}</p>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    setEmail(demo.email);
+                                    setPassword(demo.password);
+                                }}
+                                disabled={loading}
+                            >
+                                帶入展示帳號
+                            </Button>
+                        </div>
+                    )}
+
                     <div className="space-y-2">
                         <Label htmlFor="email">電子郵件</Label>
                         <Input

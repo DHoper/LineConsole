@@ -1,7 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 
 namespace LineConsole.Infrastructure.Identity;
 
@@ -19,10 +18,11 @@ public sealed class JwtSettings
     public required string Audience { get; init; }
     public TimeSpan Lifetime { get; init; } = TimeSpan.FromHours(2);
 
-    /// <summary>沒有設定金鑰、在開發環境自動產生的暫時金鑰（重開程式後舊的 token 會失效）</summary>
+    /// <summary>沒有設定金鑰、自動產生的暫時金鑰（重開程式後舊的 token 會失效）</summary>
     public bool IsEphemeral { get; init; }
 
-    public static JwtSettings FromConfiguration(IConfiguration configuration, IHostEnvironment environment)
+    /// <param name="allowEphemeral">沒設定金鑰時可不可以自動產生（開發環境、展示模式可以；正式環境不行）</param>
+    public static JwtSettings FromConfiguration(IConfiguration configuration, bool allowEphemeral)
     {
         var section = configuration.GetSection("Jwt");
         var configured = section["Key"];
@@ -35,7 +35,7 @@ public sealed class JwtSettings
             if (key.Length < MinKeyBytes)
                 throw new InvalidOperationException($"Jwt:Key 太短：至少要 {MinKeyBytes} 個位元組（HS256）。");
         }
-        else if (environment.IsDevelopment())
+        else if (allowEphemeral)
         {
             key = RandomNumberGenerator.GetBytes(MinKeyBytes);
             ephemeral = true;

@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <UserSecretsId>9aa4f273-398f-4175-a018-8be813fe44dc</UserSecretsId>
-    <SpaRoot>..\lineconsole.client</SpaRoot>
+    <!-- 前端：開發時 dev 啟動設定會用 SpaProxy 開 Vite（熱更新）；其他時候由後端直接提供 wwwroot 裡建置好的前端 -->
+    <SpaRoot>..\lineconsole.client\</SpaRoot>
     <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:54781</SpaProxyServerUrl>
   </PropertyGroup>
@@ -19,11 +20,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\lineconsole.client\lineconsole.client.esproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
     <ProjectReference Include="..\LineConsole.Infrastructure\LineConsole.Infrastructure.csproj" />
     <ProjectReference Include="..\LineConsole.Application\LineConsole.Application.csproj" />
   </ItemGroup>
+
+  <!--
+    一行指令啟動（dotnet run）：還沒有建置過前端時，先自動建置到 wwwroot（需要 Node）。
+    之後改前端請用 npm run dev（熱更新），或重新 npm run build。
+    Docker、CI 會先另外建好前端，傳 -p:SkipSpaBuild=true 跳過這一步。
+  -->
+  <Target Name="BuildSpaIfMissing" BeforeTargets="BeforeBuild"
+          Condition="'$(SkipSpaBuild)' != 'true' And !Exists('$(MSBuildProjectDirectory)\wwwroot\index.html')">
+    <Message Importance="high" Text="第一次執行：建置前端到 wwwroot（npm ci、npm run build），大約需要一分鐘…" />
+    <Exec Command="npm ci --no-audit --no-fund" WorkingDirectory="$(SpaRoot)" Condition="!Exists('$(SpaRoot)node_modules')" />
+    <Exec Command="npm run build" WorkingDirectory="$(SpaRoot)" />
+  </Target>
 
 </Project>

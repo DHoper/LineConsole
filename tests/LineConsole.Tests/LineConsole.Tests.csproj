@@ -12,11 +12,14 @@
   <ItemGroup>
     <PackageReference Include="xunit.v3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\LineConsole.Application\LineConsole.Application.csproj" />
     <ProjectReference Include="..\..\LineConsole.Infrastructure\LineConsole.Infrastructure.csproj" />
+    <!-- 整合測試啟動整個 API；前端另外建置，這裡不觸發 npm -->
+    <ProjectReference Include="..\..\LineConsole.Server\LineConsole.Server.csproj" AdditionalProperties="SkipSpaBuild=true" />
   </ItemGroup>
 
 </Project>

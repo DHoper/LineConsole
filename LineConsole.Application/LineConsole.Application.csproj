@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- 應用層：只依賴領域層，不依賴 ASP.NET（上傳檔案這類 HTTP 細節留在 Server） -->
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\LineConsole.Domain\LineConsole.Domain.csproj" />
   </ItemGroup>
 </Project>

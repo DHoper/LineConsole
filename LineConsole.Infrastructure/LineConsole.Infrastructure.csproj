@@ -7,10 +7,15 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Extensions.Hosting" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 展示模式的圖文選單圖片 -->
+    <EmbeddedResource Include="Demo\Images\*.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LineConsole.Application\LineConsole.Application.csproj" />

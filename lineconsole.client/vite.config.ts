@@ -73,5 +73,10 @@ export default defineConfig(({ command }) => ({
             '@': fileURLToPath(new URL('./src', import.meta.url)),
         },
     },
+    // 建置到後端的 wwwroot：由後端直接提供前端，一個程式、一個網址（同源，不需要 CORS）
+    build: {
+        outDir: '../LineConsole.Server/wwwroot',
+        emptyOutDir: true,
+    },
     server: command === 'serve' ? devServer() : undefined,
 }));

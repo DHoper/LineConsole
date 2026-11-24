@@ -1,0 +1,48 @@
+# 一鍵啟動（展示模式，不需要任何帳號）：
+#   docker compose up --build        → http://localhost:8080
+#
+# 正式模式（SQL Server＋真的 LINE 官方帳號）：
+#   1. 複製 .env.example 成 .env，填好密碼和 JWT 金鑰
+#   2. docker compose --profile live up --build   → http://localhost:8081
+services:
+  app:
+    build: .
+    image: lineconsole:latest
+    ports:
+      - "8080:8080"
+    environment:
+      LineConsole__Mode: Demo
+
+  db:
+    profiles: [live]
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD:-}
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  app-live:
+    profiles: [live]
+    image: lineconsole:latest
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+    environment:
+      LineConsole__Mode: Live
+      ConnectionStrings__DefaultConnection: "Server=db;Database=LineConsole;User Id=sa;Password=${MSSQL_SA_PASSWORD:-};TrustServerCertificate=True"
+      Jwt__Key: ${JWT_KEY:-}
+      Seed__AdminEmail: ${ADMIN_EMAIL:-}
+      Seed__AdminPassword: ${ADMIN_PASSWORD:-}
+
+volumes:
+  mssql-data:

@@ -1,30 +1,20 @@
-**/.classpath
-**/.dockerignore
-**/.env
+# 建置內容只需要原始碼：各種建置產物、套件、版控資料都不送進 Docker
 **/.git
-**/.gitignore
-**/.project
-**/.settings
-**/.toolstarget
 **/.vs
 **/.vscode
-**/*.*proj.user
-**/*.dbmdl
-**/*.jfm
-**/azds.yaml
+**/.idea
 **/bin
-**/charts
-**/docker-compose*
-**/Dockerfile*
-**/node_modules
-**/npm-debug.log
 **/obj
-**/secrets.dev.yaml
-**/values.dev.yaml
-LICENSE
-README.md
-!**/.gitignore
-!.git/HEAD
-!.git/config
-!.git/packed-refs
-!.git/refs/heads/**
+**/node_modules
+**/log
+**/*.user
+**/.env
+**/npm-debug.log
+# 前端會在映像檔裡重新建置
+LineConsole.Server/wwwroot
+# 測試、文件不進映像檔
+tests
+docs
+*.md
+Dockerfile
+docker-compose*.yml

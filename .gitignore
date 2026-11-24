@@ -45,6 +45,12 @@ LineConsole.Server/appsettings.Development.json
 LineConsole.Server/appsettings.Local.json
 LineConsole.Server/appsettings.*.json
 
+# 前端建置到後端的 wwwroot（Vite outDir），不進版控
+LineConsole.Server/wwwroot/
+
+# docker compose 的 live 模式設定（含密碼）；範本是 .env.example
+/.env
+
 # docker build 產物（若有）
 *.tar
 *.dockerfile.bak

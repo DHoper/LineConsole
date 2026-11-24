@@ -1,7 +1,5 @@
 ﻿using LineConsole.Infrastructure.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
 
 namespace LineConsole.Tests.Security;
 
@@ -18,7 +16,7 @@ public class JwtSettingsTests
     [Fact]
     public void 有設定金鑰_就用設定的()
     {
-        var settings = JwtSettings.FromConfiguration(Config(new string('k', 40)), new FakeEnv(Environments.Production));
+        var settings = JwtSettings.FromConfiguration(Config(new string('k', 40)), allowEphemeral: false);
         Assert.Equal(40, settings.Key.Length);
         Assert.False(settings.IsEphemeral);
     }
@@ -26,21 +24,21 @@ public class JwtSettingsTests
     [Fact]
     public void 正式環境沒設金鑰_不能啟動()
     {
-        var ex = Assert.Throws<InvalidOperationException>(() => JwtSettings.FromConfiguration(Config(null), new FakeEnv(Environments.Production)));
+        var ex = Assert.Throws<InvalidOperationException>(() => JwtSettings.FromConfiguration(Config(null), allowEphemeral: false));
         Assert.Contains("Jwt__Key", ex.Message);
     }
 
     [Fact]
     public void 金鑰太短_不能啟動()
     {
-        Assert.Throws<InvalidOperationException>(() => JwtSettings.FromConfiguration(Config("too-short"), new FakeEnv(Environments.Production)));
+        Assert.Throws<InvalidOperationException>(() => JwtSettings.FromConfiguration(Config("too-short"), allowEphemeral: false));
     }
 
     [Fact]
-    public void 開發環境沒設金鑰_自動產生暫時金鑰()
+    public void 開發環境或展示模式沒設金鑰_自動產生暫時金鑰()
     {
-        var a = JwtSettings.FromConfiguration(Config(null), new FakeEnv(Environments.Development));
-        var b = JwtSettings.FromConfiguration(Config(null), new FakeEnv(Environments.Development));
+        var a = JwtSettings.FromConfiguration(Config(null), allowEphemeral: true);
+        var b = JwtSettings.FromConfiguration(Config(null), allowEphemeral: true);
         Assert.True(a.IsEphemeral);
         Assert.Equal(JwtSettings.MinKeyBytes, a.Key.Length);
         Assert.NotEqual(a.Key, b.Key);
@@ -52,13 +50,5 @@ public class JwtSettingsTests
         var path = Path.Combine(RepoRoot.Path, "LineConsole.Server", "appsettings.json");
         var config = new ConfigurationBuilder().AddJsonFile(path).Build();
         Assert.True(string.IsNullOrEmpty(config["Jwt:Key"]), "appsettings.json 不可以放 Jwt:Key");
-    }
-
-    private sealed class FakeEnv(string name) : IHostEnvironment
-    {
-        public string EnvironmentName { get; set; } = name;
-        public string ApplicationName { get; set; } = "LineConsole.Tests";
-        public string ContentRootPath { get; set; } = AppContext.BaseDirectory;
-        public IFileProvider ContentRootFileProvider { get; set; } = new NullFileProvider();
     }
 }

@@ -9,6 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCurrentAccount, useCurrentAccountStore } from "@/features/accounts/stores/currentAccount";
 import { useAuth } from "@/features/auth/stores/useAuth";
 import { cn } from "@/libs/ui/utils";
 
@@ -24,7 +25,8 @@ export default function TheHeader() {
     const { user, logout, isExpired } = useAuth();
 
     const isAuthenticated = !!user && !isExpired();
-    const currentChannel = user?.lineAccounts?.[0];
+    const currentChannel = useCurrentAccount();
+    const setAccountId = useCurrentAccountStore((s) => s.setAccountId);
 
     const handleLogout = () => {
         logout();
@@ -64,7 +66,7 @@ export default function TheHeader() {
                                 return (
                                     <DropdownMenuItem
                                         key={account.id}
-                                        onClick={() => console.log("切換帳號", account.channelName)}
+                                        onClick={() => setAccountId(account.id)}
                                         className={cn(
                                             "flex items-center justify-between px-3 py-2 rounded-md cursor-pointer",
                                             isActive && "bg-muted"

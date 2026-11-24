@@ -10,7 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { useCurrentAccount } from "@/features/accounts/stores/currentAccount";
 
 import { richMenuAPI } from "../api/richMenuAPI";
 import {
@@ -28,28 +28,20 @@ import RichMenuEditor from "../components/RichMenuEditor";
 import { RichMenu } from "../types";
 
 export default function RichMenuListPage() {
-    const [inputToken, setInputToken] = useState("");
-    const [confirmedToken, setConfirmedToken] = useState("");
+    const account = useCurrentAccount();
+    const accountId = account?.id ?? "";
     const [dialogOpen, setDialogOpen] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editingImage, setEditingImage] = useState<string>("");
     const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
-    const { data, isLoading, isError } = useRichMenuList(confirmedToken);
-    const { data: defaultMenu } = useDefaultRichMenu(confirmedToken, !!confirmedToken);
-    const { data: editingData } = useRichMenuById(confirmedToken, editingId || "", !!editingId);
+    const { data, isLoading, isError } = useRichMenuList(accountId);
+    const { data: defaultMenu } = useDefaultRichMenu(accountId, !!accountId);
+    const { data: editingData } = useRichMenuById(accountId, editingId || "", !!editingId);
 
-    const deleteMutation = useDeleteRichMenu(confirmedToken);
-    const setDefaultMutation = useSetDefaultRichMenu(confirmedToken);
-    const clearDefaultMutation = useClearDefaultRichMenu(confirmedToken);
-
-    const handleConfirmToken = () => {
-        if (!inputToken.trim()) {
-            toast.error("請輸入有效的 Access Token");
-            return;
-        }
-        setConfirmedToken(inputToken.trim());
-    };
+    const deleteMutation = useDeleteRichMenu(accountId);
+    const setDefaultMutation = useSetDefaultRichMenu(accountId);
+    const clearDefaultMutation = useClearDefaultRichMenu(accountId);
 
     const handleToggleDefault = (id: string) => {
         const currentId = defaultMenu?.data?.richMenuId;
@@ -75,7 +67,7 @@ export default function RichMenuListPage() {
 
     const handleEdit = async (id: string) => {
         try {
-            const blob = await richMenuAPI.getImage(confirmedToken, id);
+            const blob = await richMenuAPI.getImage(accountId, id);
             const reader = new FileReader();
 
             reader.onloadend = () => {
@@ -98,24 +90,18 @@ export default function RichMenuListPage() {
         <div className="p-6 space-y-6 max-w-6xl mx-auto">
             <div className="space-y-4">
                 <h1 className="text-2xl font-bold">圖文選單管理</h1>
-                <div className="flex gap-2">
-                    <Input
-                        placeholder="請輸入 LINE Channel Access Token"
-                        value={inputToken}
-                        onChange={(e) => setInputToken(e.target.value)}
-                        className="w-full md:w-1/2"
-                    />
-                    <Button onClick={handleConfirmToken}>確認</Button>
-                </div>
+                {account && (
+                    <p className="text-sm text-muted-foreground">官方帳號：{account.channelName}</p>
+                )}
             </div>
 
             <div className="pt-6 space-y-4">
-                {!confirmedToken ? (
-                    <p className="text-sm text-gray-500">請輸入 Access Token 並按下「確認」以查詢圖文選單</p>
+                {!accountId ? (
+                    <p className="text-sm text-gray-500">還沒有綁定 LINE 官方帳號</p>
                 ) : isLoading ? (
                     <p>載入中...</p>
                 ) : isError ? (
-                    <p className="text-red-500">載入失敗，請確認 Token 是否正確</p>
+                    <p className="text-red-500">載入失敗，請稍後再試</p>
                 ) : (
                     <>
                         <div className="flex justify-end">
@@ -137,7 +123,7 @@ export default function RichMenuListPage() {
                                         <DialogTitle>{isEditing ? "編輯選單" : "新增圖文選單"}</DialogTitle>
                                     </DialogHeader>
                                     <RichMenuEditor
-                                        accessToken={confirmedToken}
+                                        accessToken={accountId}
                                         initialData={editingData?.data as RichMenu}
                                         initialImageUrl={editingImage}
                                         onSuccess={() => setDialogOpen(false)}

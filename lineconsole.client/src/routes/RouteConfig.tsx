@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { Navigate, RouteObject } from 'react-router-dom';
 
 import ComingSoon from '@/components/ComingSoon';
 import MainLayout from '@/layouts/MainLayout';
@@ -32,6 +32,7 @@ export const routes: RouteObject[] = [
             {
                 element: <MainLayout />, // 主畫面框架（Sidebar, Header 等）
                 children: [
+                    { index: true, element: <Navigate to="/rich-menu" replace /> },
                     { path: 'dashboard', element: <ComingSoon /> },
 
                     // 好友管理
