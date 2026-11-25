@@ -14,6 +14,9 @@ namespace LineConsole.Domain.Entities
         /// <summary>所屬 LINE 官方帳號 ID</summary>
         public Guid LineOfficialAccountId { get; init; }
 
+        /// <summary>LINE 上的圖文選單 ID（richmenu-…）。本地 ID 是自己產生的 GUID，兩個要分開存</summary>
+        public string LineRichMenuId { get; init; } = string.Empty;
+
         /// <summary>選單名稱（使用者自訂）</summary>
         public string Name { get; init; } = string.Empty;
 
@@ -43,6 +46,7 @@ namespace LineConsole.Domain.Entities
         /// </summary>
         public static RichMenu Create(
             Guid lineOfficialAccountId,
+            string lineRichMenuId,
             string name,
             string chatBarText,
             bool selected,
@@ -54,6 +58,7 @@ namespace LineConsole.Domain.Entities
             {
                 Id = Guid.NewGuid(),
                 LineOfficialAccountId = lineOfficialAccountId,
+                LineRichMenuId = lineRichMenuId,
                 Name = name,
                 ChatBarText = chatBarText,
                 Selected = selected,

@@ -22,7 +22,8 @@ public sealed class DemoModeTests : IClassFixture<DemoModeTests.DemoApp>
     public sealed class DemoApp : WebApplicationFactory<Program>
     {
         protected override void ConfigureWebHost(Microsoft.AspNetCore.Hosting.IWebHostBuilder builder) =>
-            builder.UseSetting("LineConsole:Mode", "Demo");
+            builder.UseSetting("LineConsole:Mode", "Demo")
+                .UseSetting("LineConsole:Scheduler:Enabled", "false");   // 測試自己控制時間，不讓背景服務照真實時間跑
     }
 
     private static CancellationToken Ct => TestContext.Current.CancellationToken;

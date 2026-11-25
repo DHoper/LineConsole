@@ -4,6 +4,7 @@ import { ApiResponse } from "@/features/common/types/api";
 
 import {
     CreateRichMenuInput,
+    CreateRichMenuScheduleInput,
     RichMenuIdResult,
 } from "../types";
 import { richMenuAPI } from "./richMenuAPI";
@@ -25,6 +26,24 @@ export const useCreateRichMenuWithImage = (lineOfficialAccountId: string) => {
     });
 };
 
+// 建立排程
+export const useCreateSchedule = (lineOfficialAccountId: string) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (input: CreateRichMenuScheduleInput) => richMenuAPI.createSchedule(lineOfficialAccountId, input),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["line-richmenu-schedules", lineOfficialAccountId] }),
+    });
+};
+
+// 取消排程
+export const useCancelSchedule = (lineOfficialAccountId: string) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (scheduleId: string) => richMenuAPI.cancelSchedule(lineOfficialAccountId, scheduleId),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["line-richmenu-schedules", lineOfficialAccountId] }),
+    });
+};
+
 // 刪除 Rich Menu
 export const useDeleteRichMenu = (lineOfficialAccountId: string) => {
     const queryClient = useQueryClient();
@@ -33,6 +52,7 @@ export const useDeleteRichMenu = (lineOfficialAccountId: string) => {
         mutationFn: (richMenuId) => richMenuAPI.delete(lineOfficialAccountId, richMenuId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["line-richmenus", lineOfficialAccountId] });
+            queryClient.invalidateQueries({ queryKey: ["line-richmenu-schedules", lineOfficialAccountId] });   // 選單的排程也一起刪了
         },
     });
 };

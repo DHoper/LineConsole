@@ -10,7 +10,9 @@ using LineConsole.Infrastructure.Demo.FakeLine;
 using LineConsole.Infrastructure.ExternalClients;
 using LineConsole.Infrastructure.Http;
 using LineConsole.Infrastructure.Identity;
+using LineConsole.Infrastructure.Scheduling;
 using LineConsole.Infrastructure.Security;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, AppMode mode)
     {
         services.AddSingleton(new RuntimeInfo(mode));
+        services.AddSingleton(TimeProvider.System);
 
         if (mode == AppMode.Demo)
         {
@@ -62,6 +65,12 @@ public static class DependencyInjection
             .AddSignInManager()
             .AddDefaultTokenProviders();
 
+        // 加密官方帳號憑證用的金鑰存在資料庫：容器重開、換機器都還解得開
+        services.AddDataProtection()
+            .SetApplicationName("LineConsole")
+            .PersistKeysToDbContext<ApplicationDbContext>();
+        services.AddSingleton<CredentialProtector>();
+
         services.AddScoped<IAccountManager, AccountManager>();
         services.AddScoped<ITokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IPasswordHasher, PasswordHasherAdapter>();
@@ -70,6 +79,10 @@ public static class DependencyInjection
         services.AddScoped<ILineOfficialAccountRepository, LineOfficialAccountRepository>();
         services.AddScoped<IRichMenuRepository, RichMenuRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+        services.AddScoped<IRichMenuScheduleRepository, RichMenuScheduleRepository>();
+
+        // 背景服務：定時處理到期的圖文選單排程
+        services.AddHostedService<RichMenuScheduleWorker>();
 
         return services;
     }

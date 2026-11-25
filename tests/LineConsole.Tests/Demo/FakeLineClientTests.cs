@@ -56,6 +56,22 @@ public class FakeLineClientTests
     }
 
     [Fact]
+    public async Task 區塊的動作不是LINE支援的類型_回400()
+    {
+        var menu = Menu() with { Areas = [new MenuArea { Bounds = new MenuBounds { X = 0, Y = 0, Width = 2500, Height = 1686 }, Action = new MenuAction { Type = "none" } }] };
+        var ex = await Assert.ThrowsAsync<LineApiException>(() =>
+            _line.SendJsonAsync<RichMenuIdResult>("/v2/bot/richmenu", HttpMethod.Post, "t", menu, ct: Ct));
+        Assert.Contains("invalid action", ex.ParsedMessage);
+    }
+
+    [Fact]
+    public async Task 失效的Token_LINE回401()
+    {
+        var ex = await Assert.ThrowsAsync<LineApiException>(() => _line.GetJsonAsync<RichMenuListResult>("/v2/bot/richmenu/list", "invalid-token", ct: Ct));
+        Assert.Equal(HttpStatusCode.Unauthorized, ex.StatusCode);
+    }
+
+    [Fact]
     public async Task 刪除不存在的選單_回404()
     {
         var ex = await Assert.ThrowsAsync<LineApiException>(() => _line.DeleteAsync("/v2/bot/richmenu/richmenu-0123abcd", "t", Ct));

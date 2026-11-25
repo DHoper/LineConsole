@@ -28,6 +28,9 @@ public class LineOfficialAccount
     /// <summary>LINE Channel Secret，用於驗證 webhook</summary>
     public string ChannelSecret { get; set; } = string.Empty;
 
+    /// <summary>LINE 的 @ID（例如 @123abcde），新增時向 LINE 查到的；查不到是 null</summary>
+    public string? BasicId { get; set; }
+
     /// <summary>建立時間（UTC）</summary>
     public DateTime CreatedAt { get; init; }
 

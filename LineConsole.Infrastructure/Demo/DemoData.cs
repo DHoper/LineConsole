@@ -12,7 +12,10 @@ public static class DemoData
 
     public sealed record Area(int X, int Y, int Width, int Height, string Type, string? Text = null, string? Uri = null);
 
-    public sealed record Menu(string Image, string Name, string ChatBarText, int Width, int Height, bool IsDefault, Area[] Areas);
+    /// <summary>排程：啟動後幾分鐘開始、持續幾分鐘</summary>
+    public sealed record Schedule(int StartAfterMinutes, int DurationMinutes);
+
+    public sealed record Menu(string Image, string Name, string ChatBarText, int Width, int Height, bool IsDefault, Area[] Areas, Schedule? Schedule = null);
 
     public sealed record Account(string ChannelName, string ChannelId, string AccessToken, string ChannelSecret, Menu[] Menus);
 
@@ -31,11 +34,12 @@ public static class DemoData
                 new(833, Half, 833, Half, "uri", Uri: "https://example.com/store"),
                 new(1666, Half, 834, Half, "message", Text: "聯絡客服"),
             ]),
+            // 啟動 2 分鐘後自動換成週年慶選單，10 分鐘後還原成主選單：展示時開著畫面就看得到排程生效
             new("cafe-anniversary", "週年慶活動選單", "週年慶開跑", W, Half, IsDefault: false,
             [
                 new(0, 0, 1250, Half, "message", Text: "週年慶"),
                 new(1250, 0, 1250, Half, "message", Text: "抽獎活動"),
-            ]),
+            ], Schedule: new(StartAfterMinutes: 2, DurationMinutes: 10)),
             new("cafe-member", "會員專區選單", "會員專區", W, H, IsDefault: false,
             [
                 new(0, 0, 1250, H, "uri", Uri: "https://example.com/member"),
@@ -57,7 +61,7 @@ public static class DemoData
                 new(0, 0, 833, Half, "uri", Uri: "https://example.com/sale"),
                 new(833, 0, 833, Half, "message", Text: "免運門檻"),
                 new(1666, 0, 834, Half, "message", Text: "滿額贈"),
-            ]),
+            ], Schedule: new(StartAfterMinutes: 7 * 24 * 60, DurationMinutes: 3 * 24 * 60)),
         ]),
     ];
 }

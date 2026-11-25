@@ -29,10 +29,4 @@ public class CreateRichMenuRequest
     /// <summary>圖片檔案（JPEG/PNG）</summary>
     [Required]
     public IFormFile Image { get; init; } = null!;
-
-    /// <summary>排程開始時間（選填）</summary>
-    public DateTime? ScheduleStart { get; init; }
-
-    /// <summary>排程結束時間（選填）</summary>
-    public DateTime? ScheduleEnd { get; init; }
 }

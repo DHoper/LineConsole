@@ -52,7 +52,7 @@ public class RichMenuAreaEntity
     public string ActionType { get; set; } = string.Empty;
 
     /// <summary>postback 或 clipboard 用的資料</summary>
-    [Column("action_data", TypeName = "text")]
+    [Column("action_data")]
     public string? ActionData { get; set; }
 
     /// <summary>message action 使用的文字</summary>
@@ -61,7 +61,7 @@ public class RichMenuAreaEntity
     public string? ActionText { get; set; }
 
     /// <summary>uri action 使用的網址</summary>
-    [Column("action_uri", TypeName = "text")]
+    [Column("action_uri")]
     public string? ActionUri { get; set; }
 
     /// <summary>richmenuswitch 使用的 alias ID</summary>

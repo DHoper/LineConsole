@@ -14,7 +14,10 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<IOfficialAccountAccess, OfficialAccountAccess>();
+        services.AddScoped<IOfficialAccountService, OfficialAccountService>();
         services.AddScoped<IRichMenuService, RichMenuService>();
+        services.AddScoped<IRichMenuScheduleService, RichMenuScheduleService>();
+        services.AddScoped<IRichMenuScheduleRunner, RichMenuScheduleRunner>();
         services.AddScoped<IUserProfileService, UserProfileService>();
         return services;
     }

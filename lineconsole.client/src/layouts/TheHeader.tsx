@@ -1,4 +1,4 @@
-import { Bell, Check, ChevronDown, LogOut, User } from "lucide-react";
+import { Bell, Building2, Check, ChevronDown, LogOut, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAccounts } from "@/features/accounts/api/accountsAPI";
 import { useCurrentAccount, useCurrentAccountStore } from "@/features/accounts/stores/currentAccount";
 import { useAuth } from "@/features/auth/stores/useAuth";
 import { cn } from "@/libs/ui/utils";
@@ -27,6 +28,7 @@ export default function TheHeader() {
     const isAuthenticated = !!user && !isExpired();
     const currentChannel = useCurrentAccount();
     const setAccountId = useCurrentAccountStore((s) => s.setAccountId);
+    const { data: accounts = [] } = useAccounts(isAuthenticated);
 
     const handleLogout = () => {
         logout();
@@ -61,7 +63,7 @@ export default function TheHeader() {
                             sideOffset={4}
                             className="min-w-[var(--radix-dropdown-menu-trigger-width)] w-auto"
                         >
-                            {user.lineAccounts.map((account) => {
+                            {accounts.map((account) => {
                                 const isActive = account.id === currentChannel.id;
                                 return (
                                     <DropdownMenuItem
@@ -77,8 +79,18 @@ export default function TheHeader() {
                                     </DropdownMenuItem>
                                 );
                             })}
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => navigate("/accounts")} className="px-3 py-2 cursor-pointer">
+                                <Building2 className="w-4 h-4 mr-2" />
+                                管理官方帳號
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
+                ) : isAuthenticated ? (
+                    <Button variant="outline" size="sm" onClick={() => navigate("/accounts")}>
+                        <Plus className="w-4 h-4 mr-1" />
+                        綁定 LINE 官方帳號
+                    </Button>
                 ) : (
                     <span className="text-muted-foreground text-sm">尚未登入</span>
                 )}
@@ -113,10 +125,6 @@ export default function TheHeader() {
                                 <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                             </div>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => navigate("/profile")} className="px-3 py-2">
-                                <User className="w-4 h-4 mr-2" />
-                                個人資料
-                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={handleLogout} className="px-3 py-2">
                                 <LogOut className="w-4 h-4 mr-2" />
                                 登出

@@ -15,8 +15,6 @@ public record RichMenuDTO
 
     public List<MenuArea> Areas { get; init; } = new(); // 點擊區域清單
 
-    public DateTime? StartTime { get; init; } // 排程起始時間
-    public DateTime? EndTime { get; init; }   // 排程結束時間
 
 }
 

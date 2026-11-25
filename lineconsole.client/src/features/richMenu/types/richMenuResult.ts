@@ -10,6 +10,25 @@ export interface RichMenuResult {
   areas: MenuArea[];        // 點擊區域清單
 }
 
+/** 圖文選單排程（時間是 UTC 的 ISO 字串） */
+export interface RichMenuSchedule {
+  id: string;
+  richMenuId: string;       // LINE 的圖文選單 ID
+  richMenuName: string;
+  startTime: string;
+  endTime: string;
+  status: "Pending" | "Active" | "Completed" | "Cancelled" | "Failed" | "Skipped";
+  activatedAt: string | null;
+  completedAt: string | null;
+  lastError: string | null;
+}
+
+export interface CreateRichMenuScheduleInput {
+  richMenuId: string;
+  startTime: string;
+  endTime: string;
+}
+
 /** 回傳 Rich Menu ID 結果 */
 export interface RichMenuIdResult {
   richMenuId: string;       // Rich Menu ID

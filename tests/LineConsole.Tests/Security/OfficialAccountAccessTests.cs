@@ -5,8 +5,11 @@ using LineConsole.Domain.Entities;
 using LineConsole.Infrastructure.Data;
 using LineConsole.Infrastructure.Data.EfEntities;
 using LineConsole.Infrastructure.Data.Repositories;
+using LineConsole.Infrastructure.Security;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace LineConsole.Tests.Security;
 
@@ -61,8 +64,10 @@ public sealed class OfficialAccountAccessTests : IDisposable
         return profile.Id;
     }
 
+    // 這裡直接寫入明碼 token（模擬 M0 以前的舊資料）：也順便確認舊資料解不開時會原樣使用
     private OfficialAccountAccess AccessAs(string? identityUserId) =>
-        new(new FixedUser(identityUserId), new LineOfficialAccountRepository(_db));
+        new(new FixedUser(identityUserId),
+            new LineOfficialAccountRepository(_db, new CredentialProtector(new EphemeralDataProtectionProvider(), NullLogger<CredentialProtector>.Instance)));
 
     [Fact]
     public async Task 擁有者拿得到自己的Token()

@@ -1,6 +1,7 @@
 import {
+    CalendarClock,
     Check,
-    Edit3,
+    Copy,
     MoreVertical,
     Trash2,
 } from "lucide-react";
@@ -21,7 +22,10 @@ type Props = {
     menu: RichMenuWithImageResult;
     isDefault: boolean;
     hasImageError: boolean;
+    /** 排程狀態（例如「排程 12/01 10:00 開始」），沒有排程就不給 */
+    scheduleLabel?: string;
     onEdit: () => void;
+    onSchedule: () => void;
     onDelete: () => void;
     onToggleDefault: () => void;
     onImageError: () => void;
@@ -31,7 +35,9 @@ export default function RichMenuCard({
     menu,
     isDefault,
     hasImageError,
+    scheduleLabel,
     onEdit,
+    onSchedule,
     onDelete,
     onToggleDefault,
     onImageError,
@@ -41,9 +47,8 @@ export default function RichMenuCard({
     return (
         <div className="group border rounded-xl bg-white dark:bg-card shadow-sm hover:shadow-md transition overflow-hidden">
             <div
-                className="relative bg-muted cursor-pointer"
+                className="relative bg-muted"
                 style={{ aspectRatio }}
-                onClick={onEdit}
             >
                 {!hasImageError ? (
                     <img
@@ -80,8 +85,12 @@ export default function RichMenuCard({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" sideOffset={4}>
                         <DropdownMenuItem onClick={onEdit}>
-                            <Edit3 className="w-4 h-4 mr-2" />
-                            編輯
+                            <Copy className="w-4 h-4 mr-2" />
+                            以此為範本建立新選單
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={onSchedule}>
+                            <CalendarClock className="w-4 h-4 mr-2" />
+                            設定排程
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={onToggleDefault}>
                             {isDefault ? (
@@ -107,6 +116,12 @@ export default function RichMenuCard({
                 <p className="text-xs text-muted-foreground">
                     {menu.width} × {menu.height}
                 </p>
+                {scheduleLabel && (
+                    <p className="text-xs text-blue-700 flex items-center gap-1">
+                        <CalendarClock className="w-3.5 h-3.5" />
+                        {scheduleLabel}
+                    </p>
+                )}
             </div>
         </div>
     );

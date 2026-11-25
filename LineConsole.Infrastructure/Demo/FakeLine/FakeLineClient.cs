@@ -14,6 +14,7 @@ namespace LineConsole.Infrastructure.Demo.FakeLine;
 /// 做法：照 LINE 的端點路由，回應先組成 LINE 格式的 JSON，再用跟正式版相同的序列化設定轉成型別，
 /// 所以欄位對應（例如 LINE 回 "richmenus"、程式讀 RichMenus）也有真的走過一次。
 /// 錯誤也照 LINE 的樣子丟 <see cref="LineApiException"/>（404、400 帶 message）。
+/// 「invalid」開頭的 token 模擬失效的 token：每個呼叫都回 401（展示「新增官方帳號時 LINE 拒絕」的情境）。
 /// </summary>
 public sealed partial class FakeLineClient : ILineClient
 {
@@ -27,7 +28,7 @@ public sealed partial class FakeLineClient : ILineClient
 
     public Task<T?> SendJsonAsync<T>(string endpoint, HttpMethod method, string accessToken, object? data = null, bool useDataDomain = false, CancellationToken ct = default)
     {
-        var channel = _store[accessToken];
+        var channel = Channel(accessToken);
         var path = Normalize(endpoint);
 
         if (method == HttpMethod.Post && path == "/v2/bot/richmenu")
@@ -48,7 +49,7 @@ public sealed partial class FakeLineClient : ILineClient
 
     public Task SendJsonAsync(string endpoint, HttpMethod method, string accessToken, object? data = null, bool useDataDomain = false, CancellationToken ct = default)
     {
-        var channel = _store[accessToken];
+        var channel = Channel(accessToken);
         var path = Normalize(endpoint);
 
         if (method == HttpMethod.Post && path == "/v2/bot/richmenu/validate")
@@ -77,14 +78,14 @@ public sealed partial class FakeLineClient : ILineClient
 
         using var ms = new MemoryStream();
         await stream.CopyToAsync(ms, ct);
-        if (!_store[accessToken].SetImage(m.Groups["id"].Value, ms.ToArray(), contentType))
+        if (!Channel(accessToken).SetImage(m.Groups["id"].Value, ms.ToArray(), contentType))
             throw NotFound(path);
     }
 
     public Task<Stream> GetStreamAsync(string endpoint, string accessToken, CancellationToken ct = default)
     {
         var path = Normalize(endpoint);
-        if (ContentPath().Match(path) is { Success: true } m && _store[accessToken].GetImage(m.Groups["id"].Value) is { } bytes)
+        if (ContentPath().Match(path) is { Success: true } m && Channel(accessToken).GetImage(m.Groups["id"].Value) is { } bytes)
             return Task.FromResult<Stream>(new MemoryStream(bytes, writable: false));
 
         throw NotFound(path);
@@ -92,8 +93,20 @@ public sealed partial class FakeLineClient : ILineClient
 
     public Task<T?> GetJsonAsync<T>(string endpoint, string accessToken, bool useDataDomain = false, CancellationToken ct = default)
     {
-        var channel = _store[accessToken];
+        var channel = Channel(accessToken);
         var path = Normalize(endpoint);
+
+        if (path == "/v2/bot/info")
+        {
+            var id = (accessToken.Aggregate(17u, (h, c) => unchecked(h * 31 + c)) % 1_000_000).ToString("000000");   // 穩定的雜湊：同一個 token 每次都一樣
+            return Task.FromResult(Convert<T>(new JsonObject
+            {
+                ["userId"] = "U" + id,
+                ["basicId"] = "@" + id + "demo",
+                ["displayName"] = "模擬官方帳號 " + id,
+                ["chatMode"] = "bot"
+            }));
+        }
 
         if (path == "/v2/bot/richmenu/list")
         {
@@ -118,7 +131,7 @@ public sealed partial class FakeLineClient : ILineClient
 
     public Task DeleteAsync(string endpoint, string accessToken, CancellationToken ct = default)
     {
-        var channel = _store[accessToken];
+        var channel = Channel(accessToken);
         var path = Normalize(endpoint);
 
         if (path == "/v2/bot/user/all/richmenu")
@@ -161,8 +174,32 @@ public sealed partial class FakeLineClient : ILineClient
             var h = (int?)b?["height"] ?? 0;
             if (x < 0 || y < 0 || w <= 0 || h <= 0 || x + w > width || y + h > height)
                 throw BadRequest("area bounds must be inside the rich menu");
+            ValidateAction(area?["action"]);
         }
     }
+
+    /// <summary>LINE 的動作類型和必填欄位（例如沒有 "none" 這種類型；message 一定要有 text）</summary>
+    private static void ValidateAction(JsonNode? action)
+    {
+        var type = (string?)action?["type"];
+        string? Field(string name) => (string?)action?[name] is { Length: > 0 } v ? v : null;
+        var ok = type switch
+        {
+            "message" => Field("text") is not null,
+            "uri" => Field("uri") is { } uri && (uri.StartsWith("http://") || uri.StartsWith("https://") || uri.StartsWith("line://") || uri.StartsWith("tel:")),
+            "postback" => Field("data") is not null,
+            "richmenuswitch" => Field("richMenuAliasId") is not null,
+            "datetimepicker" or "camera" or "cameraRoll" or "location" or "clipboard" => true,
+            _ => false
+        };
+        if (!ok)
+            throw BadRequest($"invalid action: {type ?? "(missing)"}");
+    }
+
+    private FakeLineStore.Channel Channel(string accessToken) =>
+        accessToken.StartsWith("invalid", StringComparison.OrdinalIgnoreCase)
+            ? throw new LineApiException("LINE API 回傳錯誤", HttpStatusCode.Unauthorized, JsonSerializer.Serialize(new { message = "Authentication failed. Confirm that the access token in the authorization header is valid." }))
+            : _store[accessToken];
 
     private static JsonObject ToJsonObject(object? data) =>
         JsonSerializer.SerializeToNode(data, Json) as JsonObject ?? throw BadRequest("request body is required");

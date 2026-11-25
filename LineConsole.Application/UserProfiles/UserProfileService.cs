@@ -24,7 +24,8 @@ public class UserProfileService : IUserProfileService
     }
 
     /// <summary>
-    /// 註冊新的 UserProfile 並綁定 LINE 官方帳號（IdentityUser 剛建立完成後呼叫）
+    /// 註冊新的 UserProfile（IdentityUser 剛建立完成後呼叫）。
+    /// 官方帳號不在註冊時綁：之後從「官方帳號」新增，會先向 LINE 驗證 token
     /// </summary>
     public async Task<CreateUserProfileResult> RegisterAsync(CreateUserProfileInput input)
     {
@@ -35,20 +36,6 @@ public class UserProfileService : IUserProfileService
             input.OrganizationCode
         );
         await _userRepository.AddAsync(userProfile);
-
-        if (input.LineAccount is not null)
-        {
-            var lineAccount = LineOfficialAccount.Create(
-                userProfileId: userProfile.Id,
-                channelId: input.LineAccount.ChannelId,
-                channelSecret: input.LineAccount.ChannelSecret,
-                channelAccessToken: input.LineAccount.ChannelAccessToken,
-                channelName: input.LineAccount.ChannelName
-            );
-
-            await _lineAccountRepository.AddAsync(lineAccount);
-        }
-
         return new CreateUserProfileResult { Id = userProfile.Id };
     }
 

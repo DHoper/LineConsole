@@ -47,7 +47,8 @@ public interface IRichMenuService
         string richMenuId,
         CancellationToken ct = default);
 
-    Task<RichMenuIdResult> GetDefaultRichMenuAsync(
+    /// <summary>目前的預設選單；沒有設定時回傳 null</summary>
+    Task<RichMenuIdResult?> GetDefaultRichMenuAsync(
         Guid lineOfficialAccountId,
         CancellationToken ct = default);
 

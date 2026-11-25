@@ -18,6 +18,12 @@ public class RichMenuEntity
     [Column("line_official_account_id")]
     public Guid LineOfficialAccountId { get; set; }
 
+    /// <summary>LINE 上的圖文選單 ID（richmenu-…）</summary>
+    [Required]
+    [MaxLength(64)]
+    [Column("line_rich_menu_id")]
+    public string LineRichMenuId { get; set; } = string.Empty;
+
     [Required]
     [MaxLength(255)]
     [Column("name")]

@@ -3,6 +3,8 @@ import { persist } from 'zustand/middleware';
 
 import { useAuth } from '@/features/auth/stores/useAuth';
 
+import { useAccounts } from '../api/accountsAPI';
+
 interface CurrentAccountState {
     accountId: string | null;
     setAccountId: (id: string) => void;
@@ -19,10 +21,10 @@ export const useCurrentAccountStore = create<CurrentAccountState>()(
     ),
 );
 
-/** 目前的官方帳號：選過的那個；沒選過、或已經不是自己的帳號，就用第一個 */
+/** 目前的官方帳號：選過的那個；沒選過、或已經被刪掉，就用第一個；還沒有任何帳號是 null */
 export function useCurrentAccount() {
-    const { user } = useAuth();
+    const { isAuthenticated } = useAuth();
+    const { data: accounts = [] } = useAccounts(isAuthenticated);
     const accountId = useCurrentAccountStore((s) => s.accountId);
-    const accounts = user?.lineAccounts ?? [];
     return accounts.find((a) => a.id === accountId) ?? accounts[0] ?? null;
 }

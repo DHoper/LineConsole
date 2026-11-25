@@ -29,9 +29,14 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("id");
 
+                    b.Property<string>("BasicId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("basic_id");
+
                     b.Property<string>("ChannelAccessToken")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("channel_access_token");
 
                     b.Property<string>("ChannelId")
@@ -48,7 +53,7 @@ namespace LineConsole.Infrastructure.Migrations
 
                     b.Property<string>("ChannelSecret")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("channel_secret");
 
                     b.Property<DateTime>("CreatedAt")
@@ -78,7 +83,7 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("ActionData")
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("action_data");
 
                     b.Property<string>("ActionText")
@@ -93,7 +98,7 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnName("action_type");
 
                     b.Property<string>("ActionUri")
-                        .HasColumnType("text")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("action_uri");
 
                     b.Property<string>("DateTimeValue")
@@ -158,6 +163,12 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("line_official_account_id");
 
+                    b.Property<string>("LineRichMenuId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("line_rich_menu_id");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -178,6 +189,8 @@ namespace LineConsole.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LineOfficialAccountId", "LineRichMenuId");
+
                     b.ToTable("line_rich_menus");
                 });
 
@@ -192,6 +205,14 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("account_id");
 
+                    b.Property<DateTime?>("ActivatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("activated_at");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("completed_at");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("created_at");
@@ -200,13 +221,15 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("end_time");
 
-                    b.Property<DateTime?>("ExecutedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("executed_at");
+                    b.Property<string>("LastError")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("last_error");
 
-                    b.Property<bool>("IsExecuted")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_executed");
+                    b.Property<string>("PreviousDefaultLineRichMenuId")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("previous_default_line_rich_menu_id");
 
                     b.Property<Guid>("RichMenuId")
                         .HasColumnType("uniqueidentifier")
@@ -216,9 +239,17 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("start_time");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId");
+
                     b.HasIndex("RichMenuId");
+
+                    b.HasIndex("Status", "StartTime");
 
                     b.ToTable("line_rich_menu_schedules");
                 });
@@ -332,6 +363,25 @@ namespace LineConsole.Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FriendlyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Xml")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DataProtectionKeys");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

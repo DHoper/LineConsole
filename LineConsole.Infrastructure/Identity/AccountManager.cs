@@ -61,8 +61,7 @@ public class AccountManager : IAccountManager
             await _userProfileService.RegisterAsync(new CreateUserProfileInput
             {
                 IdentityUserId = user.Id,
-                DisplayName = request.DisplayName,
-                LineAccount = request.LineAccount
+                DisplayName = request.DisplayName
             });
         }
         catch (AppException)

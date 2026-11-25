@@ -10,4 +10,7 @@ public interface IOfficialAccountAccess
     /// 帳號不存在、或不屬於目前的使用者，都丟 <see cref="Common.Models.NotFoundException"/>。
     /// </summary>
     Task<string> GetAccessTokenAsync(Guid lineOfficialAccountId, CancellationToken ct = default);
+
+    /// <summary>只確認帳號是目前登入者的（不需要 token 的操作用，例如讀排程）；不是就丟 NotFoundException</summary>
+    Task EnsureOwnerAsync(Guid lineOfficialAccountId, CancellationToken ct = default);
 }

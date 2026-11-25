@@ -8,8 +8,6 @@ export interface CreateRichMenuInput {
   size: MenuSize;          // 圖文選單尺寸（寬度、高度）
   areas: MenuArea[];       // 點擊區域清單
   image: File;             // 圖片檔案（使用 multipart/form-data 傳送）
-  scheduleStart?: string;  // 排程開始時間（ISO 字串，選填）
-  scheduleEnd?: string;    // 排程結束時間（ISO 字串，選填）
 }
 
 /** 刪除指定 Rich Menu 的請求資料 */

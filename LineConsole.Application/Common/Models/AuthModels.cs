@@ -15,9 +15,6 @@ public class RegisterInput
 
     /// <summary>可選：顯示名稱</summary>
     public string DisplayName { get; set; } = string.Empty;
-
-    /// <summary>若註冊時需綁定 LINE 官方帳號，填寫此欄位</summary>
-    public LineOfficialAccountCreateModel LineAccount { get; set; } = new();
 }
 
 

@@ -1,122 +1,44 @@
 import {
     Bot,
+    Building2,
     FileText,
     Home,
     Layout,
+    type LucideIcon,
     Mail,
     MessageCircle,
     Puzzle,
+    Send,
     Tags,
     Users,
-} from "lucide-react";
+} from 'lucide-react';
 
-export const mainMenu = [
-    {
-        label: "概覽",
-        path: "/dashboard",
-        icon: Home,
-        disabled: false,
-    },
-    {
-        label: "好友管理",
-        path: "/members",
-        icon: Users,
-        disabled: true,
-        children: [
-            { label: "好友列表", path: "/members/list", disabled: true },
-            { label: "篩選與排序", path: "/members/filter", disabled: true },
-            { label: "好友類別", path: "/members/types", disabled: true },
-            { label: "黑名單", path: "/members/blacklist", disabled: true },
-        ],
-    },
-    {
-        label: "標籤管理",
-        path: "/tags",
-        icon: Tags,
-        disabled: true,
-    },
-    // {
-    //     label: "客服中心",
-    //     path: "/support-center",
-    //     icon: Headphones,
-    //     disabled: true,
-    //     children: [
-    //         { label: "客服設定", path: "/support-center/settings", disabled: true },
-    //         { label: "組織說明", path: "/support-center/org", disabled: true },
-    //         { label: "成員管理", path: "/support-center/members", disabled: true },
-    //         { label: "聊天頁面", path: "/support-center/chat", disabled: true },
-    //         { label: "系統訊息", path: "/support-center/system-messages", disabled: true },
-    //         { label: "流程設定", path: "/support-center/flows", disabled: true },
-    //         { label: "Onboarding", path: "/support-center/onboarding", disabled: true },
-    //     ],
-    // },
-    {
-        label: "對話管理",
-        path: "/conversations",
-        icon: MessageCircle,
-        disabled: true,
-    },
-    {
-        label: "發布文章",
-        path: "/posts",
-        icon: FileText,
-        disabled: true,
-        children: [
-            { label: "文章管理", path: "/posts/list", disabled: true },
-            { label: "內容設定", path: "/posts/editor", disabled: true },
-        ],
-    },
-    {
-        label: "聊天機器人",
-        path: "/chatbot",
-        icon: Bot,
-        disabled: true,
-        children: [
-            { label: "機器人管理", path: "/chatbot/list", disabled: true },
-            { label: "內容設定", path: "/chatbot/editor", disabled: true },
-            { label: "訊息格式", path: "/chatbot/templates", disabled: true },
-            { label: "常見問題", path: "/chatbot/faq", disabled: true },
-        ],
-    },
-    {
-        label: "圖文選單",
-        path: "/rich-menu",
-        icon: Layout,
-    },
-    // {
-    //     label: "會員旅程",
-    //     path: "/journeys",
-    //     icon: Map,
-    //     disabled: true,
-    // },
-    {
-        label: "訊息工具",
-        path: "/messages",
-        icon: Mail,
-        disabled: true,
-        children: [
-            { label: "訊息範本", path: "/messages/templates", disabled: true },
-            { label: "追蹤連結", path: "/messages/short-links", disabled: true },
-        ],
-    },
-    {
-        label: "進階功能",
-        path: "/advanced",
-        icon: Puzzle,
-        disabled: true,
-        children: [
-            { label: "分眾圖文選單", path: "/advanced/segmented-menu", disabled: true },
-            { label: "優惠碼發送", path: "/advanced/coupon-sender", disabled: true },
-            { label: "自動轉客服", path: "/advanced/auto-transfer", disabled: true },
-            { label: "即時投票", path: "/advanced/instant-poll", disabled: true },
-            { label: "訂閱主題", path: "/advanced/topic-subscription", disabled: true },
-            { label: "會員成就", path: "/advanced/member-achievements", disabled: true },
-            { label: "優惠券", path: "/advanced/coupons", disabled: true },
-            { label: "訊息抽獎", path: "/advanced/lottery-message", disabled: true },
-            { label: "抽抽樂", path: "/advanced/lucky-draw", disabled: true },
-            { label: "遊樂場", path: "/advanced/amusement-park", disabled: true },
-            { label: "好運到", path: "/advanced/lucky-arrival", disabled: true },
-            { label: "大螢幕抽獎", path: "/advanced/big-screen-draw", disabled: true },
-        ],
-    },
+export interface MenuItem {
+    label: string;
+    icon: LucideIcon;
+    /** 已完成的功能才有路徑 */
+    path?: string;
+    /** 規劃中：顯示在選單上讓人看到產品藍圖，但不能點、沒有空頁面 */
+    planned?: boolean;
+    /** 規劃中的項目，滑過去顯示的說明 */
+    note?: string;
+}
+
+/** 已完成的功能 */
+export const mainMenu: MenuItem[] = [
+    { label: '官方帳號', path: '/accounts', icon: Building2 },
+    { label: '圖文選單', path: '/rich-menu', icon: Layout },
+];
+
+/** 規劃中的功能（產品藍圖） */
+export const plannedMenu: MenuItem[] = [
+    { label: '概覽', icon: Home, planned: true, note: '好友數趨勢、推播成效、排程狀態' },
+    { label: '好友管理', icon: Users, planned: true, note: '好友列表、篩選、封鎖名單（接 LINE Webhook）' },
+    { label: '推播訊息', icon: Send, planned: true, note: '排程推播、發送紀錄、失敗重試' },
+    { label: '標籤管理', icon: Tags, planned: true, note: '依標籤分眾推播' },
+    { label: '對話管理', icon: MessageCircle, planned: true, note: '一對一聊天紀錄' },
+    { label: '發布文章', icon: FileText, planned: true, note: 'LINE VOOM 貼文' },
+    { label: '聊天機器人', icon: Bot, planned: true, note: '關鍵字回覆、常見問題' },
+    { label: '訊息工具', icon: Mail, planned: true, note: '訊息範本、追蹤連結' },
+    { label: '進階功能', icon: Puzzle, planned: true, note: '集點卡、優惠券、抽獎、即時投票' },
 ];

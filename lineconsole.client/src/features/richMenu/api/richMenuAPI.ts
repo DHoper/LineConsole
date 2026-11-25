@@ -3,9 +3,11 @@ import { axiosClient } from "@/libs/http/axiosClient";
 
 import {
     CreateRichMenuInput,
+    CreateRichMenuScheduleInput,
     RichMenuIdResult,
     RichMenuListResult,
     RichMenuResult,
+    RichMenuSchedule,
     RichMenuWithImageResult} from "../types";
 
 const getBaseUrl = (lineOfficialAccountId: string) =>
@@ -74,11 +76,6 @@ export const richMenuAPI = {
 
         formData.append("Image", request.image);
 
-        if (request.scheduleStart)
-            formData.append("ScheduleStart", request.scheduleStart);
-        if (request.scheduleEnd)
-            formData.append("ScheduleEnd", request.scheduleEnd);
-
         const res = await axiosClient.post(`${getBaseUrl(lineOfficialAccountId)}/with-image`, formData);
         return res.data;
     },
@@ -99,12 +96,25 @@ export const richMenuAPI = {
         return res.data;
     },
 
+    /** 沒有預設選單時 data 是 null */
     getDefault: async (
         lineOfficialAccountId: string
-    ): Promise<ApiResponse<RichMenuIdResult>> => {
+    ): Promise<ApiResponse<RichMenuIdResult | null>> => {
         const res = await axiosClient.get(`${getBaseUrl(lineOfficialAccountId)}/default`);
         return res.data;
     },
+
+    schedules: async (lineOfficialAccountId: string): Promise<ApiResponse<RichMenuSchedule[]>> =>
+        (await axiosClient.get(`${getBaseUrl(lineOfficialAccountId)}/schedules`)).data,
+
+    createSchedule: async (
+        lineOfficialAccountId: string,
+        input: CreateRichMenuScheduleInput
+    ): Promise<ApiResponse<RichMenuSchedule>> =>
+        (await axiosClient.post(`${getBaseUrl(lineOfficialAccountId)}/schedules`, input)).data,
+
+    cancelSchedule: async (lineOfficialAccountId: string, scheduleId: string): Promise<ApiResponse<null>> =>
+        (await axiosClient.delete(`${getBaseUrl(lineOfficialAccountId)}/schedules/${scheduleId}`)).data,
 
     clearDefault: async (
         lineOfficialAccountId: string

@@ -32,9 +32,7 @@ public class RichMenuController : ControllerBase
             Name = request.Name,
             ChatBarText = request.ChatBarText,
             Size = request.Size,
-            Areas = request.Areas,
-            StartTime = request.ScheduleStart,
-            EndTime = request.ScheduleEnd
+            Areas = request.Areas
         };
 
         await using var stream = request.Image.OpenReadStream();
@@ -124,14 +122,14 @@ public class RichMenuController : ControllerBase
         return ApiResponse<ApiEmptyResult>.SuccessResponse(new ApiEmptyResult());
     }
 
-    /// 取得目前設定為預設的圖文選單 ID
+    /// 取得目前設定為預設的圖文選單 ID（沒有設定時 data 是 null）
     [HttpGet("default")]
-    public async Task<ActionResult<ApiResponse<RichMenuIdResult>>> GetDefaultAsync(
+    public async Task<ActionResult<ApiResponse<RichMenuIdResult?>>> GetDefaultAsync(
         [FromRoute] Guid lineOfficialAccountId,
         CancellationToken ct)
     {
         var result = await _service.GetDefaultRichMenuAsync(lineOfficialAccountId, ct);
-        return ApiResponse<RichMenuIdResult>.SuccessResponse(result);
+        return ApiResponse<RichMenuIdResult?>.SuccessResponse(result);
     }
 
     /// 清除預設圖文選單設定

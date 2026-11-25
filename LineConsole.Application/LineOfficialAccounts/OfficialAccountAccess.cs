@@ -32,4 +32,7 @@ public class OfficialAccountAccess : IOfficialAccountAccess
 
         return token;
     }
+
+    public Task EnsureOwnerAsync(Guid lineOfficialAccountId, CancellationToken ct = default) =>
+        GetAccessTokenAsync(lineOfficialAccountId, ct);
 }

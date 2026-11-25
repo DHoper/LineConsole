@@ -25,12 +25,16 @@ public class LineOfficialAccountEntity
     public string ChannelName { get; set; } = string.Empty; // LINE 官方帳號名稱（顯示用）
 
     [Required]
-    [Column("channel_secret", TypeName = "text")]
-    public string ChannelSecret { get; set; } = string.Empty; // 用於 webhook 驗證的 Channel Secret
+    [Column("channel_secret")]
+    public string ChannelSecret { get; set; } = string.Empty; // 用於 webhook 驗證的 Channel Secret（Data Protection 加密後存放）
 
     [Required]
-    [Column("channel_access_token", TypeName = "text")]
-    public string ChannelAccessToken { get; set; } = string.Empty; // 呼叫 LINE API 的 Access Token
+    [Column("channel_access_token")]
+    public string ChannelAccessToken { get; set; } = string.Empty; // 呼叫 LINE API 的 Access Token（Data Protection 加密後存放）
+
+    [MaxLength(50)]
+    [Column("basic_id")]
+    public string? BasicId { get; set; } // LINE 的 @ID
 
     [Required]
     [Column("created_at")]

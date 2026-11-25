@@ -8,16 +8,16 @@ using LineConsole.Application.RichMenus;
 using LineConsole.Application.RichMenus.Interfaces;
 using LineConsole.Application.RichMenus.Models;
 using LineConsole.Application.UserProfiles.Interfaces;
-using LineConsole.Domain.Entities;
 using LineConsole.Infrastructure.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LineConsole.Infrastructure.Demo;
 
 /// <summary>
-/// 建立展示資料。盡量走正式的流程，而不是直接寫資料表：
-/// 展示帳號用 AccountManager 註冊，圖文選單用 RichMenuService 建立（會經過存取控制、LINE 的檢查、上傳圖片）。
-/// 所以每次啟動展示模式，等於把「註冊 → 建立選單 → 設預設」完整跑一遍。
+/// 建立展示資料。全部走正式的流程，而不是直接寫資料表：
+/// 註冊（AccountManager）→ 新增官方帳號（OfficialAccountService，會向 LINE 驗證 token）
+/// → 建立圖文選單（RichMenuService）→ 設預設 → 建立排程（RichMenuScheduleService）。
+/// 所以每次啟動展示模式，等於把主要流程完整跑一遍。
 /// </summary>
 public static class DemoSeeder
 {
@@ -25,52 +25,55 @@ public static class DemoSeeder
     {
         await IdentityInitializer.SeedRolesAndAdminAsync(services);
 
-        var first = DemoData.Accounts[0];
         var identityUserId = await services.GetRequiredService<IAccountManager>().RegisterAsync(new RegisterInput
         {
             Email = DemoData.Email,
             Password = DemoData.Password,
-            DisplayName = DemoData.DisplayName,
-            LineAccount = ToCreateModel(first)
+            DisplayName = DemoData.DisplayName
         });
 
-        // 第二個官方帳號：註冊流程只綁一個，其餘的直接加（M2 會有「新增官方帳號」的功能）
-        var profile = await services.GetRequiredService<IUserProfileService>().GetByIdentityUserIdAsync(identityUserId)
-                      ?? throw new InvalidOperationException("展示帳號的個人資料沒有建立成功");
+        // 以展示帳號的身分操作
+        var me = new SeedUser(identityUserId);
+        var line = services.GetRequiredService<ILineClient>();
         var accountRepo = services.GetRequiredService<ILineOfficialAccountRepository>();
-        foreach (var account in DemoData.Accounts.Skip(1))
-        {
-            await accountRepo.AddAsync(LineOfficialAccount.Create(
-                profile.Id, account.ChannelId, account.ChannelSecret, account.AccessToken, account.ChannelName), ct);
-        }
+        var access = new OfficialAccountAccess(me, accountRepo);
+        var accounts = new OfficialAccountService(me, services.GetRequiredService<IUserProfileRepository>(), accountRepo, line);
+        var menuRepo = services.GetRequiredService<IRichMenuRepository>();
+        var richMenus = new RichMenuService(line, access, menuRepo);
+        var time = services.GetRequiredService<TimeProvider>();
+        var schedules = new RichMenuScheduleService(access, menuRepo, services.GetRequiredService<IRichMenuScheduleRepository>(), time);
+        var now = time.GetUtcNow();
 
-        // 以展示帳號的身分建立圖文選單
-        var richMenus = new RichMenuService(
-            services.GetRequiredService<ILineClient>(),
-            new OfficialAccountAccess(new SeedUser(identityUserId), accountRepo),
-            services.GetRequiredService<IRichMenuRepository>());
-
-        var accounts = await accountRepo.FindByUserProfileIdAsync(profile.Id, ct);
         foreach (var demo in DemoData.Accounts)
         {
-            var accountId = accounts.Single(a => a.ChannelId == demo.ChannelId).Id;
+            var account = await accounts.CreateAsync(new CreateOfficialAccountInput
+            {
+                ChannelName = demo.ChannelName,
+                ChannelId = demo.ChannelId,
+                ChannelSecret = demo.ChannelSecret,
+                ChannelAccessToken = demo.AccessToken
+            }, ct);
+
             foreach (var menu in demo.Menus)
             {
                 await using var image = OpenImage(menu.Image);
-                var created = await richMenus.CreateRichMenuWithImageAsync(accountId, ToDto(menu), image, "image/jpeg", ct);
+                var created = await richMenus.CreateRichMenuWithImageAsync(account.Id, ToDto(menu), image, "image/jpeg", ct);
                 if (menu.IsDefault)
-                    await richMenus.SetDefaultRichMenuAsync(accountId, created.RichMenuId, ct);
+                    await richMenus.SetDefaultRichMenuAsync(account.Id, created.RichMenuId, ct);
+
+                if (menu.Schedule is { } s)
+                {
+                    var start = now.AddMinutes(s.StartAfterMinutes);
+                    await schedules.CreateAsync(account.Id, new CreateRichMenuScheduleInput
+                    {
+                        RichMenuId = created.RichMenuId,
+                        StartTime = start,
+                        EndTime = start.AddMinutes(s.DurationMinutes)
+                    }, ct);
+                }
             }
         }
     }
-
-    private static LineOfficialAccountCreateModel ToCreateModel(DemoData.Account a) => new()
-    {
-        ChannelName = a.ChannelName,
-        ChannelId = a.ChannelId,
-        ChannelSecret = a.ChannelSecret,
-        ChannelAccessToken = a.AccessToken
-    };
 
     private static RichMenuDTO ToDto(DemoData.Menu m) => new()
     {
