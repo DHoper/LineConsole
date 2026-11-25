@@ -1,8 +1,10 @@
 ﻿using LineConsole.Application.Common.Interfaces;
+using LineConsole.Application.Friends;
 using LineConsole.Application.Infrastructure.Interfaces;
 using LineConsole.Application.LineOfficialAccounts.Interfaces;
 using LineConsole.Application.RichMenus.Interfaces;
 using LineConsole.Application.UserProfiles.Interfaces;
+using LineConsole.Application.Webhooks;
 using LineConsole.Infrastructure.Data;
 using LineConsole.Infrastructure.Data.Repositories;
 using LineConsole.Infrastructure.Demo;
@@ -12,6 +14,7 @@ using LineConsole.Infrastructure.Http;
 using LineConsole.Infrastructure.Identity;
 using LineConsole.Infrastructure.Scheduling;
 using LineConsole.Infrastructure.Security;
+using LineConsole.Infrastructure.Webhooks;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +33,8 @@ public static class DependencyInjection
     {
         services.AddSingleton(new RuntimeInfo(mode));
         services.AddSingleton(TimeProvider.System);
+        // 儀表板「今天」「每日」用哪個時區算（預設台北）
+        services.AddSingleton(new ReportingTimeZone(TimeZoneInfo.FindSystemTimeZoneById(configuration["LineConsole:TimeZone"] ?? "Asia/Taipei")));
 
         if (mode == AppMode.Demo)
         {
@@ -38,6 +43,8 @@ public static class DependencyInjection
             services.AddDbContext<ApplicationDbContext>(o => o.UseSqlite(demoDb.ConnectionString));
             services.AddSingleton<FakeLineStore>();
             services.AddScoped<ILineClient, FakeLineClient>();
+            services.AddSingleton<DemoWebhookLog>();
+            services.AddScoped<DemoWebhookSimulator>();
         }
         else
         {
@@ -80,9 +87,17 @@ public static class DependencyInjection
         services.AddScoped<IRichMenuRepository, RichMenuRepository>();
         services.AddScoped<IUserProfileRepository, UserProfileRepository>();
         services.AddScoped<IRichMenuScheduleRepository, RichMenuScheduleRepository>();
+        services.AddScoped<IFriendRepository, FriendRepository>();
+        services.AddScoped<IWebhookInboxRepository, WebhookInboxRepository>();
 
         // 背景服務：定時處理到期的圖文選單排程
         services.AddHostedService<RichMenuScheduleWorker>();
+
+        // Webhook 收件匣：收到就先存、馬上回 200，背景服務再慢慢處理
+        services.AddSingleton<WebhookInboxNotifier>();
+        services.AddSingleton<IWebhookInboxNotifier>(sp => sp.GetRequiredService<WebhookInboxNotifier>());
+        if (configuration.GetValue("LineConsole:Webhook:WorkerEnabled", true))
+            services.AddHostedService<WebhookInboxWorker>();
 
         return services;
     }

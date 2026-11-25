@@ -33,6 +33,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDataPro
     /// <summary>Rich Menu 排程資料</summary>
     public DbSet<RichMenuScheduleEntity> RichMenuSchedules { get; set; } = null!;
 
+    /// <summary>官方帳號的好友</summary>
+    public DbSet<LineFriendEntity> LineFriends { get; set; } = null!;
+
+    /// <summary>Webhook 收件匣</summary>
+    public DbSet<LineWebhookEventEntity> LineWebhookEvents { get; set; } = null!;
+
     /// <summary>ASP.NET Data Protection 的金鑰</summary>
     public DbSet<DataProtectionKey> DataProtectionKeys { get; set; } = null!;
 
@@ -49,5 +55,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IDataPro
             .HasIndex(x => new { x.Status, x.StartTime });
         builder.Entity<RichMenuScheduleEntity>()
             .HasIndex(x => x.AccountId);
+
+        // 同一個帳號的好友唯一
+        builder.Entity<LineFriendEntity>()
+            .HasIndex(x => new { x.AccountId, x.LineUserId })
+            .IsUnique();
+
+        // Webhook 去重：同一個帳號的 webhookEventId 只能存一次（LINE 重送的事件靠這個擋掉）
+        builder.Entity<LineWebhookEventEntity>()
+            .HasIndex(x => new { x.AccountId, x.WebhookEventId })
+            .IsUnique();
+        // 背景服務找待處理的事件；儀表板依時間統計
+        builder.Entity<LineWebhookEventEntity>()
+            .HasIndex(x => new { x.Status, x.OccurredAt });
+        builder.Entity<LineWebhookEventEntity>()
+            .HasIndex(x => new { x.AccountId, x.OccurredAt });
     }
 }

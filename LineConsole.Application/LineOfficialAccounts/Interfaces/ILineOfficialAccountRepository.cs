@@ -13,6 +13,9 @@ public interface ILineOfficialAccountRepository
     /// </summary>
     Task<string> GetAccessTokenAsync(Guid lineOfficialAccountId, CancellationToken ct = default);
 
+    /// <summary>Channel Secret（驗證 Webhook 簽章用）；帳號不存在回傳 null。Webhook 沒有登入者，所以不檢查擁有者</summary>
+    Task<string?> GetChannelSecretAsync(Guid lineOfficialAccountId, CancellationToken ct = default);
+
     /// <summary>取得屬於指定 Identity 使用者的官方帳號的 Access Token；不存在或不屬於他時回傳 null</summary>
     Task<string?> FindAccessTokenForOwnerAsync(Guid lineOfficialAccountId, string identityUserId, CancellationToken ct = default);
 
@@ -30,6 +33,6 @@ public interface ILineOfficialAccountRepository
 
     Task AddAsync(LineOfficialAccount account, CancellationToken ct = default);
 
-    /// <summary>刪除官方帳號，連同它在本地的圖文選單紀錄和排程</summary>
+    /// <summary>刪除官方帳號，連同它在本地的圖文選單紀錄、排程、好友、Webhook 事件</summary>
     Task DeleteAsync(Guid lineOfficialAccountId, CancellationToken ct = default);
 }

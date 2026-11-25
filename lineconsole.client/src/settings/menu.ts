@@ -26,14 +26,14 @@ export interface MenuItem {
 
 /** 已完成的功能 */
 export const mainMenu: MenuItem[] = [
-    { label: '官方帳號', path: '/accounts', icon: Building2 },
+    { label: '概覽', path: '/dashboard', icon: Home },
     { label: '圖文選單', path: '/rich-menu', icon: Layout },
+    { label: '好友管理', path: '/friends', icon: Users },
+    { label: '官方帳號', path: '/accounts', icon: Building2 },
 ];
 
 /** 規劃中的功能（產品藍圖） */
 export const plannedMenu: MenuItem[] = [
-    { label: '概覽', icon: Home, planned: true, note: '好友數趨勢、推播成效、排程狀態' },
-    { label: '好友管理', icon: Users, planned: true, note: '好友列表、篩選、封鎖名單（接 LINE Webhook）' },
     { label: '推播訊息', icon: Send, planned: true, note: '排程推播、發送紀錄、失敗重試' },
     { label: '標籤管理', icon: Tags, planned: true, note: '依標籤分眾推播' },
     { label: '對話管理', icon: MessageCircle, planned: true, note: '一對一聊天紀錄' },

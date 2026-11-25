@@ -44,3 +44,31 @@ jobs:
 
       - name: 資料庫：migration 跟模型一致
         run: dotnet ef migrations has-pending-model-changes -p LineConsole.Infrastructure -s LineConsole.Server --configuration Release --no-build   # 注意：dotnet ef 的 -c 是 DbContext，不是組態
+
+      # 端對端：展示帳號登入 → 建立圖文選單（上傳圖片、劃分區塊、填動作）→ 建立排程看到狀態
+      # 只裝 Chromium 的 headless shell（比完整瀏覽器小），並快取起來；後端用上面建好的 Release 版以展示模式啟動
+      - name: 端對端：快取瀏覽器
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('lineconsole.client/package-lock.json') }}
+
+      - name: 端對端：安裝 Chromium
+        working-directory: lineconsole.client
+        run: npx playwright install --with-deps --only-shell chromium
+        timeout-minutes: 3
+
+      - name: 端對端：Playwright
+        working-directory: lineconsole.client
+        run: npx playwright test
+        timeout-minutes: 3
+
+      - name: 端對端：失敗時上傳報告（含 trace、截圖）
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            lineconsole.client/playwright-report
+            lineconsole.client/test-results
+          retention-days: 7

@@ -1,5 +1,6 @@
 ﻿using LineConsole.Application.Common.Interfaces;
 using LineConsole.Application.Common.Models;
+using LineConsole.Application.Friends;
 using LineConsole.Application.Infrastructure.Interfaces;
 using LineConsole.Application.LineOfficialAccounts;
 using LineConsole.Application.LineOfficialAccounts.Interfaces;
@@ -8,6 +9,7 @@ using LineConsole.Application.RichMenus;
 using LineConsole.Application.RichMenus.Interfaces;
 using LineConsole.Application.RichMenus.Models;
 using LineConsole.Application.UserProfiles.Interfaces;
+using LineConsole.Application.Webhooks;
 using LineConsole.Infrastructure.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +18,8 @@ namespace LineConsole.Infrastructure.Demo;
 /// <summary>
 /// 建立展示資料。全部走正式的流程，而不是直接寫資料表：
 /// 註冊（AccountManager）→ 新增官方帳號（OfficialAccountService，會向 LINE 驗證 token）
-/// → 建立圖文選單（RichMenuService）→ 設預設 → 建立排程（RichMenuScheduleService）。
+/// → 建立圖文選單（RichMenuService）→ 設預設 → 建立排程（RichMenuScheduleService）
+/// → 30 天的好友事件（簽章後送進 Webhook，再由事件處理器更新好友名單）。
 /// 所以每次啟動展示模式，等於把主要流程完整跑一遍。
 /// </summary>
 public static class DemoSeeder
@@ -43,6 +46,9 @@ public static class DemoSeeder
         var time = services.GetRequiredService<TimeProvider>();
         var schedules = new RichMenuScheduleService(access, menuRepo, services.GetRequiredService<IRichMenuScheduleRepository>(), time);
         var now = time.GetUtcNow();
+        var simulator = new DemoWebhookSimulator(accountRepo, services.GetRequiredService<ILineWebhookService>(), services.GetRequiredService<IFriendRepository>(),
+            access, time, services.GetRequiredService<DemoWebhookLog>());
+        var zone = services.GetRequiredService<ReportingTimeZone>().Zone;
 
         foreach (var demo in DemoData.Accounts)
         {
@@ -72,6 +78,14 @@ public static class DemoSeeder
                     }, ct);
                 }
             }
+
+            await simulator.SeedHistoryAsync(account.Id, demo.Audience, zone, ct);
+        }
+
+        // 收件匣裡的事件馬上處理完（這時背景服務還沒啟動），一打開儀表板就有資料
+        var processor = services.GetRequiredService<IWebhookEventProcessor>();
+        while (await processor.ProcessPendingAsync(500, ct) > 0)
+        {
         }
     }
 

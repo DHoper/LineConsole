@@ -33,6 +33,15 @@ public class LineOfficialAccountRepository : ILineOfficialAccountRepository
         return _protector.Unprotect(token);
     }
 
+    public async Task<string?> GetChannelSecretAsync(Guid lineOfficialAccountId, CancellationToken ct = default)
+    {
+        var secret = await _db.LineOfficialAccounts
+            .Where(x => x.Id == lineOfficialAccountId)
+            .Select(x => x.ChannelSecret)
+            .FirstOrDefaultAsync(ct);
+        return secret is null ? null : _protector.Unprotect(secret);
+    }
+
     public async Task<string?> FindAccessTokenForOwnerAsync(Guid lineOfficialAccountId, string identityUserId, CancellationToken ct = default)
     {
         var token = await Owned(lineOfficialAccountId, identityUserId)
@@ -97,6 +106,8 @@ public class LineOfficialAccountRepository : ILineOfficialAccountRepository
         _db.RichMenuSchedules.RemoveRange(_db.RichMenuSchedules.Where(s => s.AccountId == lineOfficialAccountId || menuIds.Contains(s.RichMenuId)));
         _db.RichMenuAreas.RemoveRange(_db.RichMenuAreas.Where(a => menuIds.Contains(a.RichMenuId)));
         _db.RichMenus.RemoveRange(_db.RichMenus.Where(m => m.LineOfficialAccountId == lineOfficialAccountId));
+        _db.LineFriends.RemoveRange(_db.LineFriends.Where(f => f.AccountId == lineOfficialAccountId));
+        _db.LineWebhookEvents.RemoveRange(_db.LineWebhookEvents.Where(e => e.AccountId == lineOfficialAccountId));
         _db.LineOfficialAccounts.RemoveRange(_db.LineOfficialAccounts.Where(a => a.Id == lineOfficialAccountId));
         await _db.SaveChangesAsync(ct);
     }

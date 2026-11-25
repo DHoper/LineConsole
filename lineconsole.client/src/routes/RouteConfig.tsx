@@ -6,6 +6,8 @@ import MainLayout from '@/layouts/MainLayout';
 import RequireAuth from './RequireAuth';
 
 const AccountsPage = lazy(() => import('@/features/accounts/pages/AccountsPage'));
+const DashboardPage = lazy(() => import('@/features/dashboard/pages/DashboardPage'));
+const FriendsPage = lazy(() => import('@/features/friends/pages/FriendsPage'));
 const RichMenuList = lazy(() => import('@/features/richMenu/pages/RichMenuListPage'));
 const LoginPage = lazy(() => import('@/features/auth/pages/LoginPage'));
 const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'));
@@ -27,10 +29,12 @@ export const routes: RouteObject[] = [
             {
                 element: <MainLayout />,
                 children: [
-                    { index: true, element: <Navigate to="/rich-menu" replace /> },
-                    { path: 'accounts', element: <AccountsPage /> },
+                    { index: true, element: <Navigate to="/dashboard" replace /> },
+                    { path: 'dashboard', element: <DashboardPage /> },
                     { path: 'rich-menu', element: <RichMenuList /> },
-                    { path: '*', element: <Navigate to="/rich-menu" replace /> },
+                    { path: 'friends', element: <FriendsPage /> },
+                    { path: 'accounts', element: <AccountsPage /> },
+                    { path: '*', element: <Navigate to="/dashboard" replace /> },
                 ],
             },
         ],

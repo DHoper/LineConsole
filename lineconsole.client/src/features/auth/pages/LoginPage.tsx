@@ -35,7 +35,7 @@ export default function LoginPage() {
 
                 toast.success("登入成功");
                 
-                navigate("/rich-menu");
+                navigate("/dashboard");
             } else {
                 toast.error(res.error?.message ?? "登入失敗");
             }

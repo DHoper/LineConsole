@@ -1,6 +1,6 @@
 # LineConsole
 
-LineConsole 是一個讓店家串接並管理自己 LINE 官方帳號的後台：圖文選單（含排程）、好友、推播排程等。
+LineConsole 是一個讓店家串接並管理自己 LINE 官方帳號的後台：圖文選單（含排程）、好友（LINE Webhook）、概覽儀表板等。
 
 > 改版中（`revamp` 分支）。目前可以一行指令啟動「展示模式」，不需要 LINE 帳號。完整文件會在改版最後補齊。
 
@@ -45,10 +45,18 @@ docker compose up --build
 | LINE 官方帳號管理：新增時向 LINE 驗證 token、憑證加密存放、多帳號切換 | 完成 |
 | 圖文選單：建立（含分區編輯）、預覽、設為預設、刪除 | 完成 |
 | 圖文選單排程：指定時段自動上線，結束後自動還原原本的預設選單 | 完成 |
-| 概覽儀表板、好友管理（Webhook）、推播排程 | 規劃中 |
+| LINE Webhook：簽章驗證（X-Line-Signature）、重送去重、先存收件匣再由背景服務處理 | 完成 |
+| 好友管理：加入、封鎖、最後互動時間；搜尋、篩選、分頁 | 完成 |
+| 概覽儀表板：好友人數 30 天趨勢、每日新增與封鎖、排程狀態 | 完成 |
+| 推播排程 | 規劃中 |
 | 標籤、對話、聊天機器人、集點卡、抽獎等 | 規劃中 |
 
-展示模式啟動 2 分鐘後，咖啡館的「週年慶活動選單」會依排程自動變成預設選單，10 分鐘後自動還原。開著圖文選單頁就看得到。
+展示模式可以看的兩個動態：
+
+- 啟動 2 分鐘後，咖啡館的「週年慶活動選單」會依排程自動變成預設選單，10 分鐘後自動還原。開著圖文選單頁就看得到。
+- 概覽頁的「模擬 LINE Webhook」：由系統扮演 LINE 送出事件（新好友、封鎖、傳訊息），走的是正式的驗簽、去重流程。
+  - 「LINE 重送上一個事件」會被去重擋下。
+  - 「送一個偽造簽章的請求」會被拒絕（401）。
 
 ---
 
@@ -67,6 +75,8 @@ docker compose up --build
 
 用 Docker 的話，複製 `.env.example` 成 `.env` 填好，再執行 `docker compose --profile live up --build`。
 
+**Webhook**：在 LINE Developers 把 Webhook URL 設成 `https://你的網域/api/webhooks/line/{官方帳號 ID}`，並開啟「Use webhook」。完整網址在概覽頁可以直接複製。
+
 ---
 
 ## 技術架構
@@ -78,7 +88,7 @@ docker compose up --build
 | 資料庫 | SQL Server＋EF Core（展示模式用 SQLite） |
 | 認證 | ASP.NET Identity＋JWT |
 | 外部整合 | LINE Messaging API |
-| 測試、CI | xUnit v3、GitHub Actions |
+| 測試、CI | xUnit v3（單元、整合）、Playwright（端對端）、GitHub Actions |
 
 ---
 
@@ -88,6 +98,7 @@ docker compose up --build
 |---|---|
 | 前端熱更新 | `dotnet run --project LineConsole.Server --launch-profile dev`（會一起開 Vite） |
 | 測試 | `dotnet test --solution LineConsole.sln` |
+| 端對端測試 | 在 `lineconsole.client` 執行 `npm run build`，再執行 `npx playwright test`。會自動用展示模式啟動後端；本機用已安裝的 Edge，不另外下載瀏覽器 |
 | 新增 migration | `dotnet tool restore`，再 `dotnet ef migrations add <名稱> -p LineConsole.Infrastructure -s LineConsole.Server -o Data/Migrations` |
 
 變更紀錄見 [CHANGELOG.md](CHANGELOG.md)。

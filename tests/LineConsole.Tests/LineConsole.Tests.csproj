@@ -18,8 +18,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\LineConsole.Application\LineConsole.Application.csproj" />
     <ProjectReference Include="..\..\LineConsole.Infrastructure\LineConsole.Infrastructure.csproj" />
-    <!-- 整合測試啟動整個 API；前端另外建置，這裡不觸發 npm -->
-    <ProjectReference Include="..\..\LineConsole.Server\LineConsole.Server.csproj" AdditionalProperties="SkipSpaBuild=true" />
+    <!--
+      整合測試啟動整個 API。不要在這裡加 AdditionalProperties（例如 SkipSpaBuild）：
+      參考的專案會被當成另一組設定再編一次，跟方案建置平行搶同一個 obj 檔（CS2012 檔案被占用）。
+      前端已經建好時後端本來就不會觸發 npm（見 LineConsole.Server.csproj 的 BuildSpaIfMissing）。
+    -->
+    <ProjectReference Include="..\..\LineConsole.Server\LineConsole.Server.csproj" />
   </ItemGroup>
 
 </Project>

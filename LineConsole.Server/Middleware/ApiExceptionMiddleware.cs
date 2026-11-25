@@ -1,11 +1,12 @@
 ﻿using LineConsole.Application.Common.Models;
 using LineConsole.Application.Exceptions;
+using LineConsole.Application.Webhooks;
 using LineConsole.Server.Models.Api;
 
 namespace LineConsole.Server.Middlewares;
 
 /// <summary>
-/// 把例外統一轉成 ApiResponse：找不到 404、應用層錯誤 400、LINE API 錯誤 400、其他 500
+/// 把例外統一轉成 ApiResponse：Webhook 簽章不對 401、找不到 404、應用層錯誤 400、LINE API 錯誤 400、其他 500
 /// </summary>
 public class ApiExceptionMiddleware
 {
@@ -23,6 +24,11 @@ public class ApiExceptionMiddleware
         try
         {
             await _next(context);
+        }
+        catch (WebhookSignatureException ex)
+        {
+            _logger.LogWarning("拒絕 Webhook：{Path} 的 X-Line-Signature 驗證失敗", context.Request.Path);
+            await WriteErrorAsync(context, StatusCodes.Status401Unauthorized, "WEBHOOK_SIGNATURE_INVALID", ex.Message);
         }
         catch (NotFoundException ex)
         {

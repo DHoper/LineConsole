@@ -108,6 +108,9 @@ public sealed partial class FakeLineClient : ILineClient
             }));
         }
 
+        if (ProfilePath().Match(path) is { Success: true } pm)
+            return Task.FromResult(Convert<T>(Profile(pm.Groups["userId"].Value)));
+
         if (path == "/v2/bot/richmenu/list")
         {
             var list = new JsonArray(channel.ListMenus().Select(x => (JsonNode)x).ToArray());
@@ -213,6 +216,25 @@ public sealed partial class FakeLineClient : ILineClient
 
     private static LineApiException BadRequest(string message) =>
         new("LINE API 回傳錯誤", HttpStatusCode.BadRequest, JsonSerializer.Serialize(new { message }));
+
+    private static readonly string[] FamilyNames = ["陳", "林", "黃", "張", "李", "王", "吳", "劉", "蔡", "楊", "許", "鄭", "謝", "郭", "洪", "曾"];
+    private static readonly string[] GivenNames = ["小美", "志明", "春嬌", "怡君", "家豪", "雅婷", "冠宇", "佳穎", "俊傑", "詩涵", "宗翰", "欣怡", "承恩", "品妤", "柏翰", "郁婷", "建宏", "思妤", "子軒", "宜蓁"];
+
+    /// <summary>模擬 GET /v2/bot/profile/{userId}：同一個 userId 每次都拿到同一個名字</summary>
+    private static JsonObject Profile(string userId)
+    {
+        var h = userId.Aggregate(23u, (acc, c) => unchecked(acc * 31 + c));
+        return new JsonObject
+        {
+            ["userId"] = userId,
+            ["displayName"] = FamilyNames[h % (uint)FamilyNames.Length] + GivenNames[(h / 16) % (uint)GivenNames.Length],
+            ["pictureUrl"] = null,
+            ["language"] = "zh-TW"
+        };
+    }
+
+    [GeneratedRegex(@"^/v2/bot/profile/(?<userId>U[0-9a-f]{32})$")]
+    private static partial Regex ProfilePath();
 
     [GeneratedRegex(@"^/v2/bot/richmenu/(?<id>richmenu-[0-9a-f]+)$")]
     private static partial Regex MenuPath();

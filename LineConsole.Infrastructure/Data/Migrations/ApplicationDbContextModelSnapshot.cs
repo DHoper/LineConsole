@@ -22,6 +22,65 @@ namespace LineConsole.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LineConsole.Infrastructure.Data.EfEntities.LineFriendEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("account_id");
+
+                    b.Property<DateTime?>("BlockedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("blocked_at");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("DisplayName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("display_name");
+
+                    b.Property<DateTime>("FollowedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("followed_at");
+
+                    b.Property<DateTime?>("LastMessageAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("last_message_at");
+
+                    b.Property<DateTime>("LastStatusEventAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("last_status_event_at");
+
+                    b.Property<string>("LineUserId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("line_user_id");
+
+                    b.Property<string>("PictureUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("picture_url");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId", "LineUserId")
+                        .IsUnique();
+
+                    b.ToTable("line_friends");
+                });
+
             modelBuilder.Entity("LineConsole.Infrastructure.Data.EfEntities.LineOfficialAccountEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -73,6 +132,76 @@ namespace LineConsole.Infrastructure.Migrations
                     b.HasIndex("UserProfileId");
 
                     b.ToTable("line_official_accounts");
+                });
+
+            modelBuilder.Entity("LineConsole.Infrastructure.Data.EfEntities.LineWebhookEventEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("account_id");
+
+                    b.Property<string>("Error")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("error");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)")
+                        .HasColumnName("event_type");
+
+                    b.Property<bool>("IsRedelivery")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_redelivery");
+
+                    b.Property<string>("LineUserId")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("line_user_id");
+
+                    b.Property<DateTime>("OccurredAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("occurred_at");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("payload");
+
+                    b.Property<DateTime?>("ProcessedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("processed_at");
+
+                    b.Property<DateTime>("ReceivedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("received_at");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
+                    b.Property<string>("WebhookEventId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)")
+                        .HasColumnName("webhook_event_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId", "OccurredAt");
+
+                    b.HasIndex("AccountId", "WebhookEventId")
+                        .IsUnique();
+
+                    b.HasIndex("Status", "OccurredAt");
+
+                    b.ToTable("line_webhook_events");
                 });
 
             modelBuilder.Entity("LineConsole.Infrastructure.Data.EfEntities.RichMenuAreaEntity", b =>

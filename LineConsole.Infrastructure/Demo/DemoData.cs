@@ -17,7 +17,13 @@ public static class DemoData
 
     public sealed record Menu(string Image, string Name, string ChatBarText, int Width, int Height, bool IsDefault, Area[] Areas, Schedule? Schedule = null);
 
-    public sealed record Account(string ChannelName, string ChannelId, string AccessToken, string ChannelSecret, Menu[] Menus);
+    /// <summary>
+    /// 好友的模擬參數：視窗開始前已經有多少好友、每天加入幾人（平日／週末）、每天封鎖的比例、哪一天辦活動（加入暴增）。
+    /// Seed 固定，所以每次啟動的數字都一樣（截圖、展示腳本才對得上）。
+    /// </summary>
+    public sealed record Audience(int ExistingFriends, int WeekdayFollows, int WeekendFollows, double DailyChurn, int CampaignDaysAgo, int Seed);
+
+    public sealed record Account(string ChannelName, string ChannelId, string AccessToken, string ChannelSecret, Menu[] Menus, Audience Audience);
 
     private const int W = 2500, H = 1686, Half = 843;
 
@@ -46,7 +52,7 @@ public static class DemoData
                 new(1250, 0, 1250, Half, "message", Text: "我的優惠券"),
                 new(1250, Half, 1250, Half, "message", Text: "邀請好友"),
             ]),
-        ]),
+        ], new Audience(ExistingFriends: 120, WeekdayFollows: 4, WeekendFollows: 9, DailyChurn: 0.012, CampaignDaysAgo: 9, Seed: 11)),
         new("LineConsole 選物店", "2000000002", "demo-token-shop", "demo-secret-shop",
         [
             new("shop-main", "選物店主選單", "逛逛選物店", W, H, IsDefault: true,
@@ -62,6 +68,6 @@ public static class DemoData
                 new(833, 0, 833, Half, "message", Text: "免運門檻"),
                 new(1666, 0, 834, Half, "message", Text: "滿額贈"),
             ], Schedule: new(StartAfterMinutes: 7 * 24 * 60, DurationMinutes: 3 * 24 * 60)),
-        ]),
+        ], new Audience(ExistingFriends: 45, WeekdayFollows: 2, WeekendFollows: 4, DailyChurn: 0.02, CampaignDaysAgo: 20, Seed: 23)),
     ];
 }
